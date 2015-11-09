@@ -1,6 +1,7 @@
 #include "csubproject.h"
 
-CSubProject::CSubProject()
+CSubProject::CSubProject(QString a_strName, const CProject * a_pProjectParent)
+    : CProject(a_strName, a_pProjectParent)
 {
 
 }

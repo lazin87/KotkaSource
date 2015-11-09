@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     cproject.cpp \
     csubproject.cpp \
     ctask.cpp \
-    csubject.cpp
+    csubject.cpp \
+    cmainproject.cpp
 
 HEADERS  += mainwindow.h \
     cproject.h \
     csubproject.h \
     ctask.h \
-    csubject.h
+    csubject.h \
+    cmainproject.h
 
 FORMS    += mainwindow.ui
