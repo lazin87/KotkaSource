@@ -39,3 +39,9 @@ bool CTask::removeChild(int a_iIndex)
 
     return false;
 }
+
+
+void CTask::removeAllChildren()
+{
+    // intentionaly empty
+}

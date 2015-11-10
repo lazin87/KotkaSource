@@ -8,7 +8,7 @@ CProjectBase::CProjectBase(QString a_strName, const IProject * a_pProjectParent)
 
 CProjectBase::~CProjectBase()
 {
-
+    removeAllChildren();
 }
 
 
@@ -51,4 +51,18 @@ bool CProjectBase::removeChild(int a_iIndex)
     }
 
     return fResult;
+}
+
+
+void CProjectBase::removeAllChildren()
+{
+    while(false == m_pProjectChildrens.isEmpty() )
+    {
+        IProject * pChild = m_pProjectChildrens.takeLast();
+        if(0 != pChild)
+        {
+            delete pChild;
+            pChild = 0;
+        }
+    }
 }

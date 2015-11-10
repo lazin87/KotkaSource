@@ -24,6 +24,7 @@ public:
     virtual bool addChild(IProject * a_pChild) = 0;
     virtual IProject * peekChild(int a_iIndex) = 0;
     virtual bool removeChild(int a_iIndex) = 0;
+    virtual void removeAllChildren() = 0;
 
 protected:
     const IProject * m_pProjectParent;

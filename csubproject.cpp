@@ -8,5 +8,5 @@ CSubProject::CSubProject(QString a_strName, const IProject * a_pProjectParent)
 
 CSubProject::~CSubProject()
 {
-
+    removeAllChildren();
 }

@@ -14,6 +14,8 @@ public:
     virtual bool addChild(IProject *a_pChild);
     virtual IProject *peekChild(int a_iIndex);
     virtual bool removeChild(int a_iIndex);
+    virtual void removeAllChildren();
+
 };
 
 #endif // CTASK_H

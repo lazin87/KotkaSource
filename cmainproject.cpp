@@ -9,7 +9,7 @@ CMainProject::CMainProject(QString a_strName)
 
 CMainProject::~CMainProject()
 {
-
+    removeAllChildren();
 }
 
 bool CMainProject::newSubproject(QString a_strName)
