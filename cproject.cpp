@@ -16,6 +16,11 @@ CProject::~CProject()
 
 }
 
+bool CProject::isLeaf() const
+{
+    return false;
+}
+
 QString CProject::strName() const
 {
     return m_strName;
@@ -28,13 +33,13 @@ void CProject::setStrName(const QString &a_rstrName)
 
 QDateTime CProject::deadlineDelivery() const
 {
-    QDateTime * ptrOutDateTime = &m_oDeadlineDelivery;
+    const QDateTime * ptrOutDateTime = &m_oDeadlineDelivery;
 
     if(false == m_oDeadlineDelivery.isValid() )
     {
         if( 0 != m_pProjectParent )
         {
-            ptrOutDateTime = m_pProjectParent->deadlineDelivery();
+            ptrOutDateTime = &(m_pProjectParent->deadlineDelivery() );
 
             if(false == ptrOutDateTime->isValid() )
             {
@@ -53,13 +58,13 @@ void CProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
 
 QDateTime CProject::deadlineCopywriters() const
 {
-    QDateTime * ptrOutDateTime = &m_oDeadlineCopywriters;
+    const QDateTime * ptrOutDateTime = &m_oDeadlineCopywriters;
 
     if(false == m_oDeadlineCopywriters.isValid() )
     {
         if( 0 != m_pProjectParent )
         {
-            ptrOutDateTime = m_pProjectParent->deadlineCopywriters();
+            ptrOutDateTime = &(m_pProjectParent->deadlineCopywriters() );
 
             if(false == ptrOutDateTime->isValid() )
             {

@@ -10,6 +10,8 @@ public:
     explicit CProject(QString a_strName, const CProject * a_pProjectParent = 0);
     virtual ~CProject();
 
+    virtual bool isLeaf() const;
+
     QString strName() const;
     void setStrName(const QString &a_rstrName);
 
@@ -26,6 +28,10 @@ protected:
 
     QDateTime m_oDeadlineDelivery;
     QDateTime m_oDeadlineCopywriters;
+
+
+
+    // TO DO dodac membera do przechowywania zrodel
 };
 
 #endif // CPROJECT_H

@@ -5,8 +5,6 @@
 
 #include "cproject.h"
 
-class CSubProjeckt;
-
 class CMainProject : public CProject
 {
 public:
@@ -17,12 +15,7 @@ public:
     bool removeSubproject(int a_iIndex);
 
 private:
-    QList<CSubProjeckt * > m_SubprojectsPtrList;
-
-
-
-
-    // TO DO dodac membera do przechowywania zrodel
+    QList<CProject* > m_SubprojectsPtrList;
 };
 
 #endif // CMAINPROJECT_H

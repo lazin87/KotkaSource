@@ -20,7 +20,7 @@ bool CMainProject::newSubproject(QString a_strName)
     if( "" != a_strName)
     {
         qDebug("Add new subproject: %s", a_strName.toLatin1() );
-        m_SubprojectsPtrList.append(new CSubProjeckt(a_strName, this) );
+        m_SubprojectsPtrList.append(new CSubProject(a_strName, this) );
         fResult = true;
     }
     else
