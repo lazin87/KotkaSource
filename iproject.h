@@ -4,11 +4,11 @@
 #include <QString>
 #include <QDateTime>
 
-class CProject
+class IProject
 {
 public:
-    explicit CProject(QString a_strName, const CProject * a_pProjectParent = 0);
-    virtual ~CProject();
+    explicit IProject(QString a_strName, const IProject * a_pProjectParent = 0);
+    virtual ~IProject();
 
     virtual bool isLeaf() const;
 
@@ -21,8 +21,12 @@ public:
     QDateTime deadlineCopywriters() const;
     void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 
+    virtual bool addChild(IProject * a_pChild) = 0;
+    virtual IProject * peekChild(int a_iIndex) = 0;
+    virtual bool removeChild(int a_iIndex) = 0;
+
 protected:
-    const CProject * m_pProjectParent;
+    const IProject * m_pProjectParent;
 
     QString m_strName;
 

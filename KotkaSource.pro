@@ -14,17 +14,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    cproject.cpp \
     csubproject.cpp \
     ctask.cpp \
     csubject.cpp \
-    cmainproject.cpp
+    cmainproject.cpp \
+    iproject.cpp
 
 HEADERS  += mainwindow.h \
-    cproject.h \
     csubproject.h \
     ctask.h \
     csubject.h \
-    cmainproject.h
+    cmainproject.h \
+    iproject.h
 
 FORMS    += mainwindow.ui

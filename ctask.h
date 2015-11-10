@@ -1,16 +1,19 @@
 #ifndef CTASK_H
 #define CTASK_H
 
-#include "cproject.h"
+#include "iproject.h"
 
-class CTask : public CProject
+class CTask : public IProject
 {
 public:
-    CTask(QString a_strName, const CProject * a_pProjectParent);
+    CTask(QString a_strName, const IProject * a_pProjectParent);
     ~CTask();
 
-    // CProject interface
+    // IProject interface
     virtual bool isLeaf() const;
+    virtual bool addChild(IProject *a_pChild);
+    virtual IProject *peekChild(int a_iIndex);
+    virtual bool removeChild(int a_iIndex);
 };
 
 #endif // CTASK_H

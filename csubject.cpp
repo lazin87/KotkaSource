@@ -22,12 +22,12 @@ void CSubject::setStrEmail(const QString &strEmail)
 {
     if(validEmail(strEmail) )
     {
-        qDebug("CSubject::setStrEmail: %s -> %s", m_strEmail.toLatin1(), strEmail.toLatin1() );
+        qDebug("CSubject::setStrEmail: %s -> %s", m_strEmail.toLatin1().data(), strEmail.toLatin1().data() );
         m_strEmail = strEmail;
     }
     else
     {
-        qWarning("CSubject::setStrEmail: invalid value: %s", strEmail.toLatin1() );
+        qWarning("CSubject::setStrEmail: invalid value: %s", strEmail.toLatin1().data() );
     }
 }
 QString CSubject::strName() const
@@ -37,7 +37,7 @@ QString CSubject::strName() const
 
 void CSubject::setStrName(const QString &strName)
 {
-    qDebug("CSubject::setStrName: %s -> %s", m_strName.toLatin1(), strName.toLatin1() );
+    qDebug("CSubject::setStrName: %s -> %s", m_strName.toLatin1().data(), strName.toLatin1().data() );
     m_strName = strName;
 }
 QString CSubject::strPhone() const
@@ -49,12 +49,12 @@ void CSubject::setStrPhone(const QString &strPhone)
 {
     if(validPhone(strPhone) )
     {
-        qDebug("CSubject::setStrPhone: %s -> %s", m_strPhone.toLatin1(), strPhone.toLatin1() );
+        qDebug("CSubject::setStrPhone: %s -> %s", m_strPhone.toLatin1().data(), strPhone.toLatin1().data() );
         m_strPhone = strPhone;
     }
     else
     {
-        qWarning("CSubject::setStrPhone: invalid value: %s", strPhone.toLatin1() );
+        qWarning("CSubject::setStrPhone: invalid value: %s", strPhone.toLatin1().data() );
     }
 }
 

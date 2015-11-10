@@ -3,7 +3,7 @@
 #include "csubproject.h"
 
 CMainProject::CMainProject(QString a_strName)
-    : CProject(a_strName)
+    : IProject(a_strName)
 {
 
 }
@@ -19,7 +19,7 @@ bool CMainProject::newSubproject(QString a_strName)
 
     if( "" != a_strName)
     {
-        qDebug("Add new subproject: %s", a_strName.toLatin1() );
+        qDebug("Add new subproject: %s", a_strName.toLatin1().data() );
         m_SubprojectsPtrList.append(new CSubProject(a_strName, this) );
         fResult = true;
     }
@@ -38,3 +38,16 @@ bool CMainProject::removeSubproject(int a_iIndex)
     return fResult;
 }
 
+
+
+bool CMainProject::addChild(IProject *a_pChild)
+{
+}
+
+IProject *CMainProject::peekChild(int a_iIndex)
+{
+}
+
+bool CMainProject::removeChild(int a_iIndex)
+{
+}

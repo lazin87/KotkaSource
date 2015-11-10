@@ -3,9 +3,9 @@
 
 #include <QList>
 
-#include "cproject.h"
+#include "iproject.h"
 
-class CMainProject : public CProject
+class CMainProject : public IProject
 {
 public:
     explicit CMainProject(QString a_strName);
@@ -14,8 +14,15 @@ public:
     bool newSubproject(QString a_strName);
     bool removeSubproject(int a_iIndex);
 
+    // IProject interface
+    virtual bool addChild(IProject *a_pChild);
+    virtual IProject *peekChild(int a_iIndex);
+    virtual bool removeChild(int a_iIndex);
+
+
 private:
-    QList<CProject* > m_SubprojectsPtrList;
+    QList<IProject* > m_SubprojectsPtrList;
+
 };
 
 #endif // CMAINPROJECT_H
