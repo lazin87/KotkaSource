@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     csubject.cpp \
     cmainproject.cpp \
     iproject.cpp \
-    cprojectbase.cpp
+    cprojectbase.cpp \
+    cprojectsmodel.cpp \
+    cprojectmanager.cpp
 
 HEADERS  += mainwindow.h \
     csubproject.h \
@@ -27,6 +29,8 @@ HEADERS  += mainwindow.h \
     csubject.h \
     cmainproject.h \
     iproject.h \
-    cprojectbase.h
+    cprojectbase.h \
+    cprojectsmodel.h \
+    cprojectmanager.h
 
 FORMS    += mainwindow.ui
