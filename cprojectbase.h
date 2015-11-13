@@ -3,6 +3,7 @@
 
 #include "iproject.h"
 #include <QList>
+#include <QStandardItem>
 
 class CProjectBase : public IProject
 {
@@ -15,9 +16,11 @@ public:
     virtual IProject *peekChild(int a_iIndex);
     virtual bool removeChild(int a_iIndex);
     virtual void removeAllChildren();
+    virtual QStandardItem *getStandardItem();
 
 protected:
     QList<IProject* > m_pProjectChildrens;
+    QStandardItem m_oStandardItem;
 };
 
 #endif // CPROJECTBASE_H

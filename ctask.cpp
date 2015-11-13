@@ -2,6 +2,7 @@
 
 CTask::CTask(QString a_strName, const IProject * a_pProjectParent)
     : IProject(a_strName, a_pProjectParent)
+    , m_oStandardItem(a_strName)
 {
 
 }
@@ -44,4 +45,10 @@ bool CTask::removeChild(int a_iIndex)
 void CTask::removeAllChildren()
 {
     // intentionaly empty
+}
+
+
+QStandardItem *CTask::getStandardItem()
+{
+    return & m_oStandardItem;
 }

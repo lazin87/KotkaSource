@@ -2,6 +2,7 @@
 #define CTASK_H
 
 #include "iproject.h"
+#include <QStandardItem>
 
 class CTask : public IProject
 {
@@ -15,7 +16,10 @@ public:
     virtual IProject *peekChild(int a_iIndex);
     virtual bool removeChild(int a_iIndex);
     virtual void removeAllChildren();
+    virtual QStandardItem *getStandardItem();
 
+protected:
+    QStandardItem m_oStandardItem;
 };
 
 #endif // CTASK_H

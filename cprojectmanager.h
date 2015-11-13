@@ -11,7 +11,7 @@ class CProjectManager : public QObject
 {
     Q_OBJECT
 public:
-    CProjectManager(QObject a_pParent = 0);
+    CProjectManager(QObject * a_pParent = 0);
     ~CProjectManager();
 
     QStandardItemModel * getModel() const;

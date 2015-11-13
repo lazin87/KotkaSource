@@ -4,6 +4,8 @@
 #include <QString>
 #include <QDateTime>
 
+class QStandardItem;
+
 class IProject
 {
 public:
@@ -25,6 +27,8 @@ public:
     virtual IProject * peekChild(int a_iIndex) = 0;
     virtual bool removeChild(int a_iIndex) = 0;
     virtual void removeAllChildren() = 0;
+
+    virtual QStandardItem  * getStandardItem() = 0;
 
 protected:
     const IProject * m_pProjectParent;

@@ -1,6 +1,6 @@
 #include "cprojectmanager.h"
 
-CProjectManager::CProjectManager(QObject a_pParent)
+CProjectManager::CProjectManager(QObject * a_pParent)
     : QObject(a_pParent)
     , m_oModel()
 {
