@@ -1,7 +1,7 @@
 #include "cprojectmanager.h"
 
 #include "iproject.h"
-#include "cmainproject.h"
+#include "cprojectbase.h"
 #include "ctask.h"
 
 #include<QDebug>
@@ -41,7 +41,7 @@ bool CProjectManager::createProject(QString a_strName)
 {
     bool fResult  = false;
 
-    m_pProjetsList.append(new CMainProject(a_strName) );
+    m_pProjetsList.append(new CProjectBase(a_strName) );
 
     return fResult;
 }
@@ -49,7 +49,7 @@ bool CProjectManager::createProject(QString a_strName)
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
 {
     // to do
-    a_rProject.addChild( new CMainProject(a_strName) );
+    a_rProject.addChild( new CProjectBase(a_strName, &a_rProject) );
     return false;
 }
 
