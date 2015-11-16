@@ -14,7 +14,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setModel(QAbstractTableModel *a_pModel)
+void MainWindow::setModel(QAbstractItemModel *a_pModel)
 {
     ui->treeView->setModel(a_pModel);
 }

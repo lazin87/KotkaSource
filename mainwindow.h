@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-class QAbstractTableModel;
+class QAbstractItemModel;
 
 namespace Ui {
 class MainWindow;
@@ -17,7 +17,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setModel(QAbstractTableModel * a_pModel);
+    void setModel(QAbstractItemModel *a_pModel);
 
 private:
     Ui::MainWindow *ui;

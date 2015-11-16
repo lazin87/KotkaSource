@@ -14,7 +14,12 @@ public:
     CProjectManager(QObject * a_pParent = 0);
     ~CProjectManager();
 
-    QStandardItemModel * getModel() const;
+    QStandardItemModel * getModel();
+
+    bool createProject(QString a_strName);
+    bool createSubproject(IProject & a_rProject, QString a_strName);
+    bool createTask(IProject & a_rProject);
+    IProject * getProject(int a_iIndex);
 
 private:
     void prepareModel();
