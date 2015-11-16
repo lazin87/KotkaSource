@@ -14,7 +14,7 @@ public:
         QString m_strName;
     };
 
-    CScreen(QTextBrowser a_pTextBrowser, QObject a_pParent = 0);
+    CScreen(QTextBrowser * a_pTextBrowser, QObject * a_pParent = 0);
     ~CScreen();
 
 public slots:
