@@ -70,12 +70,15 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QToolButton" name="toolButton">
              <property name="text">
               <string>...</string>
              </property>
             </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTextBrowser" name="textBrowser"/>
            </item>
           </layout>
          </widget>
