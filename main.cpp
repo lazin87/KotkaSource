@@ -31,14 +31,20 @@ void TC_fillInProjectTreeView(MainWindow & a_rWindow, CProjectManager &a_rProjec
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(0), "SubProject1" );
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(0), "SubProject2" );
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(0), "SubProject3" );
+    a_rProjectMngr.createTask(*a_rProjectMngr.getProject(0), "Task1" );
+    a_rProjectMngr.createTask(*a_rProjectMngr.getProject(0), "Task2" );
 
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(1), "SubProject1" );
+    a_rProjectMngr.createTask(*a_rProjectMngr.getProject(1), "Task1" );
 
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(2), "SubProject1" );
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(2), "SubProject2" );
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(2), "SubProject3" );
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(2), "SubProject4" );
     a_rProjectMngr.createSubproject(*a_rProjectMngr.getProject(2), "SubProject5" );
+    a_rProjectMngr.createTask(*a_rProjectMngr.getProject(2), "Task1" );
+    a_rProjectMngr.createTask(*a_rProjectMngr.getProject(2), "Task2" );
+    a_rProjectMngr.createTask(*a_rProjectMngr.getProject(2), "Task3" );
 
     a_rWindow.setModel(a_rProjectMngr.getModel() );
 }

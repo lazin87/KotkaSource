@@ -1,5 +1,6 @@
 #include "cmainproject.h"
 
+#include <QDebug>
 
 CMainProject::CMainProject(QString a_strName)
     : CProjectBase(a_strName)
@@ -9,6 +10,7 @@ CMainProject::CMainProject(QString a_strName)
 
 CMainProject::~CMainProject()
 {
+    qDebug() << "CMainProject::~CMainProject()";
     removeAllChildren();
 }
 

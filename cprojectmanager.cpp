@@ -2,6 +2,9 @@
 
 #include "iproject.h"
 #include "cmainproject.h"
+#include "ctask.h"
+
+#include<QDebug>
 
 CProjectManager::CProjectManager(QObject * a_pParent)
     : QObject(a_pParent)
@@ -10,9 +13,21 @@ CProjectManager::CProjectManager(QObject * a_pParent)
 
 }
 
+void CProjectManager::removeProjects()
+{
+    foreach(IProject * pProject, m_pProjetsList)
+    {
+        if(0 != pProject)
+        {
+            delete pProject;
+        }
+    }
+}
+
 CProjectManager::~CProjectManager()
 {
-
+    qDebug() << "CProjectManager::~CProjectManager()";
+    removeProjects();
 }
 
 QStandardItemModel *CProjectManager::getModel()
@@ -38,8 +53,9 @@ bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
     return false;
 }
 
-bool CProjectManager::createTask(IProject &a_rProject)
+bool CProjectManager::createTask(IProject &a_rProject, QString a_strName)
 {
+    a_rProject.addChild(new CTask(a_strName, &a_rProject) );
     return false;
 }
 
