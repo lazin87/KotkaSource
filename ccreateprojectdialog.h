@@ -15,7 +15,15 @@ public:
     explicit CCreateProjectDialog(QWidget *parent = 0);
     ~CCreateProjectDialog();
 
+public slots:
+    virtual void accept();
+
 private:
+    bool validateInputData() const;
+    bool validateProjectName() const;
+    bool validateDeadlinesDates() const;
+    bool validateClient() const;
+
     Ui::CCreateProjectDialog *ui;
 };
 
