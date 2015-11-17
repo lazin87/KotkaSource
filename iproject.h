@@ -31,6 +31,9 @@ public:
 
     virtual QStandardItem  * getStandardItem() = 0;
 
+    virtual QVariant data(int a_iRole) const;
+    virtual void setData(const QVariant &a_value, int a_iRole);
+
 protected:
     const IProject * m_pProjectParent;
 

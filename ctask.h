@@ -17,7 +17,7 @@ public:
     virtual bool removeChild(int a_iIndex);
     virtual void removeAllChildren();
     virtual QStandardItem *getStandardItem();
-    virtual QVariant data(int a_iRole) const;
+   // virtual QVariant data(int a_iRole) const;
 
 protected:
 };

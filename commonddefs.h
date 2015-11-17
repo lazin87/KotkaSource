@@ -6,7 +6,11 @@
 namespace KotkaSource {
 enum
 {
-    ProjectDescDispRole = Qt::UserRole + 1
+    ProjectDescDispRole = Qt::UserRole + 1,
+    DeliveryDateRole,
+    DeadlineDateRole,
+    ObjectNameRole,
+    ObjectTypeRole
 };
 
 }

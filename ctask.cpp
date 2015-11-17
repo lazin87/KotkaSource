@@ -52,6 +52,7 @@ QStandardItem *CTask::getStandardItem()
     return this;
 }
 
+/*
 QVariant CTask::data(int a_iRole) const
 {
     if(KotkaSource::ProjectDescDispRole == a_iRole)
@@ -66,3 +67,4 @@ QVariant CTask::data(int a_iRole) const
 
     return IProject::data(a_iRole);
 }
+*/

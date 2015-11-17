@@ -82,3 +82,80 @@ void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
 {
     m_oDeadlineCopywriters = a_rDeadlineCopywriters;
 }
+
+QVariant IProject::data(int a_iRole) const
+{
+    switch(a_iRole)
+    {
+
+    case KotkaSource::ProjectDescDispRole:
+    {
+        QString strData = "Name: " + strName()
+                + "\nType: " + QString( (0 == m_pProjectParent) ? "Main project" : (isLeaf() ? "Task" : "Subproject") )
+                + "\nDelivery: " + deadlineDelivery().toString()
+                + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
+
+        return strData;
+    }
+
+    case KotkaSource::DeliveryDateRole:
+    {
+        return deadlineDelivery();
+    }
+
+    case KotkaSource::DeadlineDateRole:
+    {
+        return deadlineCopywriters();
+    }
+
+    case KotkaSource::ObjectNameRole:
+    {
+        return m_strName;
+    }
+
+    case KotkaSource::ObjectTypeRole:
+    {
+        return QString( (0 == m_pProjectParent) ? "Main project" : (isLeaf() ? "Task" : "Subproject") );
+    }
+
+    default:
+        return QStandardItem::data(a_iRole);
+    }
+}
+
+void IProject::setData(const QVariant &a_value, int a_iRole)
+{
+    switch(a_iRole)
+    {
+    case KotkaSource::ProjectDescDispRole:
+    {
+        break;
+    }
+
+    case KotkaSource::DeliveryDateRole:
+    {
+        setDeadlineDelivery(a_value.toDateTime() );
+        break;
+    }
+
+    case KotkaSource::DeadlineDateRole:
+    {
+        setDeadlineCopywriters(a_value.toDateTime() );
+        break;
+    }
+
+    case KotkaSource::ObjectNameRole:
+    {
+        setStrName(a_value.toString() );
+        break;
+    }
+
+    case KotkaSource::ObjectTypeRole:
+    {
+        break;
+    }
+
+    default:
+        QStandardItem::setData(a_value, a_iRole);
+    }
+}

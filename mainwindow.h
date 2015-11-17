@@ -23,8 +23,12 @@ public:
 
 private slots:
     void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );
+    void changeDeliveryDateSlot(const QDateTime &a_oNewDateTime);
+    void changeCopyDeadlineSlot(QDateTime const & a_oNewDateTime);
+    void changeNameSlot();
 
 private:
+
     Ui::MainWindow *ui;
 
 };

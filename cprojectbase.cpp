@@ -77,18 +77,44 @@ QStandardItem *CProjectBase::getStandardItem()
 
     return this;
 }
-
+/*
 QVariant CProjectBase::data(int a_iRole) const
 {
-    if(KotkaSource::ProjectDescDispRole == a_iRole)
+    switch(a_iRole)
+    {
+
+    case KotkaSource::ProjectDescDispRole:
     {
         QString strData = "Name: " + strName()
-                        + "\nType: " + QString( (0 == m_pProjectParent) ? "Main project" : "Sub project")
-                        + "\nDelivery: " + deadlineDelivery().toString()
-                        + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
+                + "\nType: " + QString( (0 == m_pProjectParent) ? "Main project" : "Sub project")
+                + "\nDelivery: " + deadlineDelivery().toString()
+                + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
 
         return strData;
     }
 
-    return IProject::data(a_iRole);
+    case KotkaSource::DeliveryDateRole:
+    {
+        return deadlineDelivery();
+    }
+
+    case KotkaSource::DeadlineDateRole:
+    {
+        return deadlineCopywriters();
+    }
+
+    case KotkaSource::ObjectNameRole:
+    {
+        return m_strName;
+    }
+
+    case KotkaSource::ObjectTypeRole:
+    {
+        return QString( (0 == m_pProjectParent) ? "Main project" : "Subproject");
+    }
+
+    default:
+        return IProject::data(a_iRole);
+    }
 }
+*/
