@@ -28,6 +28,7 @@ private slots:
     void changeNameSlot();
 
     void addProjectSlot();
+    void addTaskSlot();
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
 
 private:
@@ -36,6 +37,7 @@ private:
     Ui::MainWindow *ui;
 
     QAction * m_pAddProjectAction;
+    QAction * m_pAddTaskAction;
 
 };
 

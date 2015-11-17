@@ -6,10 +6,13 @@
 #include <QItemSelectionModel>
 
 #include "commonddefs.h"
+#include "ccreateprojectdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_pAddProjectAction(0),
+    m_pAddTaskAction(0)
 {
     ui->setupUi(this);
     connect( ui->copyDeadlineDateTimeEdit, SIGNAL(dateTimeChanged(QDateTime const &) )
@@ -92,6 +95,14 @@ void MainWindow::changeNameSlot()
 void MainWindow::addProjectSlot()
 {
     qDebug() << "MainWindow::addProjectSlot()";
+    CCreateProjectDialog newProjectDialog(this);
+
+    newProjectDialog.exec();
+}
+
+void MainWindow::addTaskSlot()
+{
+    qDebug() << "MainWindow::addTaskSlot()";
 }
 
 void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
@@ -100,6 +111,19 @@ void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
 
     QModelIndex oIndex = ui->treeView->indexAt(a_rcPoint);
     if( oIndex.isValid() )
+    {
+        const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
+        bool isProject = ui->treeView->model()->data(oModelIndex, KotkaSource::ObjectTypeRole) != "Task";
+
+        if(isProject)
+        {
+            QMenu oContextMenu;
+            oContextMenu.addAction(m_pAddProjectAction);
+            oContextMenu.addAction(m_pAddTaskAction);
+            oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
+        }
+    }
+    else
     {
         QMenu oContextMenu;
         oContextMenu.addAction(m_pAddProjectAction);
@@ -117,6 +141,11 @@ void MainWindow::createProjectTreeContextMenu()
     m_pAddProjectAction = new QAction("Add project", ui->treeView);
     connect( m_pAddProjectAction, SIGNAL(triggered() )
            , this, SLOT(addProjectSlot() )
+           );
+
+    m_pAddTaskAction = new QAction("Add task", ui->treeView);
+    connect( m_pAddTaskAction, SIGNAL(triggered() )
+           , this, SLOT(addTaskSlot() )
            );
 
 

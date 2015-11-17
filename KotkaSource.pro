@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     cprojectbase.cpp \
     cprojectsmodel.cpp \
     cprojectmanager.cpp \
-    cscreen.cpp
+    cscreen.cpp \
+    ccreateprojectdialog.cpp
 
 HEADERS  += mainwindow.h \
     csubproject.h \
@@ -34,6 +35,8 @@ HEADERS  += mainwindow.h \
     cprojectsmodel.h \
     cprojectmanager.h \
     cscreen.h \
-    commonddefs.h
+    commonddefs.h \
+    ccreateprojectdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    ccreateprojectdialog.ui
