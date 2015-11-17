@@ -44,14 +44,9 @@ bool CCreateProjectDialog::validateProjectName() const
 
     fResult &= !strTemp.isEmpty();
 
-    if(!fResult)
-    {
-        ui->projectNamelineEdit->setStyleSheet("QLineEdit { background-color : red; }");
-    }
-    else
-    {
-        ui->projectNamelineEdit->setStyleSheet("");
-    }
+    ui->projectNamelineEdit->setStyleSheet(
+                fResult ? "" : "QLineEdit { background-color : red; }"
+                          );
 
     return fResult;
 }
