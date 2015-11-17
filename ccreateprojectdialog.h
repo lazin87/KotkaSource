@@ -15,6 +15,10 @@ public:
     explicit CCreateProjectDialog(QWidget *parent = 0);
     ~CCreateProjectDialog();
 
+    QString getName() const;
+    QDateTime getDeliveryDate() const;
+    QDateTime getWritersDeadline() const;
+
 public slots:
     virtual void accept();
 

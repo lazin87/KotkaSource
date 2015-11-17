@@ -77,44 +77,18 @@ QStandardItem *CProjectBase::getStandardItem()
 
     return this;
 }
-/*
-QVariant CProjectBase::data(int a_iRole) const
+
+void CProjectBase::setData(const QVariant &a_value, int a_iRole)
 {
-    switch(a_iRole)
+    if(KotkaSource::CreateNewProjectRole == a_iRole)
     {
+        bool fResult = addChild(new CProjectBase(a_value.toString(), this) );
+        qDebug("Projec creation result: %d", fResult);
 
-    case KotkaSource::ProjectDescDispRole:
-    {
-        QString strData = "Name: " + strName()
-                + "\nType: " + QString( (0 == m_pProjectParent) ? "Main project" : "Sub project")
-                + "\nDelivery: " + deadlineDelivery().toString()
-                + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
-
-        return strData;
+        // dodac emitowanie sygnalu ze wskaznikiem na IProjeckt
     }
-
-    case KotkaSource::DeliveryDateRole:
+    else
     {
-        return deadlineDelivery();
-    }
-
-    case KotkaSource::DeadlineDateRole:
-    {
-        return deadlineCopywriters();
-    }
-
-    case KotkaSource::ObjectNameRole:
-    {
-        return m_strName;
-    }
-
-    case KotkaSource::ObjectTypeRole:
-    {
-        return QString( (0 == m_pProjectParent) ? "Main project" : "Subproject");
-    }
-
-    default:
-        return IProject::data(a_iRole);
+        IProject::setData(a_value, a_iRole);
     }
 }
-*/

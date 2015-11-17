@@ -97,7 +97,15 @@ void MainWindow::addProjectSlot()
     qDebug() << "MainWindow::addProjectSlot()";
     CCreateProjectDialog newProjectDialog(this);
 
-    newProjectDialog.exec();
+    if(QDialog::Accepted == newProjectDialog.exec() )
+    {
+        const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
+        ui->treeView->model()->setData(oModelIndex, newProjectDialog.getName(), KotkaSource::CreateNewProjectRole);
+    }
+    else
+    {
+
+    }
 }
 
 void MainWindow::addTaskSlot()

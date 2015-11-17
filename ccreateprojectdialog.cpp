@@ -14,6 +14,21 @@ CCreateProjectDialog::~CCreateProjectDialog()
     delete ui;
 }
 
+QString CCreateProjectDialog::getName() const
+{
+    return ui->projectNamelineEdit->text();
+}
+
+QDateTime CCreateProjectDialog::getDeliveryDate() const
+{
+    return ui->deliveryDateTimeEdit->dateTime();
+}
+
+QDateTime CCreateProjectDialog::getWritersDeadline() const
+{
+    return ui->writersDeadlineDateTimeEdit->dateTime();
+}
+
 void CCreateProjectDialog::accept()
 {
     if(validateInputData() )

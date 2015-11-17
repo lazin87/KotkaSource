@@ -10,7 +10,8 @@ enum
     DeliveryDateRole,
     DeadlineDateRole,
     ObjectNameRole,
-    ObjectTypeRole
+    ObjectTypeRole,
+    CreateNewProjectRole
 };
 
 }
