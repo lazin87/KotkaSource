@@ -5,6 +5,8 @@
 #include <QDateTime>
 #include <QStandardItem>
 
+#include "commonddefs.h"
+
 class IProject : public QStandardItem
 {
 public:

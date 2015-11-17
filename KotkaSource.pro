@@ -33,6 +33,7 @@ HEADERS  += mainwindow.h \
     cprojectbase.h \
     cprojectsmodel.h \
     cprojectmanager.h \
-    cscreen.h
+    cscreen.h \
+    commonddefs.h
 
 FORMS    += mainwindow.ui

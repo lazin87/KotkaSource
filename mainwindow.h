@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 class QAbstractItemModel;
+class QItemSelectionModel;
+class QItemSelection;
 
 namespace Ui {
 class MainWindow;
@@ -19,8 +21,12 @@ public:
 
     void setModel(QAbstractItemModel *a_pModel);
 
+private slots:
+    void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );
+
 private:
     Ui::MainWindow *ui;
+
 };
 
 #endif // MAINWINDOW_H

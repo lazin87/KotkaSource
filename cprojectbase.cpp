@@ -77,3 +77,16 @@ QStandardItem *CProjectBase::getStandardItem()
 
     return this;
 }
+
+QVariant CProjectBase::data(int role) const
+{
+    if(KotkaSource::ProjectDescDispRole == role)
+    {
+        int row = 1;//index.row();
+        int column = 2;//index.column();
+
+        return QString("Project %1 %2").arg(row).arg(column);
+    }
+
+    return IProject::data(role);
+}

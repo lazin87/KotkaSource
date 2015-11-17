@@ -18,6 +18,8 @@ public:
     virtual void removeAllChildren();
     virtual QStandardItem *getStandardItem();
 
+    QVariant data(int role) const;
+
 protected:
     QList<IProject* > m_pProjectChildrens;
     //QStandardItem m_oStandardItem;
