@@ -27,9 +27,15 @@ private slots:
     void changeCopyDeadlineSlot(QDateTime const & a_oNewDateTime);
     void changeNameSlot();
 
+    void addProjectSlot();
+    void onProjTreeContextMenu(const QPoint & a_rcPoint);
+
 private:
+    void createProjectTreeContextMenu();
 
     Ui::MainWindow *ui;
+
+    QAction * m_pAddProjectAction;
 
 };
 

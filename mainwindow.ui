@@ -49,6 +49,9 @@
            </item>
            <item>
             <widget class="QTreeView" name="treeView">
+             <property name="contextMenuPolicy">
+              <enum>Qt::DefaultContextMenu</enum>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>

@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( ui->nameLineEdit, SIGNAL(returnPressed() )
            , this, SLOT(changeNameSlot() )
            );
+
+    createProjectTreeContextMenu();
 }
 
 MainWindow::~MainWindow()
@@ -85,4 +87,38 @@ void MainWindow::changeNameSlot()
     QString strNewName = ui->nameLineEdit->text();
     const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
     ui->treeView->model()->setData(oModelIndex, strNewName, KotkaSource::ObjectNameRole);
+}
+
+void MainWindow::addProjectSlot()
+{
+    qDebug() << "MainWindow::addProjectSlot()";
+}
+
+void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
+{
+    qDebug() << "MainWindow::onProjTreeContextMenu()";
+
+    QModelIndex oIndex = ui->treeView->indexAt(a_rcPoint);
+    if( oIndex.isValid() )
+    {
+        QMenu oContextMenu;
+        oContextMenu.addAction(m_pAddProjectAction);
+        oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
+    }
+}
+
+void MainWindow::createProjectTreeContextMenu()
+{
+    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect( ui->treeView, SIGNAL(customContextMenuRequested(const QPoint &) )
+           , this, SLOT(onProjTreeContextMenu(const QPoint &) )
+           );
+
+    m_pAddProjectAction = new QAction("Add project", ui->treeView);
+    connect( m_pAddProjectAction, SIGNAL(triggered() )
+           , this, SLOT(addProjectSlot() )
+           );
+
+
+
 }
