@@ -3,7 +3,8 @@
 #include <QDebug>
 
 IProject::IProject(QString a_strName, const IProject *a_pProjectParent)
-    : m_pProjectParent(a_pProjectParent)
+    : QStandardItem(a_strName)
+    , m_pProjectParent(a_pProjectParent)
     , m_strName(a_strName)
     , m_oDeadlineDelivery()
     , m_oDeadlineCopywriters()
@@ -80,7 +81,3 @@ void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
 {
     m_oDeadlineCopywriters = a_rDeadlineCopywriters;
 }
-
-
-
-

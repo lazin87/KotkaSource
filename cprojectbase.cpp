@@ -2,7 +2,6 @@
 
 CProjectBase::CProjectBase(QString a_strName, const IProject * a_pProjectParent)
     : IProject(a_strName, a_pProjectParent)
-    , m_oStandardItem(a_strName)
 {
 
 }
@@ -73,8 +72,8 @@ QStandardItem *CProjectBase::getStandardItem()
 {
     foreach(IProject * pChild, m_pProjectChildrens)
     {
-        m_oStandardItem.appendRow(pChild->getStandardItem() );
+        appendRow(pChild->getStandardItem() );
     }
 
-    return & m_oStandardItem;
+    return this;
 }

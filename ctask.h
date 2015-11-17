@@ -19,7 +19,6 @@ public:
     virtual QStandardItem *getStandardItem();
 
 protected:
-    QStandardItem m_oStandardItem;
 };
 
 #endif // CTASK_H

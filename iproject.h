@@ -3,10 +3,9 @@
 
 #include <QString>
 #include <QDateTime>
+#include <QStandardItem>
 
-class QStandardItem;
-
-class IProject
+class IProject : public QStandardItem
 {
 public:
     explicit IProject(QString a_strName, const IProject * a_pProjectParent = 0);

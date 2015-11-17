@@ -20,7 +20,7 @@ public:
 
 protected:
     QList<IProject* > m_pProjectChildrens;
-    QStandardItem m_oStandardItem;
+    //QStandardItem m_oStandardItem;
 };
 
 #endif // CPROJECTBASE_H
