@@ -30,6 +30,7 @@ QString IProject::strName() const
 void IProject::setStrName(const QString &a_rstrName)
 {
     m_strName = a_rstrName;
+    QStandardItem::setText(m_strName);
 }
 
 QDateTime IProject::deadlineDelivery() const

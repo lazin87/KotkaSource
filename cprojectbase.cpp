@@ -78,15 +78,17 @@ QStandardItem *CProjectBase::getStandardItem()
     return this;
 }
 
-QVariant CProjectBase::data(int role) const
+QVariant CProjectBase::data(int a_iRole) const
 {
-    if(KotkaSource::ProjectDescDispRole == role)
+    if(KotkaSource::ProjectDescDispRole == a_iRole)
     {
-        int row = 1;//index.row();
-        int column = 2;//index.column();
+        QString strData = "Name: " + strName()
+                        + "\nType: " + QString( (0 == m_pProjectParent) ? "Main project" : "Sub project")
+                        + "\nDelivery: " + deadlineDelivery().toString()
+                        + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
 
-        return QString("Project %1 %2").arg(row).arg(column);
+        return strData;
     }
 
-    return IProject::data(role);
+    return IProject::data(a_iRole);
 }

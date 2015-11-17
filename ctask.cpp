@@ -56,7 +56,12 @@ QVariant CTask::data(int a_iRole) const
 {
     if(KotkaSource::ProjectDescDispRole == a_iRole)
     {
-        return QString("Task");
+        QString strData = "Name: " + strName()
+                        + "\nType: Task"
+                        + "\nDelivery: " + deadlineDelivery().toString()
+                        + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
+
+        return strData;
     }
 
     return IProject::data(a_iRole);
