@@ -80,10 +80,12 @@ QStandardItem *CProjectBase::getStandardItem()
 
 void CProjectBase::setData(const QVariant &a_value, int a_iRole)
 {
+    qDebug("CProjectBase::setData");
     if(KotkaSource::CreateNewProjectRole == a_iRole)
     {
         bool fResult = addChild(new CProjectBase(a_value.toString(), this) );
         qDebug("Projec creation result: %d", fResult);
+        emitDataChanged();
 
         // dodac emitowanie sygnalu ze wskaznikiem na IProjeckt
     }

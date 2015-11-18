@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "commonddefs.h"
+
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QItemSelection;
@@ -19,7 +21,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setModel(QAbstractItemModel *a_pModel);
+signals:
+    void createNewProject(KotkaSource::SProjectData &);
+
+public slots:
+    void updateModel(QAbstractItemModel *a_pModel);
 
 private slots:
     void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );

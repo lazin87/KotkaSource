@@ -16,7 +16,12 @@ int main(int argc, char *argv[])
 
     // just to test
     CProjectManager oProjectMngr;
-    TC_fillInProjectTreeView(w, oProjectMngr);
+    oProjectMngr.createProject("MainProject1");
+    w.updateModel(oProjectMngr.getModel() );
+    QObject::connect( &oProjectMngr, SIGNAL(projectModelWasChanged(QAbstractItemModel* ) )
+                     , &w, SLOT(updateModel(QAbstractItemModel* ) )
+                     );
+    //TC_fillInProjectTreeView(w, oProjectMngr);
     // end just to test
     return a.exec();
 }
@@ -46,5 +51,5 @@ void TC_fillInProjectTreeView(MainWindow & a_rWindow, CProjectManager &a_rProjec
     a_rProjectMngr.createTask(*a_rProjectMngr.getProject(2), "Task2" );
     a_rProjectMngr.createTask(*a_rProjectMngr.getProject(2), "Task3" );
 
-    a_rWindow.setModel(a_rProjectMngr.getModel() );
+    a_rWindow.updateModel(a_rProjectMngr.getModel() );
 }

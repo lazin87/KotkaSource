@@ -21,6 +21,11 @@ public:
     bool createTask(IProject & a_rProject, QString a_strName);
     IProject * getProject(int a_iIndex);
 
+signals:
+    void projectModelWasChanged(QAbstractItemModel *);
+
+private slots:
+    void updateModelSlot();
 
 private:
     void prepareModel();

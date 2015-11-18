@@ -10,7 +10,9 @@ CProjectManager::CProjectManager(QObject * a_pParent)
     : QObject(a_pParent)
     , m_oModel()
 {
-
+    connect( &m_oModel, SIGNAL(itemChanged(QStandardItem*) )
+           , this, SLOT(updateModelSlot() )
+           );
 }
 
 void CProjectManager::removeProjects()
@@ -63,6 +65,12 @@ IProject *CProjectManager::getProject(int a_iIndex)
 {
     // TO DO
     return m_pProjetsList[a_iIndex];
+}
+
+void CProjectManager::updateModelSlot()
+{
+    qDebug() << "CProjectManager::updateModelSlot()";
+    emit projectModelWasChanged(getModel() );
 }
 
 void CProjectManager::prepareModel()

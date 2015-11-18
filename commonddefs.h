@@ -3,6 +3,9 @@
 
 #include <qnamespace.h>
 
+#include <QString>
+#include <QDateTime>
+
 namespace KotkaSource {
 enum
 {
@@ -11,7 +14,14 @@ enum
     DeadlineDateRole,
     ObjectNameRole,
     ObjectTypeRole,
-    CreateNewProjectRole
+    CreateNewProjectRole // usunac
+};
+
+struct SProjectData
+{
+    QString m_strName;
+    QDateTime m_oDateTimeDelivery;
+    QDateTime m_oDateTimeWriterDeadline;
 };
 
 }

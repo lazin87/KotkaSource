@@ -5,7 +5,6 @@
 #include <QItemSelection>
 #include <QItemSelectionModel>
 
-#include "commonddefs.h"
 #include "ccreateprojectdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -34,8 +33,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setModel(QAbstractItemModel *a_pModel)
+void MainWindow::updateModel(QAbstractItemModel *a_pModel)
 {
+    qDebug() << "MainWindow::updateModel()";
     QItemSelectionModel * pSelectionModel;
     ui->treeView->setModel(a_pModel);
     pSelectionModel = ui->treeView->selectionModel();
@@ -99,8 +99,25 @@ void MainWindow::addProjectSlot()
 
     if(QDialog::Accepted == newProjectDialog.exec() )
     {
+        KotkaSource::SProjectData sProjectData;
+        sProjectData.m_strName = newProjectDialog.getName();
+        sProjectData.m_oDateTimeDelivery = newProjectDialog.getDeliveryDate();
+        sProjectData.m_oDateTimeWriterDeadline = newProjectDialog.getWritersDeadline();
+
+        emit createNewProject(sProjectData);
+        /*
         const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
-        ui->treeView->model()->setData(oModelIndex, newProjectDialog.getName(), KotkaSource::CreateNewProjectRole);
+        qDebug() << "MainWindow::addProjectSlot(): " << oModelIndex;
+        if(oModelIndex.isValid() )
+        {
+            qDebug() << "MainWindow::addProjectSlot(): is valid";
+            ui->treeView->model()->setData(oModelIndex, newProjectDialog.getName(), KotkaSource::CreateNewProjectRole);
+        }
+        else
+        {
+            qDebug() << "MainWindow::addProjectSlot(): is invalid";
+        }
+        */
     }
     else
     {
