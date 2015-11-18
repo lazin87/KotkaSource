@@ -3,11 +3,12 @@
 CProjectBase::CProjectBase(QString a_strName, const IProject * a_pProjectParent)
     : IProject(a_strName, a_pProjectParent)
 {
-
+    qWarning("CProjectBase::CProjectBase");
 }
 
 CProjectBase::~CProjectBase()
 {
+    qWarning("CProjectBase::~CProjectBase()");
     removeAllChildren();
 }
 
@@ -70,27 +71,15 @@ void CProjectBase::removeAllChildren()
 
 QStandardItem *CProjectBase::getStandardItem()
 {
+    int iRows = rowCount();
+    qWarning("CProjectBase::getStandardItem(): %s, rows: %d",
+             m_strName.toStdString().c_str(),
+             iRows );
+
     foreach(IProject * pChild, m_pProjectChildrens)
     {
         appendRow(pChild->getStandardItem() );
     }
 
     return this;
-}
-
-void CProjectBase::setData(const QVariant &a_value, int a_iRole)
-{
-    qDebug("CProjectBase::setData");
-    if(KotkaSource::CreateNewProjectRole == a_iRole)
-    {
-        bool fResult = addChild(new CProjectBase(a_value.toString(), this) );
-        qDebug("Projec creation result: %d", fResult);
-        emitDataChanged();
-
-        // dodac emitowanie sygnalu ze wskaznikiem na IProjeckt
-    }
-    else
-    {
-        IProject::setData(a_value, a_iRole);
-    }
 }

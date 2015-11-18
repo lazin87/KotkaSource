@@ -48,6 +48,17 @@ bool CProjectManager::createProject(QString a_strName)
     return fResult;
 }
 
+void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectData)
+{
+    IProject * pNewProject = new CProjectBase(a_rProjectData.m_strName);
+    pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
+    pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
+
+    m_pProjetsList.append(pNewProject );
+
+    emit projectModelWasChanged(getModel() );
+}
+
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
 {
     // to do
@@ -67,6 +78,7 @@ IProject *CProjectManager::getProject(int a_iIndex)
     return m_pProjetsList[a_iIndex];
 }
 
+
 void CProjectManager::updateModelSlot()
 {
     qDebug() << "CProjectManager::updateModelSlot()";
@@ -75,7 +87,9 @@ void CProjectManager::updateModelSlot()
 
 void CProjectManager::prepareModel()
 {
+    m_oModel.clear(); // it calls items descturctors!!!
     QStandardItem *rootNode = m_oModel.invisibleRootItem();
+
     foreach(IProject * pProject, m_pProjetsList)
     {
         rootNode->appendRow(pProject->getStandardItem() );

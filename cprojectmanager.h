@@ -5,6 +5,8 @@
 #include <QList>
 #include <QStandardItemModel>
 
+#include "commonddefs.h"
+
 class IProject;
 
 class CProjectManager : public QObject
@@ -23,6 +25,9 @@ public:
 
 signals:
     void projectModelWasChanged(QAbstractItemModel *);
+
+public slots:
+    void createProjectSlot(KotkaSource::SProjectData &a_rProjectData);
 
 private slots:
     void updateModelSlot();

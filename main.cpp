@@ -16,11 +16,13 @@ int main(int argc, char *argv[])
 
     // just to test
     CProjectManager oProjectMngr;
-    oProjectMngr.createProject("MainProject1");
-    w.updateModel(oProjectMngr.getModel() );
-    QObject::connect( &oProjectMngr, SIGNAL(projectModelWasChanged(QAbstractItemModel* ) )
-                     , &w, SLOT(updateModel(QAbstractItemModel* ) )
-                     );
+//    QObject::connect( &oProjectMngr, SIGNAL(projectModelWasChanged(QAbstractItemModel* ) )
+//                     , &w, SLOT(updateModel(QAbstractItemModel* ) )
+//                     );
+
+    QObject::connect( &w, SIGNAL(createNewProject(KotkaSource::SProjectData& ) )
+                    , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData& ) )
+                    );
     //TC_fillInProjectTreeView(w, oProjectMngr);
     // end just to test
     return a.exec();

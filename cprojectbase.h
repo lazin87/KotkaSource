@@ -18,7 +18,6 @@ public:
     virtual void removeAllChildren();
     virtual QStandardItem *getStandardItem();
 
-    virtual void setData(const QVariant &a_value, int a_iRole);
 
 protected:
     QList<IProject* > m_pProjectChildrens;
