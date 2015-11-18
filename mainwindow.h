@@ -21,6 +21,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void setModel(QAbstractItemModel * a_pModel);
+
 signals:
     void createNewProject(KotkaSource::SProjectData &);
 

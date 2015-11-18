@@ -16,9 +16,7 @@ int main(int argc, char *argv[])
 
     // just to test
     CProjectManager oProjectMngr;
-//    QObject::connect( &oProjectMngr, SIGNAL(projectModelWasChanged(QAbstractItemModel* ) )
-//                     , &w, SLOT(updateModel(QAbstractItemModel* ) )
-//                     );
+    w.setModel(oProjectMngr.getModel() );
 
     QObject::connect( &w, SIGNAL(createNewProject(KotkaSource::SProjectData& ) )
                     , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData& ) )

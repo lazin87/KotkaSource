@@ -33,6 +33,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setModel(QAbstractItemModel *a_pModel)
+{
+    ui->treeView->setModel(a_pModel);
+}
+
 void MainWindow::updateModel(QAbstractItemModel *a_pModel)
 {
     qDebug() << "MainWindow::updateModel()";
