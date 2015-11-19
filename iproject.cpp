@@ -4,7 +4,7 @@
 
 IProject::IProject(QString a_strName, const IProject *a_pProjectParent)
     : QStandardItem(a_strName)
-    , m_pProjectParent(a_pProjectParent)
+    //, m_pProjectParent(a_pProjectParent)
     , m_strName(a_strName)
     , m_oDeadlineDelivery()
     , m_oDeadlineCopywriters()
@@ -22,16 +22,16 @@ bool IProject::isLeaf() const
     return false;
 }
 
-QString IProject::strName() const
-{
-    return m_strName;
-}
+//QString IProject::strName() const
+//{
+//    return m_strName;
+//}
 
-void IProject::setStrName(const QString &a_rstrName)
-{
-    m_strName = a_rstrName;
-    QStandardItem::setText(m_strName);
-}
+//void IProject::setStrName(const QString &a_rstrName)
+//{
+//    m_strName = a_rstrName;
+//    QStandardItem::setText(m_strName);
+//}
 
 QDateTime IProject::deadlineDelivery() const
 {
@@ -39,9 +39,11 @@ QDateTime IProject::deadlineDelivery() const
 
     if(false == oOutDateTime.isValid() )
     {
-        if( 0 != m_pProjectParent )
+        QStandardItem * pParentItem = parent();
+
+        if( 0 != pParentItem )
         {
-            oOutDateTime = m_pProjectParent->deadlineDelivery();
+            oOutDateTime = pParentItem->data(KotkaSource::DeliveryDateRole).toDateTime();
 
             if(false == oOutDateTime.isValid() )
             {
@@ -53,10 +55,10 @@ QDateTime IProject::deadlineDelivery() const
     return oOutDateTime;
 }
 
-void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
-{
-    m_oDeadlineDelivery = a_rDeadlineDelivery;
-}
+//void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
+//{
+//    m_oDeadlineDelivery = a_rDeadlineDelivery;
+//}
 
 QDateTime IProject::deadlineCopywriters() const
 {
@@ -64,9 +66,11 @@ QDateTime IProject::deadlineCopywriters() const
 
     if(false == oOutDateTime.isValid() )
     {
-        if( 0 != m_pProjectParent )
+        QStandardItem * pParentItem = parent();
+
+        if( 0 != pParentItem )
         {
-            oOutDateTime = m_pProjectParent->deadlineCopywriters();
+            oOutDateTime = pParentItem->data(KotkaSource::DeadlineDateRole).toDateTime();
 
             if(false == oOutDateTime.isValid() )
             {
@@ -78,10 +82,10 @@ QDateTime IProject::deadlineCopywriters() const
     return oOutDateTime;
 }
 
-void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
-{
-    m_oDeadlineCopywriters = a_rDeadlineCopywriters;
-}
+//void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
+//{
+//    m_oDeadlineCopywriters = a_rDeadlineCopywriters;
+//}
 
 QVariant IProject::data(int a_iRole) const
 {
@@ -90,8 +94,8 @@ QVariant IProject::data(int a_iRole) const
 
     case KotkaSource::ProjectDescDispRole:
     {
-        QString strData = "Name: " + strName()
-                + "\nType: " + QString( (0 == m_pProjectParent) ? "Main project" : (isLeaf() ? "Task" : "Subproject") )
+        QString strData = "Name: " + m_strName
+                + "\nType: " + QString( (0 == parent() ) ? "Main project" : (isLeaf() ? "Task" : "Subproject") )
                 + "\nDelivery: " + deadlineDelivery().toString()
                 + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
 
@@ -115,7 +119,7 @@ QVariant IProject::data(int a_iRole) const
 
     case KotkaSource::ObjectTypeRole:
     {
-        return QString( (0 == m_pProjectParent) ? "Main project" : (isLeaf() ? "Task" : "Subproject") );
+        return QString( (0 == parent() ) ? "Main project" : (isLeaf() ? "Task" : "Subproject") );
     }
 
     default:
@@ -134,19 +138,19 @@ void IProject::setData(const QVariant &a_value, int a_iRole)
 
     case KotkaSource::DeliveryDateRole:
     {
-        setDeadlineDelivery(a_value.toDateTime() );
+        m_oDeadlineDelivery = a_value.toDateTime();
         break;
     }
 
     case KotkaSource::DeadlineDateRole:
     {
-        setDeadlineCopywriters(a_value.toDateTime() );
+        m_oDeadlineCopywriters = a_value.toDateTime();
         break;
     }
 
     case KotkaSource::ObjectNameRole:
     {
-        setStrName(a_value.toString() );
+        m_strName = a_value.toString();
         break;
     }
 

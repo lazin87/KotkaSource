@@ -15,6 +15,7 @@ public:
 
     virtual bool isLeaf() const;
 
+    /*
     QString strName() const;
     void setStrName(const QString &a_rstrName);
 
@@ -28,14 +29,17 @@ public:
     virtual IProject * peekChild(int a_iIndex) = 0;
     virtual bool removeChild(int a_iIndex) = 0;
     virtual void removeAllChildren() = 0;
-
+*/
     virtual QStandardItem  * getStandardItem() = 0;
 
     virtual QVariant data(int a_iRole) const;
     virtual void setData(const QVariant &a_value, int a_iRole);
 
+    QDateTime deadlineDelivery() const;
+    QDateTime deadlineCopywriters() const;
+
 protected:
-    const IProject * m_pProjectParent;
+   // const IProject * m_pProjectParent;
 
     QString m_strName;
 
