@@ -37,6 +37,8 @@ public:
 
     QDateTime deadlineDelivery() const;
     QDateTime deadlineCopywriters() const;
+    void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery);
+    void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 
 protected:
    // const IProject * m_pProjectParent;

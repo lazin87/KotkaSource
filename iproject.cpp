@@ -55,10 +55,10 @@ QDateTime IProject::deadlineDelivery() const
     return oOutDateTime;
 }
 
-//void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
-//{
-//    m_oDeadlineDelivery = a_rDeadlineDelivery;
-//}
+void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
+{
+    m_oDeadlineDelivery = a_rDeadlineDelivery;
+}
 
 QDateTime IProject::deadlineCopywriters() const
 {
@@ -82,10 +82,10 @@ QDateTime IProject::deadlineCopywriters() const
     return oOutDateTime;
 }
 
-//void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
-//{
-//    m_oDeadlineCopywriters = a_rDeadlineCopywriters;
-//}
+void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
+{
+    m_oDeadlineCopywriters = a_rDeadlineCopywriters;
+}
 
 QVariant IProject::data(int a_iRole) const
 {
@@ -138,13 +138,13 @@ void IProject::setData(const QVariant &a_value, int a_iRole)
 
     case KotkaSource::DeliveryDateRole:
     {
-        m_oDeadlineDelivery = a_value.toDateTime();
+        setDeadlineDelivery(a_value.toDateTime() );
         break;
     }
 
     case KotkaSource::DeadlineDateRole:
     {
-        m_oDeadlineCopywriters = a_value.toDateTime();
+        setDeadlineCopywriters(a_value.toDateTime() );
         break;
     }
 

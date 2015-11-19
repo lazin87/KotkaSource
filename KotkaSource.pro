@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    csubproject.cpp \
     ctask.cpp \
     csubject.cpp \
     iproject.cpp \
@@ -24,7 +23,6 @@ SOURCES += main.cpp\
     ccreateprojectdialog.cpp
 
 HEADERS  += mainwindow.h \
-    csubproject.h \
     ctask.h \
     csubject.h \
     iproject.h \

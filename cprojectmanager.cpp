@@ -34,7 +34,7 @@ CProjectManager::~CProjectManager()
 
 QStandardItemModel *CProjectManager::getModel()
 {
-    prepareModel();
+   // prepareModel();
 
     return & m_oModel;
 }
@@ -43,7 +43,7 @@ bool CProjectManager::createProject(QString a_strName)
 {
     bool fResult  = false;
 
-    m_pProjetsList.append(new CProjectBase(a_strName) );
+  //  m_pProjetsList.append(new CProjectBase(a_strName) );
 
     return fResult;
 }
@@ -56,13 +56,13 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
         pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
         pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
 
-        m_pProjetsList.append(pNewProject );
+        // m_pProjetsList.append(pNewProject );
 
         QStandardItem *rootNode = m_oModel.invisibleRootItem();
 
         if(0 != rootNode)
         {
-            rootNode->appendRow(pNewProject->getStandardItem() );
+            rootNode->appendRow(pNewProject);
         }
         else
         {
@@ -116,13 +116,12 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
 {
     // to do
-    a_rProject.addChild( new CProjectBase(a_strName, &a_rProject) );
     return false;
 }
 
 bool CProjectManager::createTask(IProject &a_rProject, QString a_strName)
 {
-    a_rProject.addChild(new CTask(a_strName, &a_rProject) );
+    // to do
     return false;
 }
 
