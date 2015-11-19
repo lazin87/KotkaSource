@@ -14,7 +14,8 @@ enum
     WritersDeadlineDateRole,
     ObjectNameRole,
     ObjectTypeRole,
-    ReadProjectDataRole
+    ReadProjectDataRole,
+    SetProjectDataRole
 };
 
 struct SProjectData

@@ -29,6 +29,13 @@ QDateTime CCreateProjectDialog::getWritersDeadline() const
     return ui->writersDeadlineDateTimeEdit->dateTime();
 }
 
+void CCreateProjectDialog::getData(KotkaSource::SProjectData &a_rProjectData) const
+{
+    a_rProjectData.m_strName = ui->projectNamelineEdit->text();
+    a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
+    a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
+}
+
 void CCreateProjectDialog::accept()
 {
     if(validateInputData() )

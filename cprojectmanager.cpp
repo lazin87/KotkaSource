@@ -51,6 +51,21 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
     }
 }
 
+void CProjectManager::createTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIndex &a_rModelIndex)
+{
+    qDebug() << "CProjectManager::createTaskSlot()";
+    IProject * pNewTask = new CTask(a_rTaskData);
+    if( (0 != pNewTask) && a_rModelIndex.isValid() )
+    {
+        QStandardItem *pStandardItem = m_oModel.itemFromIndex(a_rModelIndex);
+        pStandardItem->appendRow(pNewTask);
+    }
+    else
+    {
+        qWarning() << "CProjectManager::createTaskSlot(): ERR: IndexValid: " << a_rModelIndex.isValid();
+    }
+}
+
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
 {
     // to do

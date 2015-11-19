@@ -19,6 +19,9 @@ int main(int argc, char *argv[])
     QObject::connect( &w, SIGNAL(createProject(KotkaSource::SProjectData&,QModelIndex& ) )
                     , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&,QModelIndex&) )
                     );
+    QObject::connect( &w, SIGNAL(createTask(KotkaSource::STaskData&,QModelIndex&) )
+                    , &oProjectMngr, SLOT(createTaskSlot(KotkaSource::STaskData&,QModelIndex&) )
+                    );
     // end just to test
     return a.exec();
 }

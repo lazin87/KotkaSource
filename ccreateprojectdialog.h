@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "commonddefs.h"
+
 namespace Ui {
 class CCreateProjectDialog;
 }
@@ -18,6 +20,8 @@ public:
     QString getName() const;
     QDateTime getDeliveryDate() const;
     QDateTime getWritersDeadline() const;
+
+    void getData(KotkaSource::SProjectData & a_rProjectData) const;
 
 public slots:
     virtual void accept();

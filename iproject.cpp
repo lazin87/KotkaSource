@@ -4,11 +4,11 @@
 
 IProject::IProject(QString a_strName)
     : QStandardItem(a_strName)
-    , m_strName(a_strName)
-    , m_oDeadlineDelivery()
-    , m_oDeadlineCopywriters()
+    , m_sData()
 {
-
+    m_sData.m_strName = a_strName;
+    m_sData.m_oDateTimeDelivery = QDateTime();
+    m_sData.m_oDateTimeWriterDeadline = QDateTime();
 }
 
 IProject::~IProject()
@@ -23,7 +23,7 @@ bool IProject::isLeaf() const
 
 QDateTime IProject::deadlineDelivery() const
 {
-    QDateTime oOutDateTime = m_oDeadlineDelivery;
+    QDateTime oOutDateTime = m_sData.m_oDateTimeDelivery;
 
     if(false == oOutDateTime.isValid() )
     {
@@ -45,12 +45,12 @@ QDateTime IProject::deadlineDelivery() const
 
 void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
 {
-    m_oDeadlineDelivery = a_rDeadlineDelivery;
+    m_sData.m_oDateTimeDelivery = a_rDeadlineDelivery;
 }
 
 QDateTime IProject::deadlineCopywriters() const
 {
-    QDateTime oOutDateTime = m_oDeadlineCopywriters;
+    QDateTime oOutDateTime = m_sData.m_oDateTimeWriterDeadline;
 
     if(false == oOutDateTime.isValid() )
     {
@@ -72,7 +72,7 @@ QDateTime IProject::deadlineCopywriters() const
 
 void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
 {
-    m_oDeadlineCopywriters = a_rDeadlineCopywriters;
+    m_sData.m_oDateTimeWriterDeadline = a_rDeadlineCopywriters;
 }
 
 QVariant IProject::data(int a_iRole) const
@@ -82,7 +82,7 @@ QVariant IProject::data(int a_iRole) const
 
     case KotkaSource::ProjectDescDispRole:
     {
-        QString strData = "Name: " + m_strName
+        QString strData = "Name: " + m_sData.m_strName
                 + "\nType: " + QString( (0 == parent() ) ? "Main project" : (isLeaf() ? "Task" : "Subproject") )
                 + "\nDelivery: " + deadlineDelivery().toString()
                 + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
@@ -102,7 +102,7 @@ QVariant IProject::data(int a_iRole) const
 
     case KotkaSource::ObjectNameRole:
     {
-        return m_strName;
+        return m_sData.m_strName;
     }
 
     case KotkaSource::ObjectTypeRole:
@@ -143,7 +143,7 @@ void IProject::setData(const QVariant &a_value, int a_iRole)
 
     case KotkaSource::ObjectNameRole:
     {
-        m_strName = a_value.toString();
+        m_sData.m_strName = a_value.toString();
         break;
     }
 

@@ -104,9 +104,7 @@ void MainWindow::addProjectSlot()
     if(QDialog::Accepted == newProjectDialog.exec() )
     {
         KotkaSource::SProjectData sProjectData;
-        sProjectData.m_strName = newProjectDialog.getName();
-        sProjectData.m_oDateTimeDelivery = newProjectDialog.getDeliveryDate();
-        sProjectData.m_oDateTimeWriterDeadline = newProjectDialog.getWritersDeadline();
+        newProjectDialog.getData(sProjectData);
 
         emit createProject(sProjectData, m_oModelIndex);
     }
@@ -119,13 +117,18 @@ void MainWindow::addProjectSlot()
 void MainWindow::addTaskSlot()
 {
     qDebug() << "MainWindow::addTaskSlot()";
-    KotkaSource::SProjectData sParentProjectData;
-    ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadProjectDataRole);
+
+    QVariant rawProjectData = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadProjectDataRole);
+    KotkaSource::SProjectData sParentProjectData = rawProjectData.value<KotkaSource::SProjectData>();
     CCreateTaskDialog newTaskDialog( &sParentProjectData, this);
 
     if(QDialog::Accepted == newTaskDialog.exec() )
     {
+        KotkaSource::STaskData sTaskData;
+        newTaskDialog.getData(sTaskData);
+        qDebug() << "MainWindow::addTaskSlot() emit";
 
+        emit createTask(sTaskData, m_oModelIndex);
     }
     else
     {

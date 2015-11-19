@@ -5,8 +5,6 @@
 
 #include "commonddefs.h"
 
-struct KotkaSource::SProjectData;
-
 namespace Ui {
 class CCreateTaskDialog;
 }
@@ -18,10 +16,18 @@ class CCreateTaskDialog : public QDialog
 public:
     CCreateTaskDialog( KotkaSource::SProjectData const * a_pParentProjectData
                      , QWidget *parent = 0);
-
     ~CCreateTaskDialog();
 
+    void getData(KotkaSource::STaskData & a_rTaskData) const;
+
+public slots:
+    virtual void accept();
+
 private:
+    bool validateInputData() const;
+    bool validateProjectName() const;
+    bool validateDeadlinesDates() const;
+
     Ui::CCreateTaskDialog *ui;
 
     KotkaSource::SProjectData const * m_pParentProjectData;

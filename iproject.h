@@ -24,11 +24,7 @@ public:
     void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 
 protected:
-    QString m_strName;
-
-    QDateTime m_oDeadlineDelivery;
-    QDateTime m_oDeadlineCopywriters;
-
+    // PRZENIESC DO CPROJECTBASE!!!
     KotkaSource::SProjectData m_sData;
 
     // TO DO dodac membera do przechowywania zrodel
