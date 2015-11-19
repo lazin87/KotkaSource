@@ -2,7 +2,6 @@
 #define CPROJECTMANAGER_H
 
 #include <QObject>
-#include <QList>
 #include <QStandardItemModel>
 
 #include "commonddefs.h"

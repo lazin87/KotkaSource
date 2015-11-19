@@ -2,7 +2,6 @@
 #define CPROJECTBASE_H
 
 #include "iproject.h"
-#include <QList>
 #include <QStandardItem>
 
 class CProjectBase : public IProject
