@@ -3,7 +3,6 @@
 
 
 // headers to test
-#include "cprojectsmodel.h"
 #include "cprojectmanager.h"
 // end headers to test
 void TC_fillInProjectTreeView(MainWindow & a_rWindow, CProjectManager & a_rProjectMngr);

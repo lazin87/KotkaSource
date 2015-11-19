@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     csubject.cpp \
     iproject.cpp \
     cprojectbase.cpp \
-    cprojectsmodel.cpp \
     cprojectmanager.cpp \
     ccreateprojectdialog.cpp
 
@@ -27,7 +26,6 @@ HEADERS  += mainwindow.h \
     csubject.h \
     iproject.h \
     cprojectbase.h \
-    cprojectsmodel.h \
     cprojectmanager.h \
     commonddefs.h \
     ccreateprojectdialog.h
