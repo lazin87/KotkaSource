@@ -22,3 +22,76 @@ bool CTask::isLeaf() const
 {
     return true;
 }
+
+QString CTask::getName() const
+{
+    return m_sData.m_strName;
+}
+
+QDateTime CTask::deadlineDelivery() const
+{
+    QDateTime oOutDateTime = m_sData.m_oDateTimeDelivery;
+
+    if(false == oOutDateTime.isValid() )
+    {
+        QStandardItem * pParentItem = parent();
+
+        if( 0 != pParentItem )
+        {
+            oOutDateTime = pParentItem->data(KotkaSource::DeliveryDateRole).toDateTime();
+
+            if(false == oOutDateTime.isValid() )
+            {
+                qWarning("CProject::deadlineDelivery(): invalid");
+            }
+        }
+    }
+
+    return oOutDateTime;
+}
+
+void CTask::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
+{
+    m_sData.m_oDateTimeDelivery = a_rDeadlineDelivery;
+}
+
+QDateTime CTask::deadlineCopywriters() const
+{
+    QDateTime oOutDateTime = m_sData.m_oDateTimeWriterDeadline;
+
+    if(false == oOutDateTime.isValid() )
+    {
+        QStandardItem * pParentItem = parent();
+
+        if( 0 != pParentItem )
+        {
+            oOutDateTime = pParentItem->data(KotkaSource::WritersDeadlineDateRole).toDateTime();
+
+            if(false == oOutDateTime.isValid() )
+            {
+                qWarning("CProject::deadlineDelivery(): invalid");
+            }
+        }
+    }
+
+    return oOutDateTime;
+}
+
+void CTask::setName(const QString &a_rName)
+{
+    m_sData.m_strName = a_rName;
+}
+
+void CTask::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
+{
+    m_sData.m_oDateTimeWriterDeadline = a_rDeadlineCopywriters;
+}
+
+QVariant CTask::data(int a_iRole) const
+{
+    return IProject::data(a_iRole);
+}
+void CTask::setData(const QVariant &a_value, int a_iRole)
+{
+    IProject::setData(a_value, a_iRole);
+}

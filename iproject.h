@@ -18,14 +18,16 @@ public:
     virtual QVariant data(int a_iRole) const;
     virtual void setData(const QVariant &a_value, int a_iRole);
 
-    QDateTime deadlineDelivery() const;
-    QDateTime deadlineCopywriters() const;
-    void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery);
-    void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
+    virtual QString getName() const = 0;
+    virtual QDateTime deadlineDelivery() const = 0;
+    virtual QDateTime deadlineCopywriters() const = 0;
+    virtual void setName(QString const & a_rName) = 0;
+    virtual void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery) = 0;
+    virtual void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters) = 0;
 
-protected:
-    // PRZENIESC DO CPROJECTBASE!!!
-    KotkaSource::SProjectData m_sData;
+//protected:
+//    // PRZENIESC DO CPROJECTBASE!!!
+//    KotkaSource::SProjectData m_sData;
 
     // TO DO dodac membera do przechowywania zrodel
 };

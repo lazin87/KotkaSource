@@ -4,11 +4,11 @@
 
 IProject::IProject(QString a_strName)
     : QStandardItem(a_strName)
-    , m_sData()
+//    , m_sData()
 {
-    m_sData.m_strName = a_strName;
-    m_sData.m_oDateTimeDelivery = QDateTime();
-    m_sData.m_oDateTimeWriterDeadline = QDateTime();
+//    m_sData.m_strName = a_strName;
+//    m_sData.m_oDateTimeDelivery = QDateTime();
+//    m_sData.m_oDateTimeWriterDeadline = QDateTime();
 }
 
 IProject::~IProject()
@@ -21,59 +21,59 @@ bool IProject::isLeaf() const
     return false;
 }
 
-QDateTime IProject::deadlineDelivery() const
-{
-    QDateTime oOutDateTime = m_sData.m_oDateTimeDelivery;
+//QDateTime IProject::deadlineDelivery() const
+//{
+//    QDateTime oOutDateTime = m_sData.m_oDateTimeDelivery;
 
-    if(false == oOutDateTime.isValid() )
-    {
-        QStandardItem * pParentItem = parent();
+//    if(false == oOutDateTime.isValid() )
+//    {
+//        QStandardItem * pParentItem = parent();
 
-        if( 0 != pParentItem )
-        {
-            oOutDateTime = pParentItem->data(KotkaSource::DeliveryDateRole).toDateTime();
+//        if( 0 != pParentItem )
+//        {
+//            oOutDateTime = pParentItem->data(KotkaSource::DeliveryDateRole).toDateTime();
 
-            if(false == oOutDateTime.isValid() )
-            {
-                qWarning("CProject::deadlineDelivery(): invalid");
-            }
-        }
-    }
+//            if(false == oOutDateTime.isValid() )
+//            {
+//                qWarning("CProject::deadlineDelivery(): invalid");
+//            }
+//        }
+//    }
 
-    return oOutDateTime;
-}
+//    return oOutDateTime;
+//}
 
-void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
-{
-    m_sData.m_oDateTimeDelivery = a_rDeadlineDelivery;
-}
+//void IProject::setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery)
+//{
+//    m_sData.m_oDateTimeDelivery = a_rDeadlineDelivery;
+//}
 
-QDateTime IProject::deadlineCopywriters() const
-{
-    QDateTime oOutDateTime = m_sData.m_oDateTimeWriterDeadline;
+//QDateTime IProject::deadlineCopywriters() const
+//{
+//    QDateTime oOutDateTime = m_sData.m_oDateTimeWriterDeadline;
 
-    if(false == oOutDateTime.isValid() )
-    {
-        QStandardItem * pParentItem = parent();
+//    if(false == oOutDateTime.isValid() )
+//    {
+//        QStandardItem * pParentItem = parent();
 
-        if( 0 != pParentItem )
-        {
-            oOutDateTime = pParentItem->data(KotkaSource::WritersDeadlineDateRole).toDateTime();
+//        if( 0 != pParentItem )
+//        {
+//            oOutDateTime = pParentItem->data(KotkaSource::WritersDeadlineDateRole).toDateTime();
 
-            if(false == oOutDateTime.isValid() )
-            {
-                qWarning("CProject::deadlineDelivery(): invalid");
-            }
-        }
-    }
+//            if(false == oOutDateTime.isValid() )
+//            {
+//                qWarning("CProject::deadlineDelivery(): invalid");
+//            }
+//        }
+//    }
 
-    return oOutDateTime;
-}
+//    return oOutDateTime;
+//}
 
-void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
-{
-    m_sData.m_oDateTimeWriterDeadline = a_rDeadlineCopywriters;
-}
+//void IProject::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
+//{
+//    m_sData.m_oDateTimeWriterDeadline = a_rDeadlineCopywriters;
+//}
 
 QVariant IProject::data(int a_iRole) const
 {
@@ -82,7 +82,7 @@ QVariant IProject::data(int a_iRole) const
 
     case KotkaSource::ProjectDescDispRole:
     {
-        QString strData = "Name: " + m_sData.m_strName
+        QString strData = "Name: " + getName()
                 + "\nType: " + QString( (0 == parent() ) ? "Main project" : (isLeaf() ? "Task" : "Subproject") )
                 + "\nDelivery: " + deadlineDelivery().toString()
                 + "\nDeadline for copywriters: " + deadlineCopywriters().toString();
@@ -102,17 +102,12 @@ QVariant IProject::data(int a_iRole) const
 
     case KotkaSource::ObjectNameRole:
     {
-        return m_sData.m_strName;
+        return getName();
     }
 
     case KotkaSource::ObjectTypeRole:
     {
         return QString( (0 == parent() ) ? "Main project" : (isLeaf() ? "Task" : "Subproject") );
-    }
-
-    case KotkaSource::ReadProjectDataRole:
-    {
-        return QVariant::fromValue(m_sData);
     }
 
     default:
@@ -143,7 +138,7 @@ void IProject::setData(const QVariant &a_value, int a_iRole)
 
     case KotkaSource::ObjectNameRole:
     {
-        m_sData.m_strName = a_value.toString();
+        setName(a_value.toString() );
         break;
     }
 
