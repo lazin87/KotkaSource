@@ -33,31 +33,6 @@ bool CProjectManager::createProject(QString a_strName)
     return fResult;
 }
 
-void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectData)
-{
-    IProject * pNewProject = new CProjectBase(a_rProjectData.m_strName);
-    if(0 != pNewProject)
-    {
-        pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
-        pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
-
-        QStandardItem *rootNode = m_oModel.invisibleRootItem();
-
-        if(0 != rootNode)
-        {
-            rootNode->appendRow(pNewProject);
-        }
-        else
-        {
-            qDebug() << "CProjectManager::createProjectSlot(): QStandardItem NULL PTR";
-        }
-    }
-    else
-    {
-        qDebug() << "CProjectManager::createProjectSlot(): IProject NULL PTR";
-    }
-}
-
 void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex)
 {
     IProject * pNewProject = new CProjectBase(a_rProjectData.m_strName);
@@ -66,12 +41,9 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
         pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
         pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
 
-        if(a_rModelIndex.isValid() )
-        {
-            QStandardItem *pStandardItem = m_oModel.itemFromIndex(a_rModelIndex);
-            pStandardItem->appendRow(pNewProject);
-
-        }
+        QStandardItem *pStandardItem = (a_rModelIndex.isValid() ) ? m_oModel.itemFromIndex(a_rModelIndex)
+                                                                  : m_oModel.invisibleRootItem();
+        pStandardItem->appendRow(pNewProject);
     }
     else
     {

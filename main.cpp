@@ -5,7 +5,6 @@
 // headers to test
 #include "cprojectmanager.h"
 // end headers to test
-void TC_fillInProjectTreeView(MainWindow & a_rWindow, CProjectManager & a_rProjectMngr);
 
 int main(int argc, char *argv[])
 {
@@ -17,9 +16,6 @@ int main(int argc, char *argv[])
     CProjectManager oProjectMngr;
     w.setModel(oProjectMngr.getModel() );
 
-    QObject::connect( &w, SIGNAL(createNewProject(KotkaSource::SProjectData& ) )
-                    , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData& ) )
-                    );
     QObject::connect( &w, SIGNAL(createSubproject(KotkaSource::SProjectData&,QModelIndex& ) )
                     , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&,QModelIndex&) )
                     );

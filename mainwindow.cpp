@@ -107,28 +107,7 @@ void MainWindow::addProjectSlot()
         sProjectData.m_oDateTimeDelivery = newProjectDialog.getDeliveryDate();
         sProjectData.m_oDateTimeWriterDeadline = newProjectDialog.getWritersDeadline();
 
-        emit createNewProject(sProjectData);
-    }
-    else
-    {
-
-    }
-}
-
-void MainWindow::addSubprojectSlot()
-{
-    // zastanowic sie jak zmergowac do create project tylko z QModelIndex rpwnym invalid
-    qDebug() << "MainWindow::addSubprojectSlot()";
-    CCreateProjectDialog newProjectDialog(this);
-
-    if(QDialog::Accepted == newProjectDialog.exec() )
-    {
-        KotkaSource::SProjectData sProjectData;
-        sProjectData.m_strName = newProjectDialog.getName();
-        sProjectData.m_oDateTimeDelivery = newProjectDialog.getDeliveryDate();
-        sProjectData.m_oDateTimeWriterDeadline = newProjectDialog.getWritersDeadline();
-
-        emit createSubproject(sProjectData, m_oModelIndex);
+        emit createProject(sProjectData, m_oModelIndex);
     }
     else
     {
@@ -148,7 +127,6 @@ void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
     m_oModelIndex = ui->treeView->indexAt(a_rcPoint);
     if( m_oModelIndex.isValid() )
     {
-        //const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
         bool isProject = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ObjectTypeRole) != "Task";
 
         if(isProject)
@@ -181,7 +159,7 @@ void MainWindow::createProjectTreeContextMenu()
 
     m_pAddSubprojectAction = new QAction("Add subproject", ui->treeView);
     connect( m_pAddSubprojectAction, SIGNAL(triggered() )
-           , this, SLOT(addSubprojectSlot() )
+           , this, SLOT(addProjectSlot() )
            );
 
     m_pAddTaskAction = new QAction("Add task", ui->treeView);

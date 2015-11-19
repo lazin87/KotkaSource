@@ -25,8 +25,7 @@ public:
     void setModel(QAbstractItemModel * a_pModel);
 
 signals:
-    void createNewProject(KotkaSource::SProjectData &);
-    void createSubproject(KotkaSource::SProjectData &, QModelIndex &);
+    void createProject(KotkaSource::SProjectData &, QModelIndex &);
 
 public slots:
     void updateModel(QAbstractItemModel *a_pModel);
@@ -38,7 +37,6 @@ private slots:
     void changeNameSlot();
 
     void addProjectSlot();
-    void addSubprojectSlot();
     void addTaskSlot();
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
 
