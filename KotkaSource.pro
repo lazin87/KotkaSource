@@ -17,7 +17,6 @@ SOURCES += main.cpp\
     csubproject.cpp \
     ctask.cpp \
     csubject.cpp \
-    cmainproject.cpp \
     iproject.cpp \
     cprojectbase.cpp \
     cprojectsmodel.cpp \
@@ -29,7 +28,6 @@ HEADERS  += mainwindow.h \
     csubproject.h \
     ctask.h \
     csubject.h \
-    cmainproject.h \
     iproject.h \
     cprojectbase.h \
     cprojectsmodel.h \
