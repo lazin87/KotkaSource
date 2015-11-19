@@ -7,7 +7,7 @@
 class CTask : public IProject
 {
 public:
-    CTask(QString a_strName, const IProject * a_pProjectParent);
+    CTask(QString a_strName);
     ~CTask();
 
     // IProject interface

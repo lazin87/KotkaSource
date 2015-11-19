@@ -32,5 +32,8 @@ struct STaskData
 };
 
 }
+
+Q_DECLARE_METATYPE(KotkaSource::SProjectData)
+
 #endif // COMMONDDEFS
 

@@ -7,7 +7,7 @@
 class CProjectBase : public IProject
 {
 public:
-    CProjectBase(QString a_strName, const IProject * a_pProjectParent = 0);
+    CProjectBase(QString a_strName);
     ~CProjectBase();
 };
 

@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-IProject::IProject(QString a_strName, const IProject *a_pProjectParent)
+IProject::IProject(QString a_strName)
     : QStandardItem(a_strName)
     , m_strName(a_strName)
     , m_oDeadlineDelivery()
@@ -108,6 +108,11 @@ QVariant IProject::data(int a_iRole) const
     case KotkaSource::ObjectTypeRole:
     {
         return QString( (0 == parent() ) ? "Main project" : (isLeaf() ? "Task" : "Subproject") );
+    }
+
+    case KotkaSource::ReadProjectDataRole:
+    {
+        return QVariant::fromValue(m_sData);
     }
 
     default:

@@ -10,7 +10,7 @@
 class IProject : public QStandardItem
 {
 public:
-    explicit IProject(QString a_strName, const IProject * a_pProjectParent = 0);
+    explicit IProject(QString a_strName);
     virtual ~IProject();
 
     virtual bool isLeaf() const;
@@ -24,10 +24,12 @@ public:
     void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 
 protected:
-   QString m_strName;
+    QString m_strName;
 
     QDateTime m_oDeadlineDelivery;
     QDateTime m_oDeadlineCopywriters;
+
+    KotkaSource::SProjectData m_sData;
 
     // TO DO dodac membera do przechowywania zrodel
 };
