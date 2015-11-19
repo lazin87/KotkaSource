@@ -16,7 +16,7 @@ public:
 //    virtual IProject *peekChild(int a_iIndex);
 //    virtual bool removeChild(int a_iIndex);
 //    virtual void removeAllChildren();
-    virtual QStandardItem *getStandardItem();
+//    virtual QStandardItem *getStandardItem();
 
 
 protected:

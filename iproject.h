@@ -29,8 +29,9 @@ public:
     virtual IProject * peekChild(int a_iIndex) = 0;
     virtual bool removeChild(int a_iIndex) = 0;
     virtual void removeAllChildren() = 0;
-*/
+
     virtual QStandardItem  * getStandardItem() = 0;
+*/
 
     virtual QVariant data(int a_iRole) const;
     virtual void setData(const QVariant &a_value, int a_iRole);

@@ -19,10 +19,10 @@ bool CTask::isLeaf() const
 }
 
 
-QStandardItem *CTask::getStandardItem()
-{
-    return this;
-}
+//QStandardItem *CTask::getStandardItem()
+//{
+//    return this;
+//}
 
 /*
 QVariant CTask::data(int a_iRole) const

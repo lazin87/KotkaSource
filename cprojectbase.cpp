@@ -69,8 +69,8 @@ CProjectBase::~CProjectBase()
 //}
 
 
-QStandardItem *CProjectBase::getStandardItem()
-{
+//QStandardItem *CProjectBase::getStandardItem()
+//{
 //    int iRows = rowCount();
 //    qWarning("CProjectBase::getStandardItem(): %s, rows: %d",
 //             m_strName.toStdString().c_str(),
@@ -81,5 +81,5 @@ QStandardItem *CProjectBase::getStandardItem()
 //        appendRow(pChild->getStandardItem() );
 //    }
 
-    return this;
-}
+//    return this;
+//}

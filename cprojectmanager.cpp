@@ -15,21 +15,21 @@ CProjectManager::CProjectManager(QObject * a_pParent)
            );
 }
 
-void CProjectManager::removeProjects()
-{
-    foreach(IProject * pProject, m_pProjetsList)
-    {
-        if(0 != pProject)
-        {
-            delete pProject;
-        }
-    }
-}
+//void CProjectManager::removeProjects()
+//{
+//    foreach(IProject * pProject, m_pProjetsList)
+//    {
+//        if(0 != pProject)
+//        {
+//            delete pProject;
+//        }
+//    }
+//}
 
 CProjectManager::~CProjectManager()
 {
     qDebug() << "CProjectManager::~CProjectManager()";
-    removeProjects();
+//    removeProjects();
 }
 
 QStandardItemModel *CProjectManager::getModel()
@@ -125,11 +125,11 @@ bool CProjectManager::createTask(IProject &a_rProject, QString a_strName)
     return false;
 }
 
-IProject *CProjectManager::getProject(int a_iIndex)
-{
-    // TO DO
-    return m_pProjetsList[a_iIndex];
-}
+//IProject *CProjectManager::getProject(int a_iIndex)
+//{
+//    // TO DO
+//    return m_pProjetsList[a_iIndex];
+//}
 
 
 void CProjectManager::updateModelSlot()
@@ -138,14 +138,14 @@ void CProjectManager::updateModelSlot()
     emit projectModelWasChanged(getModel() );
 }
 
-void CProjectManager::prepareModel()
-{
-    m_oModel.clear(); // it calls items descturctors!!!
-    QStandardItem *rootNode = m_oModel.invisibleRootItem();
+//void CProjectManager::prepareModel()
+//{
+//    m_oModel.clear(); // it calls items descturctors!!!
+//    QStandardItem *rootNode = m_oModel.invisibleRootItem();
 
-    foreach(IProject * pProject, m_pProjetsList)
-    {
-        rootNode->appendRow(pProject->getStandardItem() );
-    }
-}
+//    foreach(IProject * pProject, m_pProjetsList)
+//    {
+//        rootNode->appendRow(pProject->getStandardItem() );
+//    }
+//}
 
