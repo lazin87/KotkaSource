@@ -58,7 +58,7 @@ QDateTime IProject::deadlineCopywriters() const
 
         if( 0 != pParentItem )
         {
-            oOutDateTime = pParentItem->data(KotkaSource::DeadlineDateRole).toDateTime();
+            oOutDateTime = pParentItem->data(KotkaSource::WritersDeadlineDateRole).toDateTime();
 
             if(false == oOutDateTime.isValid() )
             {
@@ -95,7 +95,7 @@ QVariant IProject::data(int a_iRole) const
         return deadlineDelivery();
     }
 
-    case KotkaSource::DeadlineDateRole:
+    case KotkaSource::WritersDeadlineDateRole:
     {
         return deadlineCopywriters();
     }
@@ -130,7 +130,7 @@ void IProject::setData(const QVariant &a_value, int a_iRole)
         break;
     }
 
-    case KotkaSource::DeadlineDateRole:
+    case KotkaSource::WritersDeadlineDateRole:
     {
         setDeadlineCopywriters(a_value.toDateTime() );
         break;

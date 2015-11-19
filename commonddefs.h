@@ -11,10 +11,9 @@ enum
 {
     ProjectDescDispRole = Qt::UserRole + 1,
     DeliveryDateRole,
-    DeadlineDateRole,
+    WritersDeadlineDateRole,
     ObjectNameRole,
-    ObjectTypeRole,
-    CreateNewProjectRole // usunac
+    ObjectTypeRole
 };
 
 struct SProjectData

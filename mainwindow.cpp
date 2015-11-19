@@ -66,7 +66,7 @@ void MainWindow::selectionChangedSlot(const QItemSelection &, const QItemSelecti
                 ui->treeView->model()->data(oModelIndex, KotkaSource::DeliveryDateRole).toDateTime()
                 );
     ui->copyDeadlineDateTimeEdit->setDateTime(
-                ui->treeView->model()->data(oModelIndex, KotkaSource::DeadlineDateRole).toDateTime()
+                ui->treeView->model()->data(oModelIndex, KotkaSource::WritersDeadlineDateRole).toDateTime()
                 );
     ui->nameLineEdit->setText(
                 ui->treeView->model()->data(oModelIndex, KotkaSource::ObjectNameRole).toString()
@@ -85,7 +85,7 @@ void MainWindow::changeDeliveryDateSlot(QDateTime const & a_oNewDateTime)
 void MainWindow::changeCopyDeadlineSlot(QDateTime const & a_oNewDateTime)
 {
     const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
-    ui->treeView->model()->setData(oModelIndex, a_oNewDateTime, KotkaSource::DeadlineDateRole);
+    ui->treeView->model()->setData(oModelIndex, a_oNewDateTime, KotkaSource::WritersDeadlineDateRole);
 }
 
 void MainWindow::changeNameSlot()
