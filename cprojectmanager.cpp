@@ -15,35 +15,20 @@ CProjectManager::CProjectManager(QObject * a_pParent)
            );
 }
 
-//void CProjectManager::removeProjects()
-//{
-//    foreach(IProject * pProject, m_pProjetsList)
-//    {
-//        if(0 != pProject)
-//        {
-//            delete pProject;
-//        }
-//    }
-//}
 
 CProjectManager::~CProjectManager()
 {
     qDebug() << "CProjectManager::~CProjectManager()";
-//    removeProjects();
 }
 
 QStandardItemModel *CProjectManager::getModel()
 {
-   // prepareModel();
-
     return & m_oModel;
 }
 
 bool CProjectManager::createProject(QString a_strName)
 {
     bool fResult  = false;
-
-  //  m_pProjetsList.append(new CProjectBase(a_strName) );
 
     return fResult;
 }
@@ -55,8 +40,6 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
     {
         pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
         pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
-
-        // m_pProjetsList.append(pNewProject );
 
         QStandardItem *rootNode = m_oModel.invisibleRootItem();
 
@@ -89,28 +72,11 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
             pStandardItem->appendRow(pNewProject);
 
         }
-
-        /*
-        m_pProjetsList.append(pNewProject );
-
-        QStandardItem *rootNode = m_oModel.invisibleRootItem();
-
-        if(0 != rootNode)
-        {
-            rootNode->appendRow(pNewProject->getStandardItem() );
-        }
-        else
-        {
-            qDebug() << "CProjectManager::createProjectSlot(): QStandardItem NULL PTR";
-        }
-        */
     }
     else
     {
         qDebug() << "CProjectManager::createProjectSlot(): IProject NULL PTR";
     }
-
-
 }
 
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
@@ -125,27 +91,8 @@ bool CProjectManager::createTask(IProject &a_rProject, QString a_strName)
     return false;
 }
 
-//IProject *CProjectManager::getProject(int a_iIndex)
-//{
-//    // TO DO
-//    return m_pProjetsList[a_iIndex];
-//}
-
-
 void CProjectManager::updateModelSlot()
 {
     qDebug() << "CProjectManager::updateModelSlot()";
     emit projectModelWasChanged(getModel() );
 }
-
-//void CProjectManager::prepareModel()
-//{
-//    m_oModel.clear(); // it calls items descturctors!!!
-//    QStandardItem *rootNode = m_oModel.invisibleRootItem();
-
-//    foreach(IProject * pProject, m_pProjetsList)
-//    {
-//        rootNode->appendRow(pProject->getStandardItem() );
-//    }
-//}
-

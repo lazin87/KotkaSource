@@ -21,7 +21,6 @@ public:
     bool createProject(QString a_strName);
     bool createSubproject(IProject & a_rProject, QString a_strName);
     bool createTask(IProject & a_rProject, QString a_strName);
-//    IProject * getProject(int a_iIndex);
 
 signals:
     void projectModelWasChanged(QAbstractItemModel *);
@@ -34,11 +33,7 @@ private slots:
     void updateModelSlot();
 
 private:
-    // void prepareModel();
-    // void removeProjects();
-
     QStandardItemModel m_oModel;
-    // QList<IProject *> m_pProjetsList;
 };
 
 #endif // CPROJECTMANAGER_H

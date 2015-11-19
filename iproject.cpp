@@ -4,7 +4,6 @@
 
 IProject::IProject(QString a_strName, const IProject *a_pProjectParent)
     : QStandardItem(a_strName)
-    //, m_pProjectParent(a_pProjectParent)
     , m_strName(a_strName)
     , m_oDeadlineDelivery()
     , m_oDeadlineCopywriters()
@@ -21,17 +20,6 @@ bool IProject::isLeaf() const
 {
     return false;
 }
-
-//QString IProject::strName() const
-//{
-//    return m_strName;
-//}
-
-//void IProject::setStrName(const QString &a_rstrName)
-//{
-//    m_strName = a_rstrName;
-//    QStandardItem::setText(m_strName);
-//}
 
 QDateTime IProject::deadlineDelivery() const
 {
