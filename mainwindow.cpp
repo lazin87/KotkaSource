@@ -6,6 +6,7 @@
 #include <QItemSelectionModel>
 
 #include "ccreateprojectdialog.h"
+#include "ccreatetaskdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -118,6 +119,18 @@ void MainWindow::addProjectSlot()
 void MainWindow::addTaskSlot()
 {
     qDebug() << "MainWindow::addTaskSlot()";
+    KotkaSource::SProjectData sParentProjectData;
+    ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadProjectDataRole);
+    CCreateTaskDialog newTaskDialog( &sParentProjectData, this);
+
+    if(QDialog::Accepted == newTaskDialog.exec() )
+    {
+
+    }
+    else
+    {
+
+    }
 }
 
 void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)

@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     iproject.cpp \
     cprojectbase.cpp \
     cprojectmanager.cpp \
-    ccreateprojectdialog.cpp
+    ccreateprojectdialog.cpp \
+    ccreatetaskdialog.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -28,7 +29,9 @@ HEADERS  += mainwindow.h \
     cprojectbase.h \
     cprojectmanager.h \
     commonddefs.h \
-    ccreateprojectdialog.h
+    ccreateprojectdialog.h \
+    ccreatetaskdialog.h
 
 FORMS    += mainwindow.ui \
-    ccreateprojectdialog.ui
+    ccreateprojectdialog.ui \
+    ccreatetaskdialog.ui

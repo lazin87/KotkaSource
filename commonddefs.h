@@ -13,10 +13,18 @@ enum
     DeliveryDateRole,
     WritersDeadlineDateRole,
     ObjectNameRole,
-    ObjectTypeRole
+    ObjectTypeRole,
+    ReadProjectDataRole
 };
 
 struct SProjectData
+{
+    QString m_strName;
+    QDateTime m_oDateTimeDelivery;
+    QDateTime m_oDateTimeWriterDeadline;
+};
+
+struct STaskData
 {
     QString m_strName;
     QDateTime m_oDateTimeDelivery;

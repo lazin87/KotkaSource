@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     CProjectManager oProjectMngr;
     w.setModel(oProjectMngr.getModel() );
 
-    QObject::connect( &w, SIGNAL(createSubproject(KotkaSource::SProjectData&,QModelIndex& ) )
+    QObject::connect( &w, SIGNAL(createProject(KotkaSource::SProjectData&,QModelIndex& ) )
                     , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&,QModelIndex&) )
                     );
     // end just to test

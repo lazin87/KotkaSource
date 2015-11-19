@@ -26,6 +26,7 @@ public:
 
 signals:
     void createProject(KotkaSource::SProjectData &, QModelIndex &);
+    void createTask(KotkaSource::STaskData &, QModelIndex &);
 
 public slots:
     void updateModel(QAbstractItemModel *a_pModel);
