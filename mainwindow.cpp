@@ -10,7 +10,9 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    m_oModelIndex(),
     m_pAddProjectAction(0),
+    m_pAddSubprojectAction(0),
     m_pAddTaskAction(0)
 {
     ui->setupUi(this);
@@ -36,13 +38,8 @@ MainWindow::~MainWindow()
 void MainWindow::setModel(QAbstractItemModel *a_pModel)
 {
     ui->treeView->setModel(a_pModel);
-}
 
-void MainWindow::updateModel(QAbstractItemModel *a_pModel)
-{
-    qDebug() << "MainWindow::updateModel()";
     QItemSelectionModel * pSelectionModel;
-    ui->treeView->setModel(a_pModel);
     pSelectionModel = ui->treeView->selectionModel();
 
     if(0 != pSelectionModel)
@@ -51,10 +48,11 @@ void MainWindow::updateModel(QAbstractItemModel *a_pModel)
                  , this, SLOT(selectionChangedSlot(QItemSelection,QItemSelection) )
                  );
     }
-    else
-    {
-        qWarning() << "MainWindow::setModel() : NULL PTR";
-    }
+}
+
+void MainWindow::updateModel(QAbstractItemModel *a_pModel)
+{
+    qDebug() << "MainWindow::updateModel()";
 }
 
 void MainWindow::selectionChangedSlot(const QItemSelection &, const QItemSelection &)
@@ -110,19 +108,27 @@ void MainWindow::addProjectSlot()
         sProjectData.m_oDateTimeWriterDeadline = newProjectDialog.getWritersDeadline();
 
         emit createNewProject(sProjectData);
-        /*
-        const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
-        qDebug() << "MainWindow::addProjectSlot(): " << oModelIndex;
-        if(oModelIndex.isValid() )
-        {
-            qDebug() << "MainWindow::addProjectSlot(): is valid";
-            ui->treeView->model()->setData(oModelIndex, newProjectDialog.getName(), KotkaSource::CreateNewProjectRole);
-        }
-        else
-        {
-            qDebug() << "MainWindow::addProjectSlot(): is invalid";
-        }
-        */
+    }
+    else
+    {
+
+    }
+}
+
+void MainWindow::addSubprojectSlot()
+{
+    // zastanowic sie jak zmergowac do create project tylko z QModelIndex rpwnym invalid
+    qDebug() << "MainWindow::addSubprojectSlot()";
+    CCreateProjectDialog newProjectDialog(this);
+
+    if(QDialog::Accepted == newProjectDialog.exec() )
+    {
+        KotkaSource::SProjectData sProjectData;
+        sProjectData.m_strName = newProjectDialog.getName();
+        sProjectData.m_oDateTimeDelivery = newProjectDialog.getDeliveryDate();
+        sProjectData.m_oDateTimeWriterDeadline = newProjectDialog.getWritersDeadline();
+
+        emit createSubproject(sProjectData, m_oModelIndex);
     }
     else
     {
@@ -139,16 +145,16 @@ void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
 {
     qDebug() << "MainWindow::onProjTreeContextMenu()";
 
-    QModelIndex oIndex = ui->treeView->indexAt(a_rcPoint);
-    if( oIndex.isValid() )
+    m_oModelIndex = ui->treeView->indexAt(a_rcPoint);
+    if( m_oModelIndex.isValid() )
     {
-        const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
-        bool isProject = ui->treeView->model()->data(oModelIndex, KotkaSource::ObjectTypeRole) != "Task";
+        //const QModelIndex oModelIndex = ui->treeView->selectionModel()->currentIndex();
+        bool isProject = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ObjectTypeRole) != "Task";
 
         if(isProject)
         {
             QMenu oContextMenu;
-            oContextMenu.addAction(m_pAddProjectAction);
+            oContextMenu.addAction(m_pAddSubprojectAction);
             oContextMenu.addAction(m_pAddTaskAction);
             oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
         }
@@ -168,9 +174,14 @@ void MainWindow::createProjectTreeContextMenu()
            , this, SLOT(onProjTreeContextMenu(const QPoint &) )
            );
 
-    m_pAddProjectAction = new QAction("Add project", ui->treeView);
+    m_pAddProjectAction = new QAction("Add new project", ui->treeView);
     connect( m_pAddProjectAction, SIGNAL(triggered() )
            , this, SLOT(addProjectSlot() )
+           );
+
+    m_pAddSubprojectAction = new QAction("Add subproject", ui->treeView);
+    connect( m_pAddSubprojectAction, SIGNAL(triggered() )
+           , this, SLOT(addSubprojectSlot() )
            );
 
     m_pAddTaskAction = new QAction("Add task", ui->treeView);

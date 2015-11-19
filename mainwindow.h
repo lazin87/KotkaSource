@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "commonddefs.h"
+#include <QModelIndex>
 
 class QAbstractItemModel;
 class QItemSelectionModel;
@@ -25,6 +26,7 @@ public:
 
 signals:
     void createNewProject(KotkaSource::SProjectData &);
+    void createSubproject(KotkaSource::SProjectData &, QModelIndex &);
 
 public slots:
     void updateModel(QAbstractItemModel *a_pModel);
@@ -36,6 +38,7 @@ private slots:
     void changeNameSlot();
 
     void addProjectSlot();
+    void addSubprojectSlot();
     void addTaskSlot();
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
 
@@ -43,8 +46,10 @@ private:
     void createProjectTreeContextMenu();
 
     Ui::MainWindow *ui;
+    QModelIndex m_oModelIndex;
 
     QAction * m_pAddProjectAction;
+    QAction * m_pAddSubprojectAction;
     QAction * m_pAddTaskAction;
 
 };

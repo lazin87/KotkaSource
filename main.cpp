@@ -21,6 +21,10 @@ int main(int argc, char *argv[])
     QObject::connect( &w, SIGNAL(createNewProject(KotkaSource::SProjectData& ) )
                     , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData& ) )
                     );
+    QObject::connect( &w, SIGNAL(createSubproject(KotkaSource::SProjectData&,QModelIndex& ) )
+                    , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&,QModelIndex&) )
+                    );
+
     //TC_fillInProjectTreeView(w, oProjectMngr);
     // end just to test
     return a.exec();

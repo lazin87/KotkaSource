@@ -75,6 +75,44 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
     }
 }
 
+void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex)
+{
+    IProject * pNewProject = new CProjectBase(a_rProjectData.m_strName);
+    if(0 != pNewProject)
+    {
+        pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
+        pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
+
+        if(a_rModelIndex.isValid() )
+        {
+            QStandardItem *pStandardItem = m_oModel.itemFromIndex(a_rModelIndex);
+            pStandardItem->appendRow(pNewProject);
+
+        }
+
+        /*
+        m_pProjetsList.append(pNewProject );
+
+        QStandardItem *rootNode = m_oModel.invisibleRootItem();
+
+        if(0 != rootNode)
+        {
+            rootNode->appendRow(pNewProject->getStandardItem() );
+        }
+        else
+        {
+            qDebug() << "CProjectManager::createProjectSlot(): QStandardItem NULL PTR";
+        }
+        */
+    }
+    else
+    {
+        qDebug() << "CProjectManager::createProjectSlot(): IProject NULL PTR";
+    }
+
+
+}
+
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
 {
     // to do

@@ -28,6 +28,7 @@ signals:
 
 public slots:
     void createProjectSlot(KotkaSource::SProjectData &a_rProjectData);
+    void createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex);
 
 private slots:
     void updateModelSlot();
