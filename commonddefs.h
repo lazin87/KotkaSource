@@ -18,6 +18,25 @@ enum
     SetProjectDataRole
 };
 
+enum ETaskState
+{
+    eTS_Invalid = 0,
+    eTS_Unassigned,
+    eTS_Assigned,
+    eTS_Wrote,
+    eTS_Reviewed,
+    eTS_Sent,
+    eTS_ToCorrect,
+    eTS_Completed
+};
+
+enum EObjectType
+{
+    eOT_MainProject,
+    eOT_SubProjectm,
+    eOT_Task
+};
+
 struct SProjectData
 {
     QString m_strName;
