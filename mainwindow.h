@@ -23,6 +23,7 @@ public:
     ~MainWindow();
 
     void setModel(QAbstractItemModel * a_pModel);
+    void setModelForAddressBook(QAbstractTableModel * a_pModel);
 
 signals:
     void createProject(KotkaSource::SProjectData &, QModelIndex &);

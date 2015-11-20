@@ -4,7 +4,11 @@
 
 // headers to test
 #include "cprojectmanager.h"
+#include "cclientsandwritersdbmodel.h"
 // end headers to test
+QString GetRandomString();
+
+void fillInAddressBook(CClientsAndWritersDbModel & a_rAddressBook);
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +26,35 @@ int main(int argc, char *argv[])
     QObject::connect( &w, SIGNAL(createTask(KotkaSource::STaskData&,QModelIndex&) )
                     , &oProjectMngr, SLOT(createTaskSlot(KotkaSource::STaskData&,QModelIndex&) )
                     );
+
+    CClientsAndWritersDbModel oAddressBook;
+    fillInAddressBook(oAddressBook);
+    w.setModelForAddressBook(&oAddressBook);
     // end just to test
     return a.exec();
+}
+
+void fillInAddressBook(CClientsAndWritersDbModel & a_rAddressBook)
+{
+    const int iCONTACTS_NBR = 40;
+
+    for(int i = 0; iCONTACTS_NBR > i; ++i)
+    {
+        a_rAddressBook.append(GetRandomString() );
+    }
+}
+
+QString GetRandomString()
+{
+   const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+   const int randomStringLength = 12; // assuming you want random strings of 12 characters
+
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+       int index = qrand() % possibleCharacters.length();
+       QChar nextChar = possibleCharacters.at(index);
+       randomString.append(nextChar);
+   }
+   return randomString;
 }

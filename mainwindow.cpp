@@ -51,6 +51,11 @@ void MainWindow::setModel(QAbstractItemModel *a_pModel)
     }
 }
 
+void MainWindow::setModelForAddressBook(QAbstractTableModel *a_pModel)
+{
+    ui->addressBookTableView->setModel(a_pModel);
+}
+
 void MainWindow::updateModel(QAbstractItemModel *a_pModel)
 {
     qDebug() << "MainWindow::updateModel()";

@@ -14,6 +14,8 @@ CPerson::CPerson(QString const & a_strName)
     : m_strEmail()
     , m_strName(a_strName)
     , m_strPhone()
+    , m_fIsWriter(false)
+    , m_fIsClient(false)
 {
 
 }
@@ -29,15 +31,8 @@ QString CPerson::strEmail() const
 
 void CPerson::setStrEmail(const QString &strEmail)
 {
-    if(validEmail(strEmail) )
-    {
-        qDebug("CSubject::setStrEmail: %s -> %s", m_strEmail.toLatin1().data(), strEmail.toLatin1().data() );
-        m_strEmail = strEmail;
-    }
-    else
-    {
-        qWarning("CSubject::setStrEmail: invalid value: %s", strEmail.toLatin1().data() );
-    }
+    qDebug("CSubject::setStrEmail: %s -> %s", m_strEmail.toLatin1().data(), strEmail.toLatin1().data() );
+    m_strEmail = strEmail;
 }
 QString CPerson::strName() const
 {
@@ -56,39 +51,47 @@ QString CPerson::strPhone() const
 
 void CPerson::setStrPhone(const QString &strPhone)
 {
-    if(validPhone(strPhone) )
-    {
-        qDebug("CSubject::setStrPhone: %s -> %s", m_strPhone.toLatin1().data(), strPhone.toLatin1().data() );
-        m_strPhone = strPhone;
-    }
-    else
-    {
-        qWarning("CSubject::setStrPhone: invalid value: %s", strPhone.toLatin1().data() );
-    }
+    qDebug("CSubject::setStrPhone: %s -> %s", m_strPhone.toLatin1().data(), strPhone.toLatin1().data() );
+    m_strPhone = strPhone;
 }
 
-QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_iProperty) const
+void CPerson::setIsWriter(bool a_fIsWriter)
 {
+    m_fIsWriter = a_fIsWriter;
+}
 
+void CPerson::setIsClient(bool a_fIsClient)
+{
+    m_fIsClient = a_fIsClient;
+}
+
+QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_eProperty) const
+{
+    switch(a_eProperty)
+    {
+    case ePP_Name:
+        return m_strName;
+
+    case ePP_Email:
+        return m_strEmail;
+
+    case ePP_Phone:
+        return m_strPhone;
+
+    case ePP_isClient:
+        return m_fIsClient;
+
+    case ePP_isWriter:
+        return m_fIsWriter;
+
+    default:
+        return QVariant();
+    }
 }
 
 int CPerson::getPropertyCount()
 {
     return static_cast<int>(ePP_NumberOfPropertis);
-}
-
-bool CPerson::validEmail(const QString &a_rEmail)
-{
-    bool fResult = false;
-
-    return fResult;
-}
-
-bool CPerson::validPhone(const QString &a_rPhone)
-{
-    bool fResult = false;
-
-    return fResult;
 }
 
 

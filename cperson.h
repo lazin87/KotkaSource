@@ -9,6 +9,8 @@ class CPerson
 public:
     enum EPersonPropertis
     {
+        ePP_Invalid = -1,
+        ePP_First = 0,
         ePP_Name = 0,
         ePP_Email,
         ePP_Phone,
@@ -30,18 +32,21 @@ public:
     QString strPhone() const;
     void setStrPhone(const QString &strPhone);
 
-    QVariant getPropertyData(EPersonPropertis a_iProperty) const;
+    void setIsWriter(bool a_fIsWriter);
+    void setIsClient(bool a_fIsClient);
+
+    QVariant getPropertyData(EPersonPropertis a_eProperty) const;
     static int getPropertyCount();
 
     static const QString s_aPropertisLabels[ePP_NumberOfPropertis];
 
 private:
-    bool validEmail(QString const & a_rEmail);
-    bool validPhone(QString const & a_rPhone);
-
     QString m_strEmail;
     QString m_strName;
     QString m_strPhone;
+
+    bool m_fIsWriter;
+    bool m_fIsClient;
 };
 
 #endif // CSUBJECT_H
