@@ -1,7 +1,7 @@
-#include "csubject.h"
+#include "cperson.h"
 
 #include "QDebug"
-CSubject::CSubject(QString const & a_strEmail)
+CPerson::CPerson(QString const & a_strEmail)
     : m_strEmail(a_strEmail)
     , m_strName()
     , m_strPhone()
@@ -9,16 +9,16 @@ CSubject::CSubject(QString const & a_strEmail)
 
 }
 
-CSubject::~CSubject()
+CPerson::~CPerson()
 {
 
 }
-QString CSubject::strEmail() const
+QString CPerson::strEmail() const
 {
     return m_strEmail;
 }
 
-void CSubject::setStrEmail(const QString &strEmail)
+void CPerson::setStrEmail(const QString &strEmail)
 {
     if(validEmail(strEmail) )
     {
@@ -30,22 +30,22 @@ void CSubject::setStrEmail(const QString &strEmail)
         qWarning("CSubject::setStrEmail: invalid value: %s", strEmail.toLatin1().data() );
     }
 }
-QString CSubject::strName() const
+QString CPerson::strName() const
 {
     return m_strName;
 }
 
-void CSubject::setStrName(const QString &strName)
+void CPerson::setStrName(const QString &strName)
 {
     qDebug("CSubject::setStrName: %s -> %s", m_strName.toLatin1().data(), strName.toLatin1().data() );
     m_strName = strName;
 }
-QString CSubject::strPhone() const
+QString CPerson::strPhone() const
 {
     return m_strPhone;
 }
 
-void CSubject::setStrPhone(const QString &strPhone)
+void CPerson::setStrPhone(const QString &strPhone)
 {
     if(validPhone(strPhone) )
     {
@@ -58,14 +58,14 @@ void CSubject::setStrPhone(const QString &strPhone)
     }
 }
 
-bool CSubject::validEmail(const QString &a_rEmail)
+bool CPerson::validEmail(const QString &a_rEmail)
 {
     bool fResult = false;
 
     return fResult;
 }
 
-bool CSubject::validPhone(const QString &a_rPhone)
+bool CPerson::validPhone(const QString &a_rPhone)
 {
     bool fResult = false;
 

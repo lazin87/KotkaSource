@@ -3,11 +3,11 @@
 
 #include <QString>
 
-class CSubject
+class CPerson
 {
 public:
-    explicit CSubject(QString const & a_strEmail);
-    ~CSubject();
+    explicit CPerson(QString const & a_strEmail);
+    ~CPerson();
 
     QString strEmail() const;
     void setStrEmail(const QString &strEmail);

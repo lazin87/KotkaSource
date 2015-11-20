@@ -15,22 +15,24 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     ctask.cpp \
-    csubject.cpp \
     iproject.cpp \
     cprojectbase.cpp \
     cprojectmanager.cpp \
     ccreateprojectdialog.cpp \
-    ccreatetaskdialog.cpp
+    ccreatetaskdialog.cpp \
+    cclientsandwritersdbmodel.cpp \
+    cperson.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
-    csubject.h \
     iproject.h \
     cprojectbase.h \
     cprojectmanager.h \
     commonddefs.h \
     ccreateprojectdialog.h \
-    ccreatetaskdialog.h
+    ccreatetaskdialog.h \
+    cclientsandwritersdbmodel.h \
+    cperson.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \
