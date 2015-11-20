@@ -2,11 +2,23 @@
 #define CSUBJECT_H
 
 #include <QString>
+#include <QVariant>
 
 class CPerson
 {
 public:
-    explicit CPerson(QString const & a_strEmail);
+    enum EPersonPropertis
+    {
+        ePP_Name = 0,
+        ePP_Email,
+        ePP_Phone,
+        ePP_isWriter,
+        ePP_isClient,
+
+        ePP_NumberOfPropertis
+    };
+
+    explicit CPerson(QString const & a_strName);
     ~CPerson();
 
     QString strEmail() const;
@@ -17,6 +29,11 @@ public:
 
     QString strPhone() const;
     void setStrPhone(const QString &strPhone);
+
+    QVariant getPropertyData(EPersonPropertis a_iProperty) const;
+    static int getPropertyCount();
+
+    static const QString s_aPropertisLabels[ePP_NumberOfPropertis];
 
 private:
     bool validEmail(QString const & a_rEmail);

@@ -1,9 +1,18 @@
 #include "cperson.h"
 
 #include "QDebug"
-CPerson::CPerson(QString const & a_strEmail)
-    : m_strEmail(a_strEmail)
-    , m_strName()
+
+const QString CPerson::s_aPropertisLabels[] = {
+      "Name"
+    , "Email"
+    , "Phone"
+    , "Is Writer"
+    , "Is Client"
+};
+
+CPerson::CPerson(QString const & a_strName)
+    : m_strEmail()
+    , m_strName(a_strName)
     , m_strPhone()
 {
 
@@ -56,6 +65,16 @@ void CPerson::setStrPhone(const QString &strPhone)
     {
         qWarning("CSubject::setStrPhone: invalid value: %s", strPhone.toLatin1().data() );
     }
+}
+
+QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_iProperty) const
+{
+
+}
+
+int CPerson::getPropertyCount()
+{
+    return static_cast<int>(ePP_NumberOfPropertis);
 }
 
 bool CPerson::validEmail(const QString &a_rEmail)
