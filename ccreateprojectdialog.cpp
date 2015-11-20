@@ -41,12 +41,15 @@ void CCreateProjectDialog::getData(KotkaSource::SProjectData &a_rProjectData) co
 
 void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
 {
-    qDebug() << "CCreateProjectDialog::setAddressDbToCompleter";
     if(0 != a_pModel )
     {
-        QCompleter *completer = new QCompleter(this);
+        /*QCompleter **/completer = new QCompleter(this);
         completer->setModel(a_pModel);
         ui->clientComboBox->setCompleter(completer);
+
+        connect( completer, SIGNAL(activated(const QModelIndex &) )
+               , this, SLOT(selectedClientChangedSlot(const QModelIndex &) )
+               );
     }
     else
     {
@@ -62,6 +65,58 @@ void CCreateProjectDialog::accept()
     {
         QDialog::accept();
     }
+}
+
+void CCreateProjectDialog::selectedClientChangedSlot(const QModelIndex &a_rModelIndex)
+{
+    qDebug() << "CCreateProjectDialog::selectedClientChangedSlot:"
+             << " row: " << a_rModelIndex.row()
+             << " column: " << a_rModelIndex.column();
+
+    setEmail(a_rModelIndex);
+    setPhone(a_rModelIndex);
+    setAddress(a_rModelIndex);
+}
+
+void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
+{
+    QString strTemp = "";
+    if(a_rModelIndex.isValid() )
+    {
+        QVariant rawVal = ui->clientComboBox->completer()->model()->data( a_rModelIndex
+                                                                        , KotkaSource::ObjectEmailRole
+                                                                        );
+        strTemp = rawVal.isValid() ? rawVal.toString() : strTemp;
+    }
+    ui->emailDispLabel->setText(strTemp);
+}
+
+void CCreateProjectDialog::setPhone(const QModelIndex &a_rModelIndex)
+{
+    QString strTemp = "";
+    if(a_rModelIndex.isValid() )
+    {
+        QVariant rawVal = ui->clientComboBox->completer()->model()->data( a_rModelIndex
+                                                                        , KotkaSource::ObjectPhoneRole
+                                                                        );
+        strTemp = rawVal.isValid() ? rawVal.toString() : strTemp;
+    }
+
+    qDebug() << "CCreateProjectDialog::setPhone: phone: |" << strTemp << "|";
+    ui->phoneDispLabel->setText(strTemp);
+}
+
+void CCreateProjectDialog::setAddress(const QModelIndex &a_rModelIndex)
+{
+    QString strTemp = "";
+    if(a_rModelIndex.isValid() )
+    {
+        QVariant rawVal = ui->clientComboBox->completer()->model()->data( a_rModelIndex
+                                                                        , KotkaSource::ObjectAddressRole
+                                                                        );
+        strTemp = rawVal.isValid() ? rawVal.toString() : strTemp;
+    }
+    ui->addressDispLabel->setText(strTemp);
 }
 
 bool CCreateProjectDialog::validateInputData() const

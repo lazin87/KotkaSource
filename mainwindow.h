@@ -29,9 +29,6 @@ signals:
     void createProject(KotkaSource::SProjectData &, QModelIndex &);
     void createTask(KotkaSource::STaskData &, QModelIndex &);
 
-public slots:
-    void updateModel(QAbstractItemModel *a_pModel);
-
 private slots:
     void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );
     void changeDeliveryDateSlot(const QDateTime &a_oNewDateTime);

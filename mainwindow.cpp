@@ -56,11 +56,6 @@ void MainWindow::setModelForAddressBook(QAbstractTableModel *a_pModel)
     ui->addressBookTableView->setModel(a_pModel);
 }
 
-void MainWindow::updateModel(QAbstractItemModel *a_pModel)
-{
-    qDebug() << "MainWindow::updateModel()";
-}
-
 void MainWindow::selectionChangedSlot(const QItemSelection &, const QItemSelection &)
 {
     qDebug() << "MainWindow::selectionChangedSlot()";

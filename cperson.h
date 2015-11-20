@@ -32,6 +32,8 @@ public:
     QString strPhone() const;
     void setStrPhone(const QString &strPhone);
 
+    QString strAddress() const;
+
     void setIsWriter(bool a_fIsWriter);
     void setIsClient(bool a_fIsClient);
 

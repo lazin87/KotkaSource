@@ -55,6 +55,11 @@ void CPerson::setStrPhone(const QString &strPhone)
     m_strPhone = strPhone;
 }
 
+QString CPerson::strAddress() const
+{
+    return m_strName + " address";
+}
+
 void CPerson::setIsWriter(bool a_fIsWriter)
 {
     m_fIsWriter = a_fIsWriter;

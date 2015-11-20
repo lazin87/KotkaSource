@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include "commonddefs.h"
+
 CClientsAndWritersDbModel::CClientsAndWritersDbModel(QObject *a_pParent)
     : QAbstractTableModel(a_pParent)
 {
@@ -32,7 +34,6 @@ int CClientsAndWritersDbModel::columnCount(const QModelIndex &parent) const
 // PRZEMYSLEC TA FUNKCJE!!
 QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole) const
 {
-    qDebug() << "CClientsAndWritersDbModel::role: " << a_iRole;
     switch(a_iRole)
     {
     case Qt::EditRole:
@@ -42,9 +43,6 @@ QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole
     }
     case Qt::DisplayRole:
     {
-        qDebug() << "CClientsAndWritersDbModel::data: row: " << a_Index.row()
-                 << " column: " << a_Index.column()
-                 << " data: " << m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) ).toString();
         if(  (CPerson::ePP_isClient == mapToPersonProperty(a_Index.column() ) )
           || (CPerson::ePP_isWriter == mapToPersonProperty(a_Index.column() ) )
           )
@@ -67,6 +65,18 @@ QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole
         {
             return QVariant();
         }
+    }
+    case KotkaSource::ObjectEmailRole:
+    {
+        return m_aClientsAndWritesList[a_Index.row() ].strEmail();
+    }
+    case KotkaSource::ObjectPhoneRole:
+    {
+        return m_aClientsAndWritesList[a_Index.row() ].strPhone();
+    }
+    case KotkaSource::ObjectAddressRole:
+    {
+        return m_aClientsAndWritesList[a_Index.row() ].strAddress();
     }
     default:
         return QVariant();

@@ -6,7 +6,7 @@
 #include "commonddefs.h"
 
 class QAbstractItemModel;
-
+class QCompleter;
 namespace Ui {
 class CCreateProjectDialog;
 }
@@ -28,14 +28,20 @@ public:
 
 public slots:
     virtual void accept();
+    void selectedClientChangedSlot(const QModelIndex & a_rModelIndex);
 
 private:
+    void setEmail(const QModelIndex &a_rModelIndex);
+    void setPhone(const QModelIndex &a_rModelIndex);
+    void setAddress(const QModelIndex &a_rModelIndex);
+
     bool validateInputData() const;
     bool validateProjectName() const;
     bool validateDeadlinesDates() const;
     bool validateClient() const;
 
     Ui::CCreateProjectDialog *ui;
+    QCompleter *completer;
 };
 
 #endif // CCREATEPROJECTDIALOG_H

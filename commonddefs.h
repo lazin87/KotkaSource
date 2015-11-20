@@ -13,6 +13,9 @@ enum
     DeliveryDateRole,
     WritersDeadlineDateRole,
     ObjectNameRole,
+    ObjectEmailRole,
+    ObjectPhoneRole,
+    ObjectAddressRole,
     ObjectTypeRole,
     ReadProjectDataRole,
     SetProjectDataRole
