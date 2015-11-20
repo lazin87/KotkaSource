@@ -89,6 +89,32 @@ QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_eProperty) const
     }
 }
 
+void CPerson::setPropertyData(CPerson::EPersonPropertis a_eProperty, const QVariant &a_rValue)
+{
+    switch(a_eProperty)
+    {
+    case ePP_Name:
+        m_strName = a_rValue.toString();
+        break;
+
+    case ePP_Email:
+        m_strEmail = a_rValue.toString();
+        break;
+
+    case ePP_Phone:
+        m_strPhone = a_rValue.toString();
+        break;
+
+    case ePP_isClient:
+        m_fIsClient = a_rValue.toBool();
+        break;
+
+    case ePP_isWriter:
+        m_fIsWriter = a_rValue.toBool();
+        break;
+    }
+}
+
 int CPerson::getPropertyCount()
 {
     return static_cast<int>(ePP_NumberOfPropertis);

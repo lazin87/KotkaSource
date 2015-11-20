@@ -36,6 +36,7 @@ public:
     void setIsClient(bool a_fIsClient);
 
     QVariant getPropertyData(EPersonPropertis a_eProperty) const;
+    void setPropertyData(EPersonPropertis a_eProperty, const QVariant & a_rValue);
     static int getPropertyCount();
 
     static const QString s_aPropertisLabels[ePP_NumberOfPropertis];

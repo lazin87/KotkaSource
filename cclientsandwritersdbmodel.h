@@ -17,6 +17,8 @@ public:
     virtual int columnCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &a_Index, int a_iRole) const;
     virtual QVariant headerData(int a_iSection, Qt::Orientation a_orinetation, int a_iRole) const;
+    virtual bool setData(const QModelIndex & a_iIndex, const QVariant & a_rValue, int a_iRole = Qt::EditRole);
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
     void append(QString a_strName);
     void remove(int a_iIndex);

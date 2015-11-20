@@ -29,15 +29,36 @@ int CClientsAndWritersDbModel::columnCount(const QModelIndex &parent) const
     return CPerson::getPropertyCount();
 }
 
+// PRZEMYSLEC TA FUNKCJE!!
 QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole) const
 {
     switch(a_iRole)
     {
     case Qt::DisplayRole:
     {
+        if(  (CPerson::ePP_isClient == mapToPersonProperty(a_Index.column() ) )
+          || (CPerson::ePP_isWriter == mapToPersonProperty(a_Index.column() ) )
+          )
+        {
+            return QVariant();
+        }
+
         return m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) );
     }
-
+    case Qt::CheckStateRole:
+    {
+        if(  (CPerson::ePP_isClient == mapToPersonProperty(a_Index.column() ) )
+          || (CPerson::ePP_isWriter == mapToPersonProperty(a_Index.column() ) )
+          )
+        {
+            bool fValue = m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) ).toBool();
+            return fValue ? Qt::Checked : Qt::Unchecked;
+        }
+        else
+        {
+            return QVariant();
+        }
+    }
     default:
         return QVariant();
     }
@@ -60,6 +81,40 @@ QVariant CClientsAndWritersDbModel::headerData(int a_iSection, Qt::Orientation a
     }
 
     return QVariant();
+}
+
+bool CClientsAndWritersDbModel::setData(const QModelIndex &a_iIndex, const QVariant &a_rValue, int a_iRole)
+{
+    if(Qt::EditRole == a_iRole)
+    {
+        m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( mapToPersonProperty(a_iIndex.column() )
+                                                                , a_rValue
+                                                                );
+
+        emit dataChanged(a_iIndex, a_iIndex);
+    }
+    else if(Qt::CheckStateRole == a_iRole)
+    {
+        m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( mapToPersonProperty(a_iIndex.column() )
+                                                                , a_rValue
+                                                                );
+    }
+
+    return true;
+}
+
+Qt::ItemFlags CClientsAndWritersDbModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags outFlags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+
+    if(  (CPerson::ePP_isClient == mapToPersonProperty(index.column() ) )
+      || (CPerson::ePP_isWriter == mapToPersonProperty(index.column() ) )
+      )
+    {
+        outFlags |= Qt::ItemIsUserCheckable;
+    }
+
+    return outFlags;
 }
 
 void CClientsAndWritersDbModel::append(QString a_strName)
