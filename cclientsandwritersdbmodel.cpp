@@ -32,10 +32,19 @@ int CClientsAndWritersDbModel::columnCount(const QModelIndex &parent) const
 // PRZEMYSLEC TA FUNKCJE!!
 QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole) const
 {
+    qDebug() << "CClientsAndWritersDbModel::role: " << a_iRole;
     switch(a_iRole)
     {
+    case Qt::EditRole:
+    {
+        // used for autocompletion
+        return m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) );
+    }
     case Qt::DisplayRole:
     {
+        qDebug() << "CClientsAndWritersDbModel::data: row: " << a_Index.row()
+                 << " column: " << a_Index.column()
+                 << " data: " << m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) ).toString();
         if(  (CPerson::ePP_isClient == mapToPersonProperty(a_Index.column() ) )
           || (CPerson::ePP_isWriter == mapToPersonProperty(a_Index.column() ) )
           )

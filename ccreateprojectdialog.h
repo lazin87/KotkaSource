@@ -5,6 +5,8 @@
 
 #include "commonddefs.h"
 
+class QAbstractItemModel;
+
 namespace Ui {
 class CCreateProjectDialog;
 }
@@ -22,6 +24,7 @@ public:
     QDateTime getWritersDeadline() const;
 
     void getData(KotkaSource::SProjectData & a_rProjectData) const;
+    void setAddressDbToCompleter(QAbstractItemModel * a_pModel);
 
 public slots:
     virtual void accept();

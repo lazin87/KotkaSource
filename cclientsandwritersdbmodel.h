@@ -23,7 +23,6 @@ public:
     void append(QString a_strName);
     void remove(int a_iIndex);
 
-
     static CPerson::EPersonPropertis mapToPersonProperty(int a_iColumnIndex);
 
 private:

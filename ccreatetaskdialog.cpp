@@ -35,6 +35,11 @@ void CCreateTaskDialog::getData(KotkaSource::STaskData &a_rTaskData) const
     a_rTaskData.m_oDateTimeWriterDeadline = ui->writerDeadlineDateTimeEdit->dateTime();
 }
 
+void CCreateTaskDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
+{
+
+}
+
 void CCreateTaskDialog::accept()
 {
     if(validateInputData() )

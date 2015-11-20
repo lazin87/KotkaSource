@@ -105,6 +105,7 @@ void MainWindow::addProjectSlot()
 {
     qDebug() << "MainWindow::addProjectSlot()";
     CCreateProjectDialog newProjectDialog(this);
+    newProjectDialog.setAddressDbToCompleter(ui->addressBookTableView->model() );
 
     if(QDialog::Accepted == newProjectDialog.exec() )
     {

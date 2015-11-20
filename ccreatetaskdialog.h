@@ -5,6 +5,8 @@
 
 #include "commonddefs.h"
 
+class QAbstractItemModel;
+
 namespace Ui {
 class CCreateTaskDialog;
 }
@@ -19,6 +21,7 @@ public:
     ~CCreateTaskDialog();
 
     void getData(KotkaSource::STaskData & a_rTaskData) const;
+    void setAddressDbToCompleter(QAbstractItemModel * a_pModel);
 
 public slots:
     virtual void accept();

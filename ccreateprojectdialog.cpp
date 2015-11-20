@@ -1,6 +1,9 @@
 #include "ccreateprojectdialog.h"
 #include "ui_ccreateprojectdialog.h"
 
+#include <QCompleter>
+#include <QDebug>
+
 CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CCreateProjectDialog)
@@ -34,6 +37,23 @@ void CCreateProjectDialog::getData(KotkaSource::SProjectData &a_rProjectData) co
     a_rProjectData.m_strName = ui->projectNamelineEdit->text();
     a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
     a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
+}
+
+void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
+{
+    qDebug() << "CCreateProjectDialog::setAddressDbToCompleter";
+    if(0 != a_pModel )
+    {
+        QCompleter *completer = new QCompleter(this);
+        completer->setModel(a_pModel);
+        ui->clientComboBox->setCompleter(completer);
+    }
+    else
+    {
+        qWarning() << "CCreateProjectDialog::setAddressDbToCompleter"
+                   << " Model: " << a_pModel
+                   << " Completer: " << ui->clientComboBox->completer();
+    }
 }
 
 void CCreateProjectDialog::accept()
