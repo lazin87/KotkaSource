@@ -125,6 +125,11 @@ int CPerson::getPropertyCount()
     return static_cast<int>(ePP_NumberOfPropertis);
 }
 
+bool CPerson::operator ==(const CPerson &a_rPerson)
+{
+    return (0 == m_strName.compare(a_rPerson.m_strName,Qt::CaseInsensitive) );
+}
+
 
 
 

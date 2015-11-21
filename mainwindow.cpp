@@ -106,6 +106,7 @@ void MainWindow::addProjectSlot()
     {
         KotkaSource::SProjectData sProjectData;
         newProjectDialog.getData(sProjectData);
+        // dodac pobieranie wskaznika z modelu ksiazki adresowej
 
         emit createProject(sProjectData, m_oModelIndex);
     }

@@ -39,10 +39,11 @@ public:
 
     QVariant getPropertyData(EPersonPropertis a_eProperty) const;
     void setPropertyData(EPersonPropertis a_eProperty, const QVariant & a_rValue);
-    static int getPropertyCount();
 
+    static int getPropertyCount();
     static const QString s_aPropertisLabels[ePP_NumberOfPropertis];
 
+    bool operator ==(const CPerson & a_rPerson);
 private:
     QString m_strEmail;
     QString m_strName;

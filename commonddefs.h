@@ -6,6 +6,8 @@
 #include <QString>
 #include <QDateTime>
 
+class CPerson;
+
 namespace KotkaSource {
 enum
 {
@@ -45,6 +47,7 @@ struct SProjectData
     QString m_strName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
+    CPerson * m_pClient;
 };
 
 struct STaskData
