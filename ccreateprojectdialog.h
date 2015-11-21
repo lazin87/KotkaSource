@@ -41,7 +41,6 @@ private:
     bool validateClient() const;
 
     Ui::CCreateProjectDialog *ui;
-    QCompleter *completer;
 };
 
 #endif // CCREATEPROJECTDIALOG_H
