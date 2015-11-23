@@ -27,6 +27,19 @@ enum
     SetContactDataRole
 };
 
+enum EPersonPropertis
+{
+    ePP_Invalid = -1,
+    ePP_First = 0,
+    ePP_Name = 0,
+    ePP_Email,
+    ePP_Phone,
+    ePP_isWriter,
+    ePP_isClient,
+
+    ePP_NumberOfPropertis
+};
+
 enum ETaskState
 {
     eTS_Invalid = 0,

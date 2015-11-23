@@ -23,7 +23,7 @@ public:
     void append(QString a_strName);
     void remove(int a_iIndex);
 
-    static CPerson::EPersonPropertis mapToPersonProperty(int a_iColumnIndex);
+    static KotkaSource::EPersonPropertis mapToPersonProperty(int a_iColumnIndex);
 
 private:
     QList<CPerson> m_aClientsAndWritesList;

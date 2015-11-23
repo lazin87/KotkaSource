@@ -9,7 +9,7 @@
 class CPerson
 {
 public:
-    enum EPersonPropertis
+   /* enum KotkaSource::EPersonPropertis
     {
         ePP_Invalid = -1,
         ePP_First = 0,
@@ -21,7 +21,7 @@ public:
 
         ePP_NumberOfPropertis
     };
-
+*/
     explicit CPerson(QString const & a_strName);
     ~CPerson();
 
@@ -44,11 +44,11 @@ public:
 
     KotkaSource::SContactData getContactData() const;
 
-    QVariant getPropertyData(EPersonPropertis a_eProperty) const;
-    void setPropertyData(EPersonPropertis a_eProperty, const QVariant & a_rValue);
+    QVariant getPropertyData(KotkaSource::EPersonPropertis a_eProperty) const;
+    void setPropertyData(KotkaSource::EPersonPropertis a_eProperty, const QVariant & a_rValue);
 
     static int getPropertyCount();
-    static const QString s_aPropertisLabels[ePP_NumberOfPropertis];
+    static const QString s_aPropertisLabels[KotkaSource::ePP_NumberOfPropertis];
 
     bool operator ==(const CPerson & a_rPerson);
 private:

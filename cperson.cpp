@@ -83,23 +83,23 @@ KotkaSource::SContactData CPerson::getContactData() const
     return m_ContactData;
 }
 
-QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_eProperty) const
+QVariant CPerson::getPropertyData(KotkaSource::EPersonPropertis a_eProperty) const
 {
     switch(a_eProperty)
     {
-    case ePP_Name:
+    case KotkaSource::ePP_Name:
         return m_ContactData.m_strName;
 
-    case ePP_Email:
+    case KotkaSource::ePP_Email:
         return m_ContactData.m_strEmail;
 
-    case ePP_Phone:
+    case KotkaSource::ePP_Phone:
         return m_ContactData.m_strPhone;
 
-    case ePP_isClient:
+    case KotkaSource::ePP_isClient:
         return m_ContactData.m_fIsClient;
 
-    case ePP_isWriter:
+    case KotkaSource::ePP_isWriter:
         return m_ContactData.m_fIsWriter;
 
     default:
@@ -107,27 +107,27 @@ QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_eProperty) const
     }
 }
 
-void CPerson::setPropertyData(CPerson::EPersonPropertis a_eProperty, const QVariant &a_rValue)
+void CPerson::setPropertyData(KotkaSource::EPersonPropertis a_eProperty, const QVariant &a_rValue)
 {
     switch(a_eProperty)
     {
-    case ePP_Name:
+    case KotkaSource::ePP_Name:
         m_ContactData.m_strName = a_rValue.toString();
         break;
 
-    case ePP_Email:
+    case KotkaSource::ePP_Email:
         m_ContactData.m_strEmail = a_rValue.toString();
         break;
 
-    case ePP_Phone:
+    case KotkaSource::ePP_Phone:
         m_ContactData.m_strPhone = a_rValue.toString();
         break;
 
-    case ePP_isClient:
+    case KotkaSource::ePP_isClient:
         m_ContactData.m_fIsClient = a_rValue.toBool();
         break;
 
-    case ePP_isWriter:
+    case KotkaSource::ePP_isWriter:
         m_ContactData.m_fIsWriter = a_rValue.toBool();
         break;
     }
@@ -135,7 +135,7 @@ void CPerson::setPropertyData(CPerson::EPersonPropertis a_eProperty, const QVari
 
 int CPerson::getPropertyCount()
 {
-    return static_cast<int>(ePP_NumberOfPropertis);
+    return static_cast<int>(KotkaSource::ePP_NumberOfPropertis);
 }
 
 bool CPerson::operator ==(const CPerson &a_rPerson)
