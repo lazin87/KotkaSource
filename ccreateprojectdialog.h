@@ -30,6 +30,9 @@ public:
 
 public slots:
     virtual void accept();
+    void clientAddSlot();
+    void clientEditSlot();
+
     void selectedClientChangedSlot(const QModelIndex & a_rModelIndex);
 
 protected:

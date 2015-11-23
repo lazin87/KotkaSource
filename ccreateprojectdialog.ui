@@ -235,7 +235,7 @@
          <item>
           <widget class="QPushButton" name="editClientPushButton">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="maximumSize">
             <size>

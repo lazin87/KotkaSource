@@ -4,6 +4,8 @@
 #include <QCompleter>
 #include <QDebug>
 
+#include "ccreatecontactdialog.h"
+
 CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CCreateProjectDialog)
@@ -71,6 +73,30 @@ void CCreateProjectDialog::accept()
     if(validateInputData() )
     {
         QDialog::accept();
+    }
+}
+
+void CCreateProjectDialog::clientAddSlot()
+{
+    QString strClientName = ( ui->clientComboBox->completer()->currentIndex().isValid() ) ?
+                "" :
+                ui->clientComboBox->currentText().simplified();
+
+    CCreateContactDialog oCreateContactDialog(this, strClientName);
+
+    if(QDialog::Accepted == oCreateContactDialog.exec() )
+    {
+
+    }
+}
+
+void CCreateProjectDialog::clientEditSlot()
+{
+    QModelIndex oClientIndex = ui->clientComboBox->completer()->currentIndex();
+
+    if(oClientIndex.isValid() )
+    {
+        KotkaSource::SContactData oContactData;
     }
 }
 
