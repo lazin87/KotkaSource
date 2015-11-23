@@ -26,6 +26,8 @@ public:
     void getData(KotkaSource::SProjectData & a_rProjectData) const;
     void setAddressDbToCompleter(QAbstractItemModel * a_pModel);
 
+    QString getClientName() const;
+
 public slots:
     virtual void accept();
     void selectedClientChangedSlot(const QModelIndex & a_rModelIndex);

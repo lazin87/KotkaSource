@@ -59,6 +59,11 @@ void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
     }
 }
 
+QString CCreateProjectDialog::getClientName() const
+{
+    return ui->clientComboBox->currentText();
+}
+
 void CCreateProjectDialog::accept()
 {
     if(validateInputData() )

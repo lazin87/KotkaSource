@@ -108,6 +108,8 @@ void MainWindow::addProjectSlot()
         newProjectDialog.getData(sProjectData);
         // dodac pobieranie wskaznika z modelu ksiazki adresowej
 
+        QString strClientName = newProjectDialog.getClientName();
+
         emit createProject(sProjectData, m_oModelIndex);
     }
     else
