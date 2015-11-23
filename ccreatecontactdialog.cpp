@@ -1,7 +1,8 @@
 #include "ccreatecontactdialog.h"
 #include "ui_ccreatecontactdialog.h"
 
-#include <QAbstractTableModel>
+#include <QAbstractItemModel>
+#include <QDebug>
 
 CCreateContactDialog::CCreateContactDialog(QWidget *parent, QString const & a_strName) :
     QDialog(parent),
@@ -36,7 +37,7 @@ void CCreateContactDialog::getContactData(KotkaSource::SContactData &a_rContactD
     a_rContactData.m_fIsClient = ui->isClientcheckBox->isChecked();
 }
 
-void CCreateContactDialog::setAddressBookModel(QAbstractTableModel *a_pAddressBookModel)
+void CCreateContactDialog::setAddressBookModel(QAbstractItemModel *a_pAddressBookModel)
 {
     m_pAddressBookModel = a_pAddressBookModel;
 }
@@ -56,6 +57,7 @@ bool CCreateContactDialog::validateInputData() const
     fResult &= validateClientName();
     fResult &= validateEmail();
     fResult &= validatePhone();
+    fResult &= checkNameIfUnique();
 
     return fResult;
 }
@@ -86,9 +88,23 @@ bool CCreateContactDialog::checkNameIfUnique() const
 
     if(fResult)
     {
-        // implement matching function!!
-#error implement matching function!!
-       // m_pAddressBookModel->match()
+        QModelIndex startIndex = m_pAddressBookModel->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
+        fResult &= m_pAddressBookModel->match( startIndex
+                                             , Qt::DisplayRole
+                                             , ui->nameLineEdit->text()
+                                             , 1
+                                             , Qt::MatchFixedString
+                                             ).empty();
+
+        if(!fResult)
+        {
+            qWarning() << "checkNameIfUnique::Contact exists";
+        }
     }
+    else
+    {
+        qWarning() << "checkNameIfUnique::some name error";
+    }
+
     return fResult;
 }

@@ -83,6 +83,7 @@ void CCreateProjectDialog::clientAddSlot()
                 ui->clientComboBox->currentText().simplified();
 
     CCreateContactDialog oCreateContactDialog(this, strClientName);
+    oCreateContactDialog.setAddressBookModel(ui->clientComboBox->completer()->model() );
 
     if(QDialog::Accepted == oCreateContactDialog.exec() )
     {

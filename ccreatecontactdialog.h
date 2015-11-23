@@ -5,7 +5,7 @@
 
 #include "commonddefs.h"
 
-class QAbstractTableModel;
+class QAbstractItemModel;
 
 namespace Ui {
 class CCreateContactDialog;
@@ -21,7 +21,7 @@ public:
     ~CCreateContactDialog();
 
     void getContactData(KotkaSource::SContactData & a_rContactData) const;
-    void setAddressBookModel(QAbstractTableModel *a_pAddressBookModel);
+    void setAddressBookModel(QAbstractItemModel *a_pAddressBookModel);
 
 public slots:
     virtual void accept();
@@ -34,7 +34,7 @@ private:
     bool checkNameIfUnique() const;
 
     Ui::CCreateContactDialog *ui;
-    QAbstractTableModel * m_pAddressBookModel;
+    QAbstractItemModel * m_pAddressBookModel;
 };
 
 #endif // CCREATECONTACTDIALOG_H
