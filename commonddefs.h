@@ -47,6 +47,7 @@ struct SProjectData
     QString m_strName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
+    QString m_strClientName;
     CPerson * m_pClient;
 };
 

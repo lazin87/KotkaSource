@@ -37,6 +37,7 @@ void CCreateProjectDialog::getData(KotkaSource::SProjectData &a_rProjectData) co
     a_rProjectData.m_strName = ui->projectNamelineEdit->text();
     a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
     a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
+    a_rProjectData.m_strClientName = ui->clientComboBox->currentText();
 }
 
 void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
