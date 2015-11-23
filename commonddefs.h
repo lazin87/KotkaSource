@@ -20,7 +20,9 @@ enum
     ObjectAddressRole,
     ObjectTypeRole,
     ReadProjectDataRole,
-    SetProjectDataRole
+    SetProjectDataRole,
+    ContactIsWriterRole,
+    ContactIsClientRole
 };
 
 enum ETaskState
@@ -56,6 +58,16 @@ struct STaskData
     QString m_strName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
+};
+
+struct SContactData
+{
+    QString m_strEmail;
+    QString m_strName;
+    QString m_strPhone;
+
+    bool m_fIsWriter;
+    bool m_fIsClient;
 };
 
 }

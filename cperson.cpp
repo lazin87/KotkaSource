@@ -65,9 +65,19 @@ void CPerson::setIsWriter(bool a_fIsWriter)
     m_fIsWriter = a_fIsWriter;
 }
 
+bool CPerson::isWriter() const
+{
+    return m_fIsWriter;
+}
+
 void CPerson::setIsClient(bool a_fIsClient)
 {
     m_fIsClient = a_fIsClient;
+}
+
+bool CPerson::isClient() const
+{
+    return m_fIsClient;
 }
 
 QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_eProperty) const

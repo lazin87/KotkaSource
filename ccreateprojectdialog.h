@@ -32,6 +32,9 @@ public slots:
     virtual void accept();
     void selectedClientChangedSlot(const QModelIndex & a_rModelIndex);
 
+protected:
+    void setErrorMsg(QString const & a_strErrorMsg) const;
+
 private:
     void setEmail(const QModelIndex &a_rModelIndex);
     void setPhone(const QModelIndex &a_rModelIndex);

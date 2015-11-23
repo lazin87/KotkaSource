@@ -78,6 +78,14 @@ QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole
     {
         return m_aClientsAndWritesList[a_Index.row() ].strAddress();
     }
+    case KotkaSource::ContactIsClientRole:
+    {
+        return m_aClientsAndWritesList[a_Index.row() ].isClient();
+    }
+    case KotkaSource::ContactIsWriterRole:
+    {
+        return m_aClientsAndWritesList[a_Index.row() ].isWriter();
+    }
     default:
         return QVariant();
     }

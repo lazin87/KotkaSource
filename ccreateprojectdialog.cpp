@@ -10,6 +10,7 @@ CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
+    ui->clientErrorLabel->setStyleSheet("QLabel { color : red; }");
 }
 
 CCreateProjectDialog::~CCreateProjectDialog()
@@ -80,6 +81,11 @@ void CCreateProjectDialog::selectedClientChangedSlot(const QModelIndex &a_rModel
     setAddress(a_rModelIndex);
 }
 
+void CCreateProjectDialog::setErrorMsg(const QString &a_strErrorMsg) const
+{
+     ui->errorLabel->setText(a_strErrorMsg);
+}
+
 void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
 {
     QString strTemp = "";
@@ -127,7 +133,7 @@ bool CCreateProjectDialog::validateInputData() const
     fResult &= validateDeadlinesDates();
     fResult &= validateClient();
 
-    ui->errorLabel->setText( fResult ? "" : "Invalid input data! Please correct the form." );
+    setErrorMsg( fResult ? "" : "Invalid input data! Please correct the form." );
 
     return fResult;
 }
@@ -171,6 +177,55 @@ bool CCreateProjectDialog::validateDeadlinesDates() const
 bool CCreateProjectDialog::validateClient() const
 {
     bool fResult = true;
+    QString clientErrMsg = "";
+
+    //sprawdzic czy string ok
+    QString strTemp = ui->clientComboBox->currentText();
+    strTemp = strTemp.simplified();
+    strTemp.replace(" ", "" );
+
+    fResult &= !strTemp.isEmpty();
+    ui->clientComboBox->setStyleSheet(
+                fResult ? "" : "QComboBox {background-color : red; }"
+                          );
+    clientErrMsg = fResult ? ""
+                           : "Please enter a client name.";
+
+    //sprawdzic czy istnieje
+    if(fResult)
+    {
+        QModelIndex oModeIndex = ui->clientComboBox->completer()->currentIndex();
+        fResult &= oModeIndex.isValid();
+
+        if(!fResult)
+        {
+            qWarning() << "CCreateProjectDialog::validateClient(): WPIS NIE ISTNIEJE";
+        }
+
+        ui->clientComboBox->setStyleSheet(
+                    fResult ? "" : "QComboBox {background-color : red; }"
+                              );
+        clientErrMsg = fResult ? ""
+                               : "Contact does not exist. Press Add button to create a new contact.";
+    }
+
+    //sprawdzic czy ma atrybut klienta
+    if(fResult)
+    {
+        QModelIndex oModeIndex = ui->clientComboBox->completer()->currentIndex();
+        QVariant rawVal = ui->clientComboBox->completer()->completionModel()->data( oModeIndex
+                                                                                  , KotkaSource::ContactIsClientRole
+                                                                                  );
+        fResult &= rawVal.toBool();
+
+        ui->clientComboBox->setStyleSheet(
+                    fResult ? "" : "QComboBox {background-color : yellow; }"
+                              );
+        clientErrMsg = fResult ? ""
+                               : "Contact is not a client. Press Edit button to add client attribute.";
+    }
+
+    ui->clientErrorLabel->setText(clientErrMsg);
 
     return fResult;
 }

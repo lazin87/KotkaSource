@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "commonddefs.h"
+
 namespace Ui {
 class CCreateContactDialog;
 }
@@ -12,7 +14,8 @@ class CCreateContactDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CCreateContactDialog(QWidget *parent = 0);
+    CCreateContactDialog(QWidget *parent, const QString &a_strName = "");
+    CCreateContactDialog(QWidget *parent, const KotkaSource::SContactData &a_sContactData);
     ~CCreateContactDialog();
 
 private:
