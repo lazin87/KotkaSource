@@ -28,7 +28,7 @@ int CClientsAndWritersDbModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    return CPerson::getPropertyCount();
+    return CPersonPropertis::count();
 }
 
 // PRZEMYSLEC TA FUNKCJE!!
@@ -39,26 +39,26 @@ QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole
     case Qt::EditRole:
     {
         // used for autocompletion
-        return m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) );
+        return m_aClientsAndWritesList[a_Index.row() ].getPropertyData( CPersonPropertis::mapToPersonProperty(a_Index.column() ) );
     }
     case Qt::DisplayRole:
     {
-        if(  (KotkaSource::ePP_isClient == mapToPersonProperty(a_Index.column() ) )
-          || (KotkaSource::ePP_isWriter == mapToPersonProperty(a_Index.column() ) )
+        if(  (CPersonPropertis::eIsClient == CPersonPropertis::mapToPersonProperty(a_Index.column() ) )
+          || (CPersonPropertis::eIsWriter == CPersonPropertis::mapToPersonProperty(a_Index.column() ) )
           )
         {
             return QVariant();
         }
 
-        return m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) );
+        return m_aClientsAndWritesList[a_Index.row() ].getPropertyData( CPersonPropertis::mapToPersonProperty(a_Index.column() ) );
     }
     case Qt::CheckStateRole:
     {
-        if(  (KotkaSource::ePP_isClient == mapToPersonProperty(a_Index.column() ) )
-          || (KotkaSource::ePP_isWriter == mapToPersonProperty(a_Index.column() ) )
+        if(  (CPersonPropertis::eIsClient == CPersonPropertis::mapToPersonProperty(a_Index.column() ) )
+          || (CPersonPropertis::eIsWriter == CPersonPropertis::mapToPersonProperty(a_Index.column() ) )
           )
         {
-            bool fValue = m_aClientsAndWritesList[a_Index.row() ].getPropertyData( mapToPersonProperty(a_Index.column() ) ).toBool();
+            bool fValue = m_aClientsAndWritesList[a_Index.row() ].getPropertyData( CPersonPropertis::mapToPersonProperty(a_Index.column() ) ).toBool();
             return fValue ? Qt::Checked : Qt::Unchecked;
         }
         else
@@ -101,8 +101,8 @@ QVariant CClientsAndWritersDbModel::headerData(int a_iSection, Qt::Orientation a
     {
         if(Qt::Horizontal == a_orinetation)
         {
-            KotkaSource::EPersonPropertis propertyIndex = mapToPersonProperty(a_iSection);
-            return CPerson::s_aPropertisLabels[propertyIndex];
+            CPersonPropertis::EPersonPropertis propertyIndex = CPersonPropertis::mapToPersonProperty(a_iSection);
+            return CPersonPropertis::s_aPropertisLabels[propertyIndex];
         }
 
         if(Qt::Vertical == a_orinetation)
@@ -118,7 +118,7 @@ bool CClientsAndWritersDbModel::setData(const QModelIndex &a_iIndex, const QVari
 {
     if(Qt::EditRole == a_iRole)
     {
-        m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( mapToPersonProperty(a_iIndex.column() )
+        m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( CPersonPropertis::mapToPersonProperty(a_iIndex.column() )
                                                                 , a_rValue
                                                                 );
 
@@ -126,7 +126,7 @@ bool CClientsAndWritersDbModel::setData(const QModelIndex &a_iIndex, const QVari
     }
     else if(Qt::CheckStateRole == a_iRole)
     {
-        m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( mapToPersonProperty(a_iIndex.column() )
+        m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( CPersonPropertis::mapToPersonProperty(a_iIndex.column() )
                                                                 , a_rValue
                                                                 );
     }
@@ -138,8 +138,8 @@ Qt::ItemFlags CClientsAndWritersDbModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags outFlags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 
-    if(  (KotkaSource::ePP_isClient == mapToPersonProperty(index.column() ) )
-      || (KotkaSource::ePP_isWriter == mapToPersonProperty(index.column() ) )
+    if(  (CPersonPropertis::eIsClient == CPersonPropertis::mapToPersonProperty(index.column() ) )
+      || (CPersonPropertis::eIsWriter == CPersonPropertis::mapToPersonProperty(index.column() ) )
       )
     {
         outFlags |= Qt::ItemIsUserCheckable;
@@ -163,15 +163,4 @@ void CClientsAndWritersDbModel::remove(int a_iIndex)
     {
         qDebug() << "CClientsAndWritersDbModel::remove(): index out of bound";
     }
-}
-
-KotkaSource::EPersonPropertis CClientsAndWritersDbModel::mapToPersonProperty(int a_iColumnIndex)
-{
-    KotkaSource::EPersonPropertis eResultPropertis = KotkaSource::ePP_Invalid;
-    if( (KotkaSource::ePP_First <= a_iColumnIndex) && (KotkaSource::ePP_NumberOfPropertis > a_iColumnIndex) )
-    {
-        eResultPropertis = static_cast<KotkaSource::EPersonPropertis>(a_iColumnIndex);
-    }
-
-    return eResultPropertis;
 }

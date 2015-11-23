@@ -31,11 +31,8 @@ public:
 
     KotkaSource::SContactData getContactData() const;
 
-    QVariant getPropertyData(KotkaSource::EPersonPropertis a_eProperty) const;
-    void setPropertyData(KotkaSource::EPersonPropertis a_eProperty, const QVariant & a_rValue);
-
-    static int getPropertyCount();
-    static const QString s_aPropertisLabels[KotkaSource::ePP_NumberOfPropertis];
+    QVariant getPropertyData(CPersonPropertis::EPersonPropertis a_eProperty) const;
+    void setPropertyData(CPersonPropertis::EPersonPropertis a_eProperty, const QVariant & a_rValue);
 
     bool operator ==(const CPerson & a_rPerson);
 private:

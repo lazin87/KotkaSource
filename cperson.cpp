@@ -2,14 +2,6 @@
 
 #include "QDebug"
 
-const QString CPerson::s_aPropertisLabels[] = {
-      "Name"
-    , "Email"
-    , "Phone"
-    , "Is Writer"
-    , "Is Client"
-};
-
 CPerson::CPerson(QString const & a_strName)
     : m_ContactData()
 {
@@ -83,23 +75,23 @@ KotkaSource::SContactData CPerson::getContactData() const
     return m_ContactData;
 }
 
-QVariant CPerson::getPropertyData(KotkaSource::EPersonPropertis a_eProperty) const
+QVariant CPerson::getPropertyData(CPersonPropertis::EPersonPropertis a_eProperty) const
 {
     switch(a_eProperty)
     {
-    case KotkaSource::ePP_Name:
+    case CPersonPropertis::eName:
         return m_ContactData.m_strName;
 
-    case KotkaSource::ePP_Email:
+    case CPersonPropertis::eEmail:
         return m_ContactData.m_strEmail;
 
-    case KotkaSource::ePP_Phone:
+    case CPersonPropertis::ePhone:
         return m_ContactData.m_strPhone;
 
-    case KotkaSource::ePP_isClient:
+    case CPersonPropertis::eIsClient:
         return m_ContactData.m_fIsClient;
 
-    case KotkaSource::ePP_isWriter:
+    case CPersonPropertis::eIsWriter:
         return m_ContactData.m_fIsWriter;
 
     default:
@@ -107,42 +99,33 @@ QVariant CPerson::getPropertyData(KotkaSource::EPersonPropertis a_eProperty) con
     }
 }
 
-void CPerson::setPropertyData(KotkaSource::EPersonPropertis a_eProperty, const QVariant &a_rValue)
+void CPerson::setPropertyData(CPersonPropertis::EPersonPropertis a_eProperty, const QVariant &a_rValue)
 {
     switch(a_eProperty)
     {
-    case KotkaSource::ePP_Name:
+    case CPersonPropertis::eName:
         m_ContactData.m_strName = a_rValue.toString();
         break;
 
-    case KotkaSource::ePP_Email:
+    case CPersonPropertis::eEmail:
         m_ContactData.m_strEmail = a_rValue.toString();
         break;
 
-    case KotkaSource::ePP_Phone:
+    case CPersonPropertis::ePhone:
         m_ContactData.m_strPhone = a_rValue.toString();
         break;
 
-    case KotkaSource::ePP_isClient:
+    case CPersonPropertis::eIsClient:
         m_ContactData.m_fIsClient = a_rValue.toBool();
         break;
 
-    case KotkaSource::ePP_isWriter:
+    case CPersonPropertis::eIsWriter:
         m_ContactData.m_fIsWriter = a_rValue.toBool();
         break;
     }
-}
-
-int CPerson::getPropertyCount()
-{
-    return static_cast<int>(KotkaSource::ePP_NumberOfPropertis);
 }
 
 bool CPerson::operator ==(const CPerson &a_rPerson)
 {
     return (0 == m_ContactData.m_strName.compare(a_rPerson.m_ContactData.m_strName,Qt::CaseInsensitive) );
 }
-
-
-
-

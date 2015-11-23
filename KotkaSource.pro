@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     ccreatetaskdialog.cpp \
     cclientsandwritersdbmodel.cpp \
     cperson.cpp \
-    ccreatecontactdialog.cpp
+    ccreatecontactdialog.cpp \
+    cpersonpropertis.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     ccreatetaskdialog.h \
     cclientsandwritersdbmodel.h \
     cperson.h \
-    ccreatecontactdialog.h
+    ccreatecontactdialog.h \
+    cpersonpropertis.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \
