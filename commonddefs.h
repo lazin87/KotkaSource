@@ -22,7 +22,9 @@ enum
     ReadProjectDataRole,
     SetProjectDataRole,
     ContactIsWriterRole,
-    ContactIsClientRole
+    ContactIsClientRole,
+    ReadContactDataRole,
+    SetContactDataRole
 };
 
 enum ETaskState
@@ -73,6 +75,7 @@ struct SContactData
 }
 
 Q_DECLARE_METATYPE(KotkaSource::SProjectData)
+Q_DECLARE_METATYPE(KotkaSource::SContactData)
 
 #endif // COMMONDDEFS
 

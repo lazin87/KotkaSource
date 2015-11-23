@@ -333,8 +333,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>376</y>
+     <x>266</x>
+     <y>432</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -349,8 +349,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>376</y>
+     <x>334</x>
+     <y>432</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -358,5 +358,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>addClientPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CCreateProjectDialog</receiver>
+   <slot>clientAddSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>164</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>120</x>
+     <y>703</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editClientPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CCreateProjectDialog</receiver>
+   <slot>clientEditSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>355</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>730</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>clientAddSlot()</slot>
+  <slot>clientEditSlot()</slot>
+ </slots>
 </ui>

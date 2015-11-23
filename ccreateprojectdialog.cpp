@@ -94,9 +94,22 @@ void CCreateProjectDialog::clientEditSlot()
 {
     QModelIndex oClientIndex = ui->clientComboBox->completer()->currentIndex();
 
-    if(oClientIndex.isValid() )
+    if(  !(ui->clientComboBox->currentText().isEmpty() )
+      && oClientIndex.isValid()
+      )
     {
-        KotkaSource::SContactData oContactData;
+        QVariant rawData =
+                ui->clientComboBox->completer()->completionModel()->data( oClientIndex,
+                                                                          KotkaSource::ReadContactDataRole
+                                                                        );
+        KotkaSource::SContactData clientContactData = rawData.value<KotkaSource::SContactData>();
+
+        CCreateContactDialog oEditContactDialog(this, clientContactData);
+
+        if(QDialog::Accepted == oEditContactDialog.exec() )
+        {
+
+        }
     }
 }
 

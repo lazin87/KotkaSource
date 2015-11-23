@@ -78,6 +78,11 @@ bool CPerson::isClient() const
     return m_ContactData.m_fIsClient;
 }
 
+KotkaSource::SContactData CPerson::getContactData() const
+{
+    return m_ContactData;
+}
+
 QVariant CPerson::getPropertyData(CPerson::EPersonPropertis a_eProperty) const
 {
     switch(a_eProperty)

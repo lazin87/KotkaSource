@@ -86,6 +86,10 @@ QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole
     {
         return m_aClientsAndWritesList[a_Index.row() ].isWriter();
     }
+    case KotkaSource::ReadContactDataRole:
+    {
+        return QVariant::fromValue(m_aClientsAndWritesList[a_Index.row() ].getContactData() );
+    }
     default:
         return QVariant();
     }

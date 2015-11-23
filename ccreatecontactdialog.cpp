@@ -16,6 +16,7 @@ CCreateContactDialog::CCreateContactDialog(QWidget *parent, const KotkaSource::S
     ui->phoneLineEdit->setText(a_sContactData.m_strPhone);
     ui->isClientcheckBox->setChecked(a_sContactData.m_fIsClient);
     ui->isWriterCheckBox->setChecked(a_sContactData.m_fIsWriter);
+    setWindowTitle("Edit contact");
 }
 
 CCreateContactDialog::~CCreateContactDialog()

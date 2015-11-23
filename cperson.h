@@ -42,6 +42,8 @@ public:
     void setIsClient(bool a_fIsClient);
     bool isClient() const;
 
+    KotkaSource::SContactData getContactData() const;
+
     QVariant getPropertyData(EPersonPropertis a_eProperty) const;
     void setPropertyData(EPersonPropertis a_eProperty, const QVariant & a_rValue);
 
@@ -50,16 +52,7 @@ public:
 
     bool operator ==(const CPerson & a_rPerson);
 private:
-    // przerobic na strukture SContactData
     KotkaSource::SContactData m_ContactData;
-    /*
-    QString m_strEmail;
-    QString m_strName;
-    QString m_strPhone;
-
-    bool m_fIsWriter;
-    bool m_fIsClient;
-    */
 };
 
 #endif // CSUBJECT_H
