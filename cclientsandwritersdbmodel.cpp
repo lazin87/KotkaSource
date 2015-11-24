@@ -171,3 +171,15 @@ void CClientsAndWritersDbModel::remove(int a_iIndex)
         qDebug() << "CClientsAndWritersDbModel::remove(): index out of bound";
     }
 }
+
+
+bool CClientsAndWritersDbModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    beginInsertRows(parent, row, row + count - 1);
+
+    endInsertRows();
+}
+
+bool CClientsAndWritersDbModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+}
