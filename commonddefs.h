@@ -11,6 +11,9 @@
 class CPerson;
 
 namespace KotkaSource {
+
+const int ADDRESS_LENGTH = 200;
+
 enum
 {
     ProjectDescDispRole = Qt::UserRole + 1,

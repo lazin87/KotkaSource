@@ -32,9 +32,11 @@ private:
     bool validateEmail() const;
     bool validatePhone() const;
     bool checkNameIfUnique() const;
+    bool validateAddress() const;
 
     Ui::CCreateContactDialog *ui;
     QAbstractItemModel * m_pAddressBookModel;
+    bool m_fNameCanBeTheSame;
 };
 
 #endif // CCREATECONTACTDIALOG_H

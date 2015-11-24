@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>244</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,14 +49,14 @@
         <item row="2" column="1">
          <widget class="QLineEdit" name="phoneLineEdit"/>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="roleLabel">
           <property name="text">
            <string>Role:</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QWidget" name="widget_2" native="true">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <property name="leftMargin">
@@ -87,6 +87,16 @@
            </item>
           </layout>
          </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="addressLabel">
+          <property name="text">
+           <string>Address:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPlainTextEdit" name="addressPlainTextEdit"/>
         </item>
        </layout>
       </item>
