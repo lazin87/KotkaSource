@@ -10,10 +10,12 @@ CCreateContactDialog::CCreateContactDialog(QWidget *parent, QString const & a_st
     QDialog(parent),
     ui(new Ui::CCreateContactDialog),
     m_pAddressBookModel(0),
-    m_fNameCanBeTheSame(false)
+    m_fDisableNameValidation(false),
+    m_strLastErrors("")
 {
     ui->setupUi(this);
     ui->nameLineEdit->setText(a_strName);
+    ui->errorLabel->setStyleSheet("QLabel { color : red; }");
 }
 
 CCreateContactDialog::CCreateContactDialog(QWidget *parent, const KotkaSource::SContactData &a_sContactData)
@@ -21,11 +23,12 @@ CCreateContactDialog::CCreateContactDialog(QWidget *parent, const KotkaSource::S
 {
     ui->emailLineEdit->setText(a_sContactData.m_strEmail);
     ui->phoneLineEdit->setText(a_sContactData.m_strPhone);
+    ui->addressPlainTextEdit->setPlainText(a_sContactData.m_strAddress);
     ui->isClientcheckBox->setChecked(a_sContactData.m_fIsClient);
     ui->isWriterCheckBox->setChecked(a_sContactData.m_fIsWriter);
     setWindowTitle("Edit contact");
 
-    m_fNameCanBeTheSame = true;
+    m_fDisableNameValidation = true;
     ui->nameLineEdit->setDisabled(true);
 }
 
@@ -39,6 +42,7 @@ void CCreateContactDialog::getContactData(KotkaSource::SContactData &a_rContactD
     a_rContactData.m_strEmail = ui->emailLineEdit->text();
     a_rContactData.m_strName = ui->nameLineEdit->text();
     a_rContactData.m_strPhone = ui->phoneLineEdit->text();
+    a_rContactData.m_strAddress = ui->addressPlainTextEdit->toPlainText();
     a_rContactData.m_fIsWriter = ui->isWriterCheckBox->isChecked();
     a_rContactData.m_fIsClient = ui->isClientcheckBox->isChecked();
 }
@@ -56,20 +60,44 @@ void CCreateContactDialog::accept()
     }
 }
 
-bool CCreateContactDialog::validateInputData() const
+void CCreateContactDialog::displayLastErrors() const
+{
+    ui->errorLabel->setText(m_strLastErrors);
+}
+
+void CCreateContactDialog::resetLastErrors()
+{
+    m_strLastErrors = "";
+}
+
+void CCreateContactDialog::addError(const QString &a_strErrorMsg)
+{
+    if(false == m_strLastErrors.isEmpty() )
+    {
+        m_strLastErrors += "\n";
+    }
+
+    m_strLastErrors += a_strErrorMsg;
+}
+
+bool CCreateContactDialog::validateInputData()
 {
     bool fResult = true;
 
-    fResult &= validateClientName();
+    resetLastErrors();
+
+    fResult &= m_fDisableNameValidation || validateClientName();
     fResult &= validateEmail();
     fResult &= validatePhone();
-    fResult &= m_fNameCanBeTheSame || checkNameIfUnique();
+    fResult &= m_fDisableNameValidation || checkNameIfUnique();
     fResult &= validateAddress();
+
+    displayLastErrors();
 
     return fResult;
 }
 
-bool CCreateContactDialog::validateClientName() const
+bool CCreateContactDialog::validateClientName()
 {
     bool fResult = true;
     ui->nameLineEdit->setText( ui->nameLineEdit->text().simplified() );
@@ -81,10 +109,12 @@ bool CCreateContactDialog::validateClientName() const
                 fResult ? "" : "QLineEdit { background-color : red; }"
                           );
 
+    addError("Invalid client name.");
+
     return fResult;
 }
 
-bool CCreateContactDialog::validateEmail() const
+bool CCreateContactDialog::validateEmail()
 {
     bool fResult = true;
     ui->emailLineEdit->setText( ui->emailLineEdit->text().simplified() );
@@ -96,10 +126,12 @@ bool CCreateContactDialog::validateEmail() const
                 fResult ? "" : "QLineEdit { background-color : red; }"
                           );
 
+    addError("Invalid client email.");
+
     return fResult;
 }
 
-bool CCreateContactDialog::validatePhone() const
+bool CCreateContactDialog::validatePhone()
 {
     bool fResult = true;
     QString strTemp = ui->phoneLineEdit->text().simplified();
@@ -113,10 +145,12 @@ bool CCreateContactDialog::validatePhone() const
                 fResult ? "" : "QLineEdit { background-color : red; }"
                           );
 
+    addError("Invalid client phone.");
+
     return fResult;
 }
 
-bool CCreateContactDialog::checkNameIfUnique() const
+bool CCreateContactDialog::checkNameIfUnique()
 {
     bool fResult = true;
 
@@ -134,18 +168,22 @@ bool CCreateContactDialog::checkNameIfUnique() const
 
         if(!fResult)
         {
-            qWarning() << "checkNameIfUnique::Contact exists";
+            addError("Client already exist.");
         }
     }
     else
     {
-        qWarning() << "checkNameIfUnique::some name error";
+        addError("Address book was not registered.");
     }
+
+    ui->nameLineEdit->setStyleSheet(
+                fResult ? "" : "QLineEdit { background-color : red; }"
+                          );
 
     return fResult;
 }
 
-bool CCreateContactDialog::validateAddress() const
+bool CCreateContactDialog::validateAddress()
 {
 
     bool fResult = true;
@@ -156,5 +194,10 @@ bool CCreateContactDialog::validateAddress() const
                 fResult ? "" : "QPlainTextEdit { background-color : red; }"
                           );
 
-    return fResult;
+    if(!fResult)
+    {
+        addError( QString("Address execeds %1 characters.").arg(KotkaSource::ADDRESS_LENGTH) );
+    }
+
+        return fResult;
 }

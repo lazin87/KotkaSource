@@ -72,6 +72,7 @@ struct SContactData
     QString m_strEmail;
     QString m_strName;
     QString m_strPhone;
+    QString m_strAddress;
 
     bool m_fIsWriter;
     bool m_fIsClient;

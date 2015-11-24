@@ -27,16 +27,21 @@ public slots:
     virtual void accept();
 
 private:
-    bool validateInputData() const;
-    bool validateClientName() const;
-    bool validateEmail() const;
-    bool validatePhone() const;
-    bool checkNameIfUnique() const;
-    bool validateAddress() const;
+    void displayLastErrors() const;
+    void resetLastErrors();
+    void addError(QString const & a_strErrorMsg);
+
+    bool validateInputData();
+    bool validateClientName();
+    bool validateEmail();
+    bool validatePhone();
+    bool checkNameIfUnique();
+    bool validateAddress();
 
     Ui::CCreateContactDialog *ui;
     QAbstractItemModel * m_pAddressBookModel;
-    bool m_fNameCanBeTheSame;
+    bool m_fDisableNameValidation;
+    QString m_strLastErrors;
 };
 
 #endif // CCREATECONTACTDIALOG_H
