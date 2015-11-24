@@ -28,8 +28,11 @@ int main(int argc, char *argv[])
                     );
 
     CClientsAndWritersDbModel oAddressBook;
-    fillInAddressBook(oAddressBook);
+  //  fillInAddressBook(oAddressBook);
     w.setModelForAddressBook(&oAddressBook);
+    QObject::connect( &w, SIGNAL(addNewContact(KotkaSource::SContactData const &) )
+                    , &oAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
+                    );
     // end just to test
     return a.exec();
 }

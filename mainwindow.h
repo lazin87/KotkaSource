@@ -28,6 +28,8 @@ public:
 signals:
     void createProject(KotkaSource::SProjectData &, QModelIndex &);
     void createTask(KotkaSource::STaskData &, QModelIndex &);
+    void addNewContact(KotkaSource::SContactData const & a_crContactData);
+    void editContact(KotkaSource::SContactData const & a_crContactData);
 
 private slots:
     void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );

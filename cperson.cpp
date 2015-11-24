@@ -10,6 +10,12 @@ CPerson::CPerson(QString const & a_strName)
     m_ContactData.m_fIsWriter = false;
 }
 
+CPerson::CPerson(const KotkaSource::SContactData &a_rContactData)
+    : m_ContactData(a_rContactData)
+{
+
+}
+
 CPerson::~CPerson()
 {
 

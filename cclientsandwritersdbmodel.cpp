@@ -150,7 +150,14 @@ Qt::ItemFlags CClientsAndWritersDbModel::flags(const QModelIndex &index) const
 
 void CClientsAndWritersDbModel::append(QString a_strName)
 {
+    qDebug() << "CClientsAndWritersDbModel::append()";
     m_aClientsAndWritesList.append(CPerson(a_strName) );
+}
+
+void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactData &a_rContactData)
+{
+    qDebug() << "CClientsAndWritersDbModel::append()";
+    m_aClientsAndWritesList.append(CPerson(a_rContactData) );
 }
 
 void CClientsAndWritersDbModel::remove(int a_iIndex)

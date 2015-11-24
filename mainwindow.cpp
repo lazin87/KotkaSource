@@ -102,6 +102,10 @@ void MainWindow::addProjectSlot()
     CCreateProjectDialog newProjectDialog(this);
     newProjectDialog.setAddressDbToCompleter(ui->addressBookTableView->model() );
 
+    connect( &newProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )
+           , this, SIGNAL(addNewContact(KotkaSource::SContactData) )
+           );
+
     if(QDialog::Accepted == newProjectDialog.exec() )
     {
         KotkaSource::SProjectData sProjectData;

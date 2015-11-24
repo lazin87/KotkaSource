@@ -87,7 +87,11 @@ void CCreateProjectDialog::clientAddSlot()
 
     if(QDialog::Accepted == oCreateContactDialog.exec() )
     {
+        qDebug() << "CCreateProjectDialog::clientAddSlot()";
+        KotkaSource::SContactData sContactData;
+        oCreateContactDialog.getContactData(sContactData);
 
+        emit addNewContact(sContactData);
     }
 }
 
@@ -109,7 +113,7 @@ void CCreateProjectDialog::clientEditSlot()
 
         if(QDialog::Accepted == oEditContactDialog.exec() )
         {
-
+            KotkaSource::SContactData sContactData;
         }
     }
 }

@@ -10,6 +10,7 @@ class CPerson
 {
 public:
     explicit CPerson(QString const & a_strName);
+    explicit CPerson(KotkaSource::SContactData const & a_rContactData);
     ~CPerson();
 
     QString strEmail() const;

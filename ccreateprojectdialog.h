@@ -35,6 +35,10 @@ public slots:
 
     void selectedClientChangedSlot(const QModelIndex & a_rModelIndex);
 
+signals:
+    void addNewContact(KotkaSource::SContactData const & a_crContactData);
+    void editContact(KotkaSource::SContactData const & a_crContactData);
+
 protected:
     void setErrorMsg(QString const & a_strErrorMsg) const;
 
