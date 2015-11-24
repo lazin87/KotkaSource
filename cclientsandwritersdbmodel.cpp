@@ -157,8 +157,9 @@ void CClientsAndWritersDbModel::append(QString a_strName)
 void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactData &a_rContactData)
 {
     qDebug() << "CClientsAndWritersDbModel::append()";
+    beginInsertRows(QModelIndex(), rowCount(QModelIndex() ), rowCount(QModelIndex() ));
     m_aClientsAndWritesList.append(CPerson(a_rContactData) );
-    insertRows(1,1, QModelIndex() );
+    endInsertRows();
 }
 
 void CClientsAndWritersDbModel::remove(int a_iIndex)
@@ -176,15 +177,12 @@ void CClientsAndWritersDbModel::remove(int a_iIndex)
 
 bool CClientsAndWritersDbModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    KotkaSource::SContactData testContactData;
-    testContactData.m_strName = "test name";
-    testContactData.m_strEmail = "test email";
-
-    beginInsertRows(parent, row, row + count - 1);
-    m_aClientsAndWritesList.append(CPerson(testContactData) );
-    endInsertRows();
+    // TO DO
+    return false;
 }
 
 bool CClientsAndWritersDbModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    // TO DO
+    return false;
 }
