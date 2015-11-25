@@ -109,7 +109,10 @@ bool CCreateContactDialog::validateClientName()
                 fResult ? "" : "QLineEdit { background-color : red; }"
                           );
 
-    addError("Invalid client name.");
+    if(false == fResult)
+    {
+        addError("Invalid client name.");
+    }
 
     return fResult;
 }
@@ -126,7 +129,10 @@ bool CCreateContactDialog::validateEmail()
                 fResult ? "" : "QLineEdit { background-color : red; }"
                           );
 
-    addError("Invalid client email.");
+    if(false == fResult)
+    {
+        addError("Invalid client email.");
+    }
 
     return fResult;
 }
@@ -144,8 +150,10 @@ bool CCreateContactDialog::validatePhone()
     ui->phoneLineEdit->setStyleSheet(
                 fResult ? "" : "QLineEdit { background-color : red; }"
                           );
-
-    addError("Invalid client phone.");
+    if(false == fResult)
+    {
+        addError("Invalid client phone.");
+    }
 
     return fResult;
 }

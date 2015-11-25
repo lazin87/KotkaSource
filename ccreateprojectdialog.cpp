@@ -78,8 +78,8 @@ void CCreateProjectDialog::accept()
 
 void CCreateProjectDialog::clientAddSlot()
 {
-    QString strClientName = ( ui->clientComboBox->completer()->currentIndex().isValid() ) ?
-                "" :
+    QString strClientName = /*( ui->clientComboBox->completer()->currentIndex().isValid() ) ?
+                "" :*/
                 ui->clientComboBox->currentText().simplified();
 
     CCreateContactDialog oCreateContactDialog(this, strClientName);
@@ -238,9 +238,16 @@ bool CCreateProjectDialog::validateClient() const
     //sprawdzic czy istnieje
     if(fResult)
     {
-        QModelIndex oModeIndex = ui->clientComboBox->completer()->currentIndex();
-        fResult &= oModeIndex.isValid();
+        QModelIndex startIndex = ui->clientComboBox->completer()->model()->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
+        QModelIndexList oModelIndexList = ui->clientComboBox->completer()->model()->match( startIndex
+                                                                      , Qt::DisplayRole
+                                                                      , ui->clientComboBox->currentText()
+                                                                      , 1
+                                                                      , Qt::MatchFixedString
+                                                                      );
+        fResult = !oModelIndexList.isEmpty();
 
+        qDebug() << "CCreateProjectDialog::validateClient(): str to match: " << ui->clientComboBox->currentText();
         if(!fResult)
         {
             qWarning() << "CCreateProjectDialog::validateClient(): WPIS NIE ISTNIEJE";
@@ -251,22 +258,21 @@ bool CCreateProjectDialog::validateClient() const
                               );
         clientErrMsg = fResult ? ""
                                : "Contact does not exist. Press Add button to create a new contact.";
-    }
 
-    //sprawdzic czy ma atrybut klienta
-    if(fResult)
-    {
-        QModelIndex oModeIndex = ui->clientComboBox->completer()->currentIndex();
-        QVariant rawVal = ui->clientComboBox->completer()->completionModel()->data( oModeIndex
-                                                                                  , KotkaSource::ContactIsClientRole
-                                                                                  );
-        fResult &= rawVal.toBool();
+        //sprawdzic czy ma atrybut klienta
+        if(fResult)
+        {
+            QVariant rawVal = ui->clientComboBox->completer()->model()->data( oModelIndexList[0]
+                                                                                      , KotkaSource::ContactIsClientRole
+                                                                                      );
+            fResult &= rawVal.toBool();
 
-        ui->clientComboBox->setStyleSheet(
-                    fResult ? "" : "QComboBox {background-color : yellow; }"
-                              );
-        clientErrMsg = fResult ? ""
-                               : "Contact is not a client. Press Edit button to add client attribute.";
+            ui->clientComboBox->setStyleSheet(
+                        fResult ? "" : "QComboBox {background-color : yellow; }"
+                                  );
+            clientErrMsg = fResult ? ""
+                                   : "Contact is not a client. Press Edit button to add client attribute.";
+        }
     }
 
     ui->clientErrorLabel->setText(clientErrMsg);
