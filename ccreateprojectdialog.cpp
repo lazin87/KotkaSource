@@ -51,9 +51,9 @@ void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
         completer->setModel(a_pModel);
         ui->clientComboBox->setCompleter(completer);
 
-        connect( completer, SIGNAL(highlighted(const QModelIndex &) )
-               , this, SLOT(selectedClientChangedSlot(const QModelIndex &) )
-               );
+//        connect( completer, SIGNAL(highlighted(const QModelIndex &) )
+//               , this, SLOT(selectedClientChangedSlot(const QModelIndex &) )
+//               );
     }
     else
     {
@@ -78,8 +78,8 @@ void CCreateProjectDialog::accept()
 
 void CCreateProjectDialog::clientAddSlot()
 {
-    QString strClientName = /*( ui->clientComboBox->completer()->currentIndex().isValid() ) ?
-                "" :*/
+    QString strClientName = findClientIndex(ui->clientComboBox->currentText() ).isValid() ?
+                "" :
                 ui->clientComboBox->currentText().simplified();
 
     CCreateContactDialog oCreateContactDialog(this, strClientName);
@@ -90,6 +90,7 @@ void CCreateProjectDialog::clientAddSlot()
         qDebug() << "CCreateProjectDialog::clientAddSlot()";
         KotkaSource::SContactData sContactData;
         oCreateContactDialog.getContactData(sContactData);
+        fillInClientInformation(sContactData);
 
         emit addNewContact(sContactData);
     }
@@ -97,59 +98,50 @@ void CCreateProjectDialog::clientAddSlot()
 
 void CCreateProjectDialog::clientEditSlot()
 {
-    QModelIndex oClientIndex = ui->clientComboBox->completer()->currentIndex();
-
-    if(  !(ui->clientComboBox->currentText().isEmpty() )
-      && oClientIndex.isValid()
-      )
+    if(false == ui->clientComboBox->currentText().isEmpty() )
     {
-        QVariant rawData =
-                ui->clientComboBox->completer()->completionModel()->data( oClientIndex,
-                                                                          KotkaSource::ReadContactDataRole
-                                                                        );
-        KotkaSource::SContactData clientContactData = rawData.value<KotkaSource::SContactData>();
+        QModelIndex oClientIndex = findClientIndex(ui->clientComboBox->currentText() );
 
-        CCreateContactDialog oEditContactDialog(this, clientContactData);
-
-        if(QDialog::Accepted == oEditContactDialog.exec() )
+        if(oClientIndex.isValid() )
         {
-            KotkaSource::SContactData sContactData;
-            oEditContactDialog.getContactData(sContactData);
+            QVariant rawData =
+                    ui->clientComboBox->completer()->model()->data( oClientIndex,
+                                                                    KotkaSource::ReadContactDataRole
+                                                                    );
+            KotkaSource::SContactData clientContactData = rawData.value<KotkaSource::SContactData>();
+            CCreateContactDialog oEditContactDialog(this, clientContactData);
 
-            QModelIndex oStartIndex = ui->clientComboBox->completer()->model()->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
-            QModelIndexList oIndexList = ui->clientComboBox->completer()->model()->match( oStartIndex
-                                                                                , Qt::DisplayRole
-                                                                                , sContactData.m_strName
-                                                                                , 1
-                                                                                , Qt::MatchFixedString
-                                                                                );
-            if( (!oIndexList.isEmpty() ) && (oIndexList[0].isValid() ) )
+            if(QDialog::Accepted == oEditContactDialog.exec() )
             {
-                qDebug() << "CCreateProjectDialog::clientEditSlot(): row: "
-                         << oIndexList[0].row()
-                         << " column: " << oIndexList[0].column();
-                ui->clientComboBox->completer()->model()->setData(oIndexList[0], QVariant::fromValue(sContactData), KotkaSource::SetContactDataRole);
-            }
-            else
-            {
-                qDebug() << "CCreateProjectDialog::clientEditSlot():"
-                         << " empty: " << oIndexList.isEmpty();
-                      //   << " valid: " << oIndexList[0].isValid();
+                KotkaSource::SContactData sContactData;
+                oEditContactDialog.getContactData(sContactData);
+
+                fillInClientInformation(sContactData);
+                ui->clientComboBox->completer()->model()->setData(
+                            oClientIndex
+                            , QVariant::fromValue(sContactData)
+                            , KotkaSource::SetContactDataRole );
             }
         }
     }
 }
 
-void CCreateProjectDialog::selectedClientChangedSlot(const QModelIndex &a_rModelIndex)
-{
-    setEmail(a_rModelIndex);
-    setPhone(a_rModelIndex);
-    setAddress(a_rModelIndex);
-}
+//void CCreateProjectDialog::selectedClientChangedSlot(const QModelIndex &a_rModelIndex)
+//{
+//    setEmail(a_rModelIndex);
+//    setPhone(a_rModelIndex);
+//    setAddress(a_rModelIndex);
+//}
 
 void CCreateProjectDialog::setErrorMsg(const QString &a_strErrorMsg) const
 {
-     ui->errorLabel->setText(a_strErrorMsg);
+    ui->errorLabel->setText(a_strErrorMsg);
+}
+
+void CCreateProjectDialog::clientNameWasChangedSlot(const QString &a_rNewName)
+{
+    QModelIndex oClientIndex = findClientIndex(a_rNewName);
+    fillInClientInformation(oClientIndex);
 }
 
 void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
@@ -189,6 +181,21 @@ void CCreateProjectDialog::setAddress(const QModelIndex &a_rModelIndex)
         strTemp = rawVal.toString();
     }
     ui->addressDispLabel->setText(strTemp);
+}
+
+void CCreateProjectDialog::fillInClientInformation(const KotkaSource::SContactData &a_rContactData)
+{
+    ui->clientComboBox->setCurrentText(a_rContactData.m_strName);
+    ui->emailDispLabel->setText(a_rContactData.m_strEmail);
+    ui->phoneDispLabel->setText(a_rContactData.m_strPhone);
+    ui->addressDispLabel->setText(a_rContactData.m_strAddress);
+}
+
+void CCreateProjectDialog::fillInClientInformation(const QModelIndex &a_rModelIndex)
+{
+    setEmail(a_rModelIndex);
+    setPhone(a_rModelIndex);
+    setAddress(a_rModelIndex);
 }
 
 bool CCreateProjectDialog::validateInputData() const
@@ -260,14 +267,8 @@ bool CCreateProjectDialog::validateClient() const
     //sprawdzic czy istnieje
     if(fResult)
     {
-        QModelIndex startIndex = ui->clientComboBox->completer()->model()->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
-        QModelIndexList oModelIndexList = ui->clientComboBox->completer()->model()->match( startIndex
-                                                                      , Qt::DisplayRole
-                                                                      , ui->clientComboBox->currentText()
-                                                                      , 1
-                                                                      , Qt::MatchFixedString
-                                                                      );
-        fResult = !oModelIndexList.isEmpty();
+        QModelIndex oClientIndex = findClientIndex(ui->clientComboBox->currentText() );
+        fResult = oClientIndex.isValid();
 
         qDebug() << "CCreateProjectDialog::validateClient(): str to match: " << ui->clientComboBox->currentText();
         if(!fResult)
@@ -284,10 +285,7 @@ bool CCreateProjectDialog::validateClient() const
         //sprawdzic czy ma atrybut klienta
         if(fResult)
         {
-            QVariant rawVal = ui->clientComboBox->completer()->model()->data( oModelIndexList[0]
-                                                                                      , KotkaSource::ContactIsClientRole
-                                                                                      );
-            fResult &= rawVal.toBool();
+            fResult = checkIfClient(oClientIndex);
 
             ui->clientComboBox->setStyleSheet(
                         fResult ? "" : "QComboBox {background-color : yellow; }"
@@ -300,4 +298,24 @@ bool CCreateProjectDialog::validateClient() const
     ui->clientErrorLabel->setText(clientErrMsg);
 
     return fResult;
+}
+
+QModelIndex CCreateProjectDialog::findClientIndex(const QString &a_rStrName) const
+{
+    QModelIndex oStartIndex = ui->clientComboBox->completer()->model()->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
+    QModelIndexList oModelIndexList = ui->clientComboBox->completer()->model()->match( oStartIndex
+                                                                  , Qt::DisplayRole
+                                                                  , ui->clientComboBox->currentText()
+                                                                  , 1
+                                                                  , Qt::MatchFixedString
+                                                                  );
+    return  (oModelIndexList.isEmpty() ) ? QModelIndex() : oModelIndexList[0];
+}
+
+bool CCreateProjectDialog::checkIfClient(const QModelIndex &a_rIndex) const
+{
+    QVariant rawVal = ui->clientComboBox->completer()->model()->data( a_rIndex
+                                                                    , KotkaSource::ContactIsClientRole
+                                                                    );
+    return rawVal.toBool();
 }

@@ -390,9 +390,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clientComboBox</sender>
+   <signal>editTextChanged(QString)</signal>
+   <receiver>CCreateProjectDialog</receiver>
+   <slot>clientNameWasChangedSlot(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>184</x>
+     <y>853</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clientAddSlot()</slot>
   <slot>clientEditSlot()</slot>
+  <slot>clientNameWasChangedSlot(QString)</slot>
  </slots>
 </ui>
