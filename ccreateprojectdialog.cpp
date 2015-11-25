@@ -114,6 +114,28 @@ void CCreateProjectDialog::clientEditSlot()
         if(QDialog::Accepted == oEditContactDialog.exec() )
         {
             KotkaSource::SContactData sContactData;
+            oEditContactDialog.getContactData(sContactData);
+
+            QModelIndex oStartIndex = ui->clientComboBox->completer()->model()->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
+            QModelIndexList oIndexList = ui->clientComboBox->completer()->model()->match( oStartIndex
+                                                                                , Qt::DisplayRole
+                                                                                , sContactData.m_strName
+                                                                                , 1
+                                                                                , Qt::MatchFixedString
+                                                                                );
+            if( (!oIndexList.isEmpty() ) && (oIndexList[0].isValid() ) )
+            {
+                qDebug() << "CCreateProjectDialog::clientEditSlot(): row: "
+                         << oIndexList[0].row()
+                         << " column: " << oIndexList[0].column();
+                ui->clientComboBox->completer()->model()->setData(oIndexList[0], QVariant::fromValue(sContactData), KotkaSource::SetContactDataRole);
+            }
+            else
+            {
+                qDebug() << "CCreateProjectDialog::clientEditSlot():"
+                         << " empty: " << oIndexList.isEmpty();
+                      //   << " valid: " << oIndexList[0].isValid();
+            }
         }
     }
 }

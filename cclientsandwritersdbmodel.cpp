@@ -116,21 +116,31 @@ QVariant CClientsAndWritersDbModel::headerData(int a_iSection, Qt::Orientation a
 
 bool CClientsAndWritersDbModel::setData(const QModelIndex &a_iIndex, const QVariant &a_rValue, int a_iRole)
 {
-    if(Qt::EditRole == a_iRole)
+    switch(a_iRole)
+    {
+    case Qt::EditRole:
     {
         m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( CPersonPropertis::mapToPersonProperty(a_iIndex.column() )
-                                                                , a_rValue
-                                                                );
+                                                                  , a_rValue
+                                                                  );
 
         emit dataChanged(a_iIndex, a_iIndex);
+        break;
     }
-    else if(Qt::CheckStateRole == a_iRole)
+    case Qt::CheckStateRole:
     {
         m_aClientsAndWritesList[a_iIndex.row() ].setPropertyData( CPersonPropertis::mapToPersonProperty(a_iIndex.column() )
-                                                                , a_rValue
-                                                                );
+                                                                  , a_rValue
+                                                                  );
+        break;
     }
-
+    case KotkaSource::SetContactDataRole:
+    {
+        m_aClientsAndWritesList[a_iIndex.row() ].setData( a_rValue.value<KotkaSource::SContactData>() );
+        emit dataChanged(a_iIndex, a_iIndex);
+        break;
+    }
+    }
     return true;
 }
 

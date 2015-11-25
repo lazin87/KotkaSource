@@ -31,6 +31,7 @@ public:
     bool isClient() const;
 
     KotkaSource::SContactData getContactData() const;
+    void setData(KotkaSource::SContactData const & a_rContactData);
 
     QVariant getPropertyData(CPersonPropertis::EPersonPropertis a_eProperty) const;
     void setPropertyData(CPersonPropertis::EPersonPropertis a_eProperty, const QVariant & a_rValue);

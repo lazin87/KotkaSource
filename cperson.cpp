@@ -81,6 +81,11 @@ KotkaSource::SContactData CPerson::getContactData() const
     return m_ContactData;
 }
 
+void CPerson::setData(const KotkaSource::SContactData &a_rContactData)
+{
+    m_ContactData = a_rContactData;
+}
+
 QVariant CPerson::getPropertyData(CPersonPropertis::EPersonPropertis a_eProperty) const
 {
     switch(a_eProperty)
