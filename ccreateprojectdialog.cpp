@@ -126,13 +126,6 @@ void CCreateProjectDialog::clientEditSlot()
     }
 }
 
-//void CCreateProjectDialog::selectedClientChangedSlot(const QModelIndex &a_rModelIndex)
-//{
-//    setEmail(a_rModelIndex);
-//    setPhone(a_rModelIndex);
-//    setAddress(a_rModelIndex);
-//}
-
 void CCreateProjectDialog::setErrorMsg(const QString &a_strErrorMsg) const
 {
     ui->errorLabel->setText(a_strErrorMsg);
