@@ -10,6 +10,9 @@ CSourcesModel::CSourcesModel(QObject *a_pParent)
 
 int CSourcesModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
+    return m_aPtrsSourcesList.count();
 }
 
 int CSourcesModel::columnCount(const QModelIndex &parent) const

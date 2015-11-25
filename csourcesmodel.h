@@ -2,6 +2,8 @@
 #define CSOURCESMODEL_H
 
 #include <QAbstractTableModel>
+#include <QList>
+#include "isource.h"
 
 class CSourcesModel : public QAbstractTableModel
 {
@@ -15,6 +17,9 @@ public:
     virtual int rowCount(const QModelIndex &parent) const;
     virtual int columnCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
+
+private:
+    QList<ISources *> m_aPtrsSourcesList;
 };
 
 #endif // CSOURCESMODEL_H
