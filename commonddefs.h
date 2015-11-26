@@ -52,6 +52,12 @@ enum EObjectType
     eOT_Task
 };
 
+enum ETaskObjectType
+{
+    eTOT_Text,
+    eTOT_File
+};
+
 struct SProjectData
 {
     QString m_strName;
@@ -65,12 +71,14 @@ struct STaskObjectData
 {
     int m_iMinLength;
     int m_iMaxLength;
+    ETaskObjectType m_eType;
     QString m_strCurrentText;
 };
 
 struct STaskData
 {
     QString m_strName;
+    QString m_strWriterName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
 
