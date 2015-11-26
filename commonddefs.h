@@ -5,6 +5,7 @@
 
 #include <QString>
 #include <QDateTime>
+#include <QMap>
 
 #include "cpersonpropertis.h"
 
@@ -60,11 +61,20 @@ struct SProjectData
     CPerson * m_pClient;
 };
 
+struct STaskObjectData
+{
+    int m_iMinLength;
+    int m_iMaxLength;
+    QString m_strCurrentText;
+};
+
 struct STaskData
 {
     QString m_strName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
+
+    QMap<QString, STaskObjectData> m_aTextFieldsMap;
 };
 
 struct SContactData
