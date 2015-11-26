@@ -6,6 +6,11 @@ CSourcesModel::CSourcesModel(QObject *a_pParent)
 
 }
 
+CSourcesModel::~CSourcesModel()
+{
+
+}
+
 
 
 int CSourcesModel::rowCount(const QModelIndex &parent) const

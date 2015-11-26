@@ -19,7 +19,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
 
 private:
-    QList<ISources *> m_aPtrsSourcesList;
+    QList<ISource *> m_aPtrsSourcesList;
 };
 
 #endif // CSOURCESMODEL_H
