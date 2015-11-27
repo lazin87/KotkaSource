@@ -26,10 +26,27 @@ int CSourcesModel::rowCount(const QModelIndex &parent) const
 
 int CSourcesModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
+    return CSourcePropertis::count();
 }
 
 QVariant CSourcesModel::data(const QModelIndex &index, int role) const
 {
+    switch(role)
+    {
+    case Qt::DisplayRole:
+    {
+
+    }
+
+    case Qt::CheckStateRole:
+    {
+
+    }
+    default:
+        return QVariant();
+    }
 }
 
 void CSourcesModel::addNewSource(const QString &a_strName, bool a_fReadOnly)
