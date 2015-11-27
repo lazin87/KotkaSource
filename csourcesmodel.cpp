@@ -27,3 +27,8 @@ int CSourcesModel::columnCount(const QModelIndex &parent) const
 QVariant CSourcesModel::data(const QModelIndex &index, int role) const
 {
 }
+
+void CSourcesModel::addNewSource(const QString &a_strName, bool a_fReadOnly)
+{
+
+}

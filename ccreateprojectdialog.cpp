@@ -3,6 +3,8 @@
 
 #include <QCompleter>
 #include <QDebug>
+#include <QFileDialog>
+#include <QDir>
 
 #include "ccreatecontactdialog.h"
 
@@ -135,6 +137,17 @@ void CCreateProjectDialog::clientNameWasChangedSlot(const QString &a_rNewName)
 {
     QModelIndex oClientIndex = findClientIndex(a_rNewName);
     fillInClientInformation(oClientIndex);
+}
+
+void CCreateProjectDialog::sourceAddSlot()
+{
+    qDebug() << "CCreateProjectDialog::sourceAddSlot()";
+    QString fileName = QFileDialog::getOpenFileName( this
+                                                   , "Open File"
+                                                   , QDir::homePath()
+                                                   , "All files (*.*)"
+                                                   );
+    qDebug() << "CCreateProjectDialog::sourceAddSlot(): " << fileName;
 }
 
 void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)

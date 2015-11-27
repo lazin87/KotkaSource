@@ -341,8 +341,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>266</x>
-     <y>432</y>
+     <x>275</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -357,8 +357,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>432</y>
+     <x>343</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -414,10 +414,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>addSourcesPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CCreateProjectDialog</receiver>
+   <slot>sourceAddSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>332</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>398</x>
+     <y>703</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clientAddSlot()</slot>
   <slot>clientEditSlot()</slot>
   <slot>clientNameWasChangedSlot(QString)</slot>
+  <slot>sourceAddSlot()</slot>
  </slots>
 </ui>

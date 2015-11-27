@@ -18,6 +18,9 @@ public:
     virtual int columnCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
 
+public slots:
+    void addNewSource(QString const & a_strName, bool a_fReadOnly);
+
 private:
     QList<ISource *> m_aPtrsSourcesList;
 };
