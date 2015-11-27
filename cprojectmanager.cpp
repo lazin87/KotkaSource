@@ -13,6 +13,8 @@ CProjectManager::CProjectManager(QObject * a_pParent)
     connect( &m_oModel, SIGNAL(itemChanged(QStandardItem*) )
            , this, SLOT(updateModelSlot() )
            );
+
+    prepareDirs();
 }
 
 
@@ -82,4 +84,12 @@ void CProjectManager::updateModelSlot()
 {
     qDebug() << "CProjectManager::updateModelSlot()";
     emit projectModelWasChanged(getModel() );
+}
+
+void CProjectManager::prepareDirs()
+{
+    QDir oDir;
+    oDir.mkdir(KotkaSource::strMAIN_APP_PATH);
+    oDir.mkdir(KotkaSource::strINPUT_FILES_PATH);
+    oDir.mkdir(KotkaSource::strOUTPUT_FILES_PATH);
 }

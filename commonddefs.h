@@ -6,14 +6,20 @@
 #include <QString>
 #include <QDateTime>
 #include <QMap>
+#include <QDir>
 
 #include "cpersonpropertis.h"
+#include "csourcepropertis.h"
 
 class CPerson;
 
 namespace KotkaSource {
 
 const int ADDRESS_LENGTH = 200;
+
+const QString strMAIN_APP_PATH = QDir::homePath() + "/KotkaMngr";
+const QString strINPUT_FILES_PATH = strMAIN_APP_PATH + "/InputFiles";
+const QString strOUTPUT_FILES_PATH = strMAIN_APP_PATH + "/OutputFiles";
 
 enum
 {

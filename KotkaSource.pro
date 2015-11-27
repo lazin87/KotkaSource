@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     cpersonpropertis.cpp \
     csourcesmodel.cpp \
     isource.cpp \
-    isourcetranslatestrategy.cpp
+    isourcetranslatestrategy.cpp \
+    csourcepropertis.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     cpersonpropertis.h \
     csourcesmodel.h \
     isource.h \
-    isourcetranslatestrategy.h
+    isourcetranslatestrategy.h \
+    csourcepropertis.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \

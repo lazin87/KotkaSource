@@ -9,7 +9,7 @@ class CSourcesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    CSourcesModel(QObject * a_pParent = 0);
+    CSourcesModel(QString const & a_strModelName, QObject * a_pParent = 0);
     ~CSourcesModel();
 
     // QAbstractItemModel interface
@@ -20,8 +20,14 @@ public:
 
 public slots:
     void addNewSource(QString const & a_strName, bool a_fReadOnly);
+    void removeSourceSlot(QModelIndex const & a_rModelIndex);
 
 private:
+    void clearSourcesList();
+    void prepareInOutFolders();
+    void makeFileNameUnique(QString & a_rFileName);
+
+    QString m_strName;
     QList<ISource *> m_aPtrsSourcesList;
 };
 

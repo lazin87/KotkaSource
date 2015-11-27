@@ -1,13 +1,21 @@
 #include "isource.h"
 
+#include <QDebug>
+
 #include "isourcetranslatestrategy.h"
 
 ISource::ISource(QString const & a_rFileName)
     : m_pTranslateStrategy(0)
     , m_fIsReadOnly(true)
     , m_oFile(a_rFileName)
+    , m_strName(a_rFileName)
 {
 
+}
+
+ISource::~ISource()
+{
+    qDebug() << "ISource::~ISource()";
 }
 
 void ISource::setStrategy(ISourceTranslateStrategy *a_pTranslateStrategy)
@@ -60,5 +68,10 @@ bool ISource::storeTaskData(const KotkaSource::STaskData &a_crTaskData)
     }
 
     return fResult;
+}
+
+QString ISource::getName() const
+{
+    return m_strName;
 }
 

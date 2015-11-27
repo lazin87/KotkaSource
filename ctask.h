@@ -2,7 +2,7 @@
 #define CTASK_H
 
 #include "iproject.h"
-//#include <QStandardItem>
+#include "csourcesmodel.h"
 
 #include "commonddefs.h"
 
@@ -28,6 +28,7 @@ public:
 
 private:
     KotkaSource::STaskData m_sData;
+    CSourcesModel m_oSourceModel;
 };
 
 #endif // CTASK_H

@@ -32,6 +32,7 @@ private slots:
     void updateModelSlot();
 
 private:
+    void prepareDirs();
     QStandardItemModel m_oModel;
 };
 
