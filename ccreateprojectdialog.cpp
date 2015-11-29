@@ -15,6 +15,8 @@ CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
     ui->clientErrorLabel->setStyleSheet("QLabel { color : red; }");
+
+    setupSourcesTable();
 }
 
 CCreateProjectDialog::~CCreateProjectDialog()
@@ -153,6 +155,11 @@ void CCreateProjectDialog::sourceAddSlot()
                                                    , "All files (*.*)"
                                                    );
     qDebug() << "CCreateProjectDialog::sourceAddSlot(): " << fileName;
+
+    if(false == fileName.isEmpty() )
+    {
+
+    }
 }
 
 void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
@@ -329,4 +336,18 @@ bool CCreateProjectDialog::checkIfClient(const QModelIndex &a_rIndex) const
                                                                     , KotkaSource::ContactIsClientRole
                                                                     );
     return rawVal.toBool();
+}
+
+void CCreateProjectDialog::setupSourcesTable()
+{
+    QStringList headerSorucesTable;
+    headerSorucesTable << CSourcePropertis::s_aPropertisLabels[CSourcePropertis::eName]
+                       << CSourcePropertis::s_aPropertisLabels[CSourcePropertis::eIsReadOnly]
+                       << CSourcePropertis::s_aPropertisLabels[CSourcePropertis::eParser];
+    ui->sourcesTableWidget->setHorizontalHeaderLabels(headerSorucesTable);
+}
+
+void CCreateProjectDialog::addNewEntryToSourcesTable(const QString &a_strPath)
+{
+
 }

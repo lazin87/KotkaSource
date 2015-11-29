@@ -60,6 +60,9 @@ private:
     QModelIndex findClientIndex(const QString &a_rStrName) const;
     bool checkIfClient(QModelIndex const & a_rIndex) const;
 
+    void setupSourcesTable();
+    void addNewEntryToSourcesTable(QString const & a_strPath);
+
     Ui::CCreateProjectDialog *ui;
     CSourcesModel m_oSourcesModel;
 };
