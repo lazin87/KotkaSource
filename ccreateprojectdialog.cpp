@@ -7,7 +7,6 @@
 #include <QDir>
 
 #include "ccreatecontactdialog.h"
-#include "csourcesmodel.h"
 
 CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
     QDialog(parent),
