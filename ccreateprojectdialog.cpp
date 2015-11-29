@@ -7,6 +7,7 @@
 #include <QDir>
 
 #include "ccreatecontactdialog.h"
+#include "csourcesmodel.h"
 
 CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
     QDialog(parent),
@@ -37,12 +38,17 @@ QDateTime CCreateProjectDialog::getWritersDeadline() const
     return ui->writersDeadlineDateTimeEdit->dateTime();
 }
 
-void CCreateProjectDialog::getData(KotkaSource::SProjectData &a_rProjectData) const
+void CCreateProjectDialog::getProjectData(KotkaSource::SProjectData &a_rProjectData) const
 {
     a_rProjectData.m_strName = ui->projectNamelineEdit->text();
     a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
     a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
     a_rProjectData.m_strClientName = ui->clientComboBox->currentText();
+}
+
+void CCreateProjectDialog::getSourcesModel(CSourcesModel & a_rSorucesModel) const
+{
+
 }
 
 void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)

@@ -3,6 +3,7 @@
 CProjectBase::CProjectBase(QString a_strName)
     : IProject(a_strName)
     , m_sData()
+    , m_oSourceModel(a_strName)
 {
     m_sData.m_strName = a_strName;
 }

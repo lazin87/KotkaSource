@@ -4,6 +4,8 @@
 #include "iproject.h"
 #include <QStandardItem>
 
+#include "csourcesmodel.h"
+
 class CProjectBase : public IProject
 {
 public:
@@ -22,6 +24,7 @@ public:
 
 private:
     KotkaSource::SProjectData m_sData;
+    CSourcesModel m_oSourceModel;
 };
 
 #endif // CPROJECTBASE_H

@@ -109,7 +109,7 @@ void MainWindow::addProjectSlot()
     if(QDialog::Accepted == newProjectDialog.exec() )
     {
         KotkaSource::SProjectData sProjectData;
-        newProjectDialog.getData(sProjectData);
+        newProjectDialog.getProjectData(sProjectData);
         // dodac pobieranie wskaznika z modelu ksiazki adresowej
 
 

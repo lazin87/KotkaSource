@@ -9,7 +9,7 @@ class CSourcesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    CSourcesModel(QString const & a_strModelName, QObject * a_pParent = 0);
+    explicit CSourcesModel(QString const & a_strModelName = "", QObject * a_pParent = 0);
     ~CSourcesModel();
 
     // QAbstractItemModel interface

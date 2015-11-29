@@ -4,9 +4,11 @@
 #include <QDialog>
 
 #include "commonddefs.h"
+#include "csourcesmodel.h"
 
 class QAbstractItemModel;
 class QCompleter;
+
 namespace Ui {
 class CCreateProjectDialog;
 }
@@ -23,7 +25,8 @@ public:
     QDateTime getDeliveryDate() const;
     QDateTime getWritersDeadline() const;
 
-    void getData(KotkaSource::SProjectData & a_rProjectData) const;
+    void getProjectData(KotkaSource::SProjectData & a_rProjectData) const;
+    void getSourcesModel(CSourcesModel & a_rSorucesModel) const;
     void setAddressDbToCompleter(QAbstractItemModel * a_pModel);
 
     QString getClientName() const;
@@ -58,6 +61,7 @@ private:
     bool checkIfClient(QModelIndex const & a_rIndex) const;
 
     Ui::CCreateProjectDialog *ui;
+    CSourcesModel m_oSourcesModel;
 };
 
 #endif // CCREATEPROJECTDIALOG_H
