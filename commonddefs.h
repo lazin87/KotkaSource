@@ -102,10 +102,18 @@ struct SContactData
     bool m_fIsClient;
 };
 
+struct SSourceData
+{
+    QString m_strName;
+    QString m_strParserName;
+    bool m_fReadOnly;
+};
+
 }
 
 Q_DECLARE_METATYPE(KotkaSource::SProjectData)
 Q_DECLARE_METATYPE(KotkaSource::SContactData)
+Q_DECLARE_METATYPE(KotkaSource::SSourceData)
 
 #endif // COMMONDDEFS
 

@@ -149,16 +149,19 @@ void CCreateProjectDialog::clientNameWasChangedSlot(const QString &a_rNewName)
 void CCreateProjectDialog::sourceAddSlot()
 {
     qDebug() << "CCreateProjectDialog::sourceAddSlot()";
-    QString fileName = QFileDialog::getOpenFileName( this
+    QStringList fileNames = QFileDialog::getOpenFileNames( this
                                                    , "Open File"
                                                    , QDir::homePath()
                                                    , "All files (*.*)"
                                                    );
-    qDebug() << "CCreateProjectDialog::sourceAddSlot(): " << fileName;
 
-    if(false == fileName.isEmpty() )
+    if(0 < fileNames.count() )
     {
-
+        addNewEntriesToSourcesTable(fileNames);
+    }
+    else
+    {
+        qDebug() << "CCreateProjectDialog::sourceAddSlot(): no files were selected";
     }
 }
 
@@ -344,10 +347,26 @@ void CCreateProjectDialog::setupSourcesTable()
     headerSorucesTable << CSourcePropertis::s_aPropertisLabels[CSourcePropertis::eName]
                        << CSourcePropertis::s_aPropertisLabels[CSourcePropertis::eIsReadOnly]
                        << CSourcePropertis::s_aPropertisLabels[CSourcePropertis::eParser];
+    ui->sourcesTableWidget->setColumnWidth(0, 300);
+    ui->sourcesTableWidget->setColumnWidth(1, 80);
+    ui->sourcesTableWidget->setColumnWidth(2, 100);
     ui->sourcesTableWidget->setHorizontalHeaderLabels(headerSorucesTable);
 }
 
-void CCreateProjectDialog::addNewEntryToSourcesTable(const QString &a_strPath)
+void CCreateProjectDialog::addNewEntriesToSourcesTable(const QStringList &a_strPathList)
 {
+    foreach(const QString str, a_strPathList)
+    {
+        if(false == str.isEmpty() )
+        {
+            int iNewRowIndex = ui->sourcesTableWidget->rowCount();
+            ui->sourcesTableWidget->insertRow(iNewRowIndex);
 
+            ui->sourcesTableWidget->setItem(iNewRowIndex, 0, new QTableWidgetItem(str) );
+            QTableWidgetItem * pWidgetItem = new QTableWidgetItem("");
+            pWidgetItem->setCheckState(Qt::Unchecked);
+            ui->sourcesTableWidget->setItem(iNewRowIndex, 1, pWidgetItem );
+            ui->sourcesTableWidget->setItem(iNewRowIndex, 2, new QTableWidgetItem("No parser") );
+        }
+    }
 }

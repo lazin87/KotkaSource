@@ -61,7 +61,7 @@ private:
     bool checkIfClient(QModelIndex const & a_rIndex) const;
 
     void setupSourcesTable();
-    void addNewEntryToSourcesTable(QString const & a_strPath);
+    void addNewEntriesToSourcesTable(const QStringList &a_strPathList);
 
     Ui::CCreateProjectDialog *ui;
     CSourcesModel m_oSourcesModel;

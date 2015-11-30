@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>511</width>
     <height>494</height>
    </rect>
   </property>
@@ -262,12 +262,18 @@
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QTableWidget" name="sourcesTableWidget">
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
         <property name="rowCount">
          <number>0</number>
         </property>
         <property name="columnCount">
          <number>3</number>
         </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>80</number>
+        </attribute>
         <column/>
         <column/>
         <column/>
