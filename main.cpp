@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
     CProjectManager oProjectMngr;
     w.setModel(oProjectMngr.getModel() );
 
-    QObject::connect( &w, SIGNAL(createProject(KotkaSource::SProjectData&,QModelIndex& ) )
-                    , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&,QModelIndex&) )
+    QObject::connect( &w, SIGNAL(createProject(KotkaSource::SProjectData&,QModelIndex&, QList<KotkaSource::SSourceData> &) )
+                    , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&, QModelIndex&, QList<KotkaSource::SSourceData> &) )
                     );
     QObject::connect( &w, SIGNAL(createTask(KotkaSource::STaskData&,QModelIndex&) )
                     , &oProjectMngr, SLOT(createTaskSlot(KotkaSource::STaskData&,QModelIndex&) )

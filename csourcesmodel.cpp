@@ -49,7 +49,7 @@ QVariant CSourcesModel::data(const QModelIndex &index, int role) const
     }
 }
 
-void CSourcesModel::addNewSource(const QString &a_strName, bool a_fReadOnly)
+void CSourcesModel::addNewSource(const QString &a_strName, bool a_fReadOnly, QString a_strParserName)
 {
     QFileInfo oFileInfo(a_strName);
     QString fileName = oFileInfo.fileName();

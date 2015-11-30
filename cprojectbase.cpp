@@ -76,6 +76,14 @@ void CProjectBase::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriter
     m_sData.m_oDateTimeWriterDeadline = a_rDeadlineCopywriters;
 }
 
+void CProjectBase::fillInSourcesModel(const QList<KotkaSource::SSourceData> &a_rSourceList)
+{
+    foreach(KotkaSource::SSourceData sourceData, a_rSourceList)
+    {
+        m_oSourceModel.addNewSource(sourceData.m_strName, sourceData.m_fReadOnly, sourceData.m_strParserName);
+    }
+}
+
 QVariant CProjectBase::data(int a_iRole) const
 {
     if(KotkaSource::ReadProjectDataRole == a_iRole)

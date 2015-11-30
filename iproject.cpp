@@ -151,3 +151,8 @@ void IProject::setData(const QVariant &a_value, int a_iRole)
         QStandardItem::setData(a_value, a_iRole);
     }
 }
+
+void IProject::fillInSourcesModel(const QList<KotkaSource::SSourceData> &a_rSourceList)
+{
+    Q_UNUSED(a_rSourceList)
+}

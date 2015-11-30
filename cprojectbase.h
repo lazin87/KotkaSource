@@ -21,6 +21,7 @@ public:
     virtual void setName(QString const & a_rName);
     virtual void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery);
     virtual void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
+    virtual void fillInSourcesModel(QList<KotkaSource::SSourceData> const & a_rSourceList);
 
 private:
     KotkaSource::SProjectData m_sData;

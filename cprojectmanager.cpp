@@ -35,13 +35,14 @@ bool CProjectManager::createProject(QString a_strName)
     return fResult;
 }
 
-void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex)
+void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex, QList<KotkaSource::SSourceData> &a_rSourcesDataList)
 {
     IProject * pNewProject = new CProjectBase(a_rProjectData.m_strName);
     if(0 != pNewProject)
     {
         pNewProject->setDeadlineDelivery(a_rProjectData.m_oDateTimeDelivery);
         pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
+        pNewProject->fillInSourcesModel(a_rSourcesDataList);
 
         QStandardItem *pStandardItem = (a_rModelIndex.isValid() ) ? m_oModel.itemFromIndex(a_rModelIndex)
                                                                   : m_oModel.invisibleRootItem();

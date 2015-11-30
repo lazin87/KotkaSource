@@ -19,7 +19,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
 
 public slots:
-    void addNewSource(QString const & a_strName, bool a_fReadOnly);
+    void addNewSource(QString const & a_strName, bool a_fReadOnly, QString a_strParserName);
     void removeSourceSlot(QModelIndex const & a_rModelIndex);
 
 private:
