@@ -12,8 +12,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = KotkaSource
 TEMPLATE = app
 
-include(3RD/xlsx/qtxlsx.pri)
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     ctask.cpp \
@@ -54,3 +52,5 @@ FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \
     ccreatetaskdialog.ui \
     ccreatecontactdialog.ui
+
+include(3RD/xlsx/qtxlsx.pri)

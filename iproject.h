@@ -24,7 +24,9 @@ public:
     virtual void setName(QString const & a_rName) = 0;
     virtual void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery) = 0;
     virtual void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters) = 0;
+
     virtual void fillInSourcesModel(QList<KotkaSource::SSourceData> const & a_rSourceList);
+    virtual void parseSources();
 
 //protected:
 //    // PRZENIESC DO CPROJECTBASE!!!

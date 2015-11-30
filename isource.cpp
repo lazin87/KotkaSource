@@ -7,8 +7,9 @@
 ISource::ISource(QString const & a_rFileName)
     : m_pParseStrategy(0)
     , m_fIsReadOnly(true)
-    , m_oFile(a_rFileName)
+    //, m_oFile(a_rFileName)
     , m_strName(a_rFileName)
+    , m_strParentModelName("")
 {
 
 }
@@ -35,16 +36,23 @@ void ISource::setReadOnlyFlag(bool a_fIsReadOnly)
 
 bool ISource::readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList)
 {
-    bool fResult = false;
+    qDebug() << "ISource::readTaskData";
 
-    if( (0 != m_pParseStrategy) && m_oFile.exists() )
+    bool fResult = false;
+    QString inputFileName = KotkaSource::strINPUT_FILES_PATH
+            + (m_strParentModelName.isEmpty() ? "": ("/" + m_strParentModelName) )
+            + "/" + m_strName;
+    QFile oFile(inputFileName);
+
+    if( (0 != m_pParseStrategy) && oFile.exists() )
     {
-        fResult = m_oFile.open(QIODevice::ReadOnly | QIODevice::Text);
+        qDebug() << "ISource::readTaskData: if1";
+        fResult = oFile.open(QIODevice::ReadOnly | QIODevice::Text);
         if(fResult)
         {
-            QTextStream inTextStream(&m_oFile);
-            fResult = m_pParseStrategy->getTaskDataList(a_rOutTaskList, inTextStream);
-            m_oFile.close();
+            qDebug() << "ISource::readTaskData: if2";
+            fResult = m_pParseStrategy->getTaskDataList(a_rOutTaskList, &oFile);
+            oFile.close();
         }
     }
 
@@ -54,7 +62,7 @@ bool ISource::readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList)
 bool ISource::storeTaskData(const KotkaSource::STaskData &a_crTaskData)
 {
     bool fResult = false;
-
+/*
     if( (false == m_fIsReadOnly) && (0 != m_pParseStrategy) && m_oFile.exists() )
     {
         fResult = m_oFile.open(QIODevice::ReadWrite | QIODevice::Text);
@@ -66,8 +74,13 @@ bool ISource::storeTaskData(const KotkaSource::STaskData &a_crTaskData)
             m_oFile.close();
         }
     }
-
+*/
     return fResult;
+}
+
+void ISource::setParentModelName(const QString &a_rParentModelName)
+{
+    m_strParentModelName = a_rParentModelName;
 }
 
 QString ISource::getName() const

@@ -6,8 +6,6 @@
 #include "cprojectmanager.h"
 #include "cclientsandwritersdbmodel.h"
 
-#include "xlsxdocument.h"
-
 // end headers to test
 QString GetRandomString();
 
@@ -36,10 +34,6 @@ int main(int argc, char *argv[])
     QObject::connect( &w, SIGNAL(addNewContact(KotkaSource::SContactData const &) )
                     , &oAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
                     );
-
-    QXlsx::Document xlsx;
-            xlsx.write("A1", "Hello Qt!");
-            xlsx.saveAs("Test.xlsx");
     // end just to test
 
 

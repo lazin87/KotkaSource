@@ -84,6 +84,13 @@ void CProjectBase::fillInSourcesModel(const QList<KotkaSource::SSourceData> &a_r
     }
 }
 
+void CProjectBase::parseSources()
+{
+    qDebug("CProjectBase::parseSources()" );
+    QList<KotkaSource::STaskData> oTaskDataList;
+    m_oSourceModel.getTaskListFromSources(oTaskDataList);
+}
+
 QVariant CProjectBase::data(int a_iRole) const
 {
     if(KotkaSource::ReadProjectDataRole == a_iRole)

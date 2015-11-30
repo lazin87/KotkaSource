@@ -2,10 +2,13 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QDebug>
+
 
 CSourcesModel::CSourcesModel(const QString &a_strModelName, QObject *a_pParent)
     : QAbstractTableModel(a_pParent)
     , m_strName( (a_strModelName.isEmpty() ) ? "Undefined" : a_strModelName)
+    , m_oXlsxCastoParser()
 {
     prepareInOutFolders();
 }
@@ -49,6 +52,20 @@ QVariant CSourcesModel::data(const QModelIndex &index, int role) const
     }
 }
 
+void CSourcesModel::getTaskListFromSources(QList<KotkaSource::STaskData> &a_rListOfTaskData)
+{
+    qDebug() << "CSourcesModel::getTaskListFromSources";
+    foreach(ISource * pSource, m_aPtrsSourcesList)
+    {
+        qDebug() << "CSourcesModel::getTaskListFromSources: loop";
+        if(0 != pSource)
+        {
+            qDebug() << "CSourcesModel::getTaskListFromSources: if";
+            pSource->readTaskData(a_rListOfTaskData);
+        }
+    }
+}
+
 void CSourcesModel::addNewSource(const QString &a_strName, bool a_fReadOnly, QString a_strParserName)
 {
     QFileInfo oFileInfo(a_strName);
@@ -69,6 +86,13 @@ void CSourcesModel::addNewSource(const QString &a_strName, bool a_fReadOnly, QSt
     }
 
     ISource * iSource = new ISource(fileName);
+    iSource->setParentModelName(m_strName);
+    if(false == a_strParserName.isEmpty() )
+    {
+        qDebug() << "CSourcesModel::addNewSource: Parser was set for: " << a_strName;
+        iSource->setStrategy( &m_oXlsxCastoParser);
+    }
+
     beginInsertRows(QModelIndex(), rowCount(QModelIndex() ), rowCount(QModelIndex() ) );
     m_aPtrsSourcesList.append(iSource);
     endInsertRows();

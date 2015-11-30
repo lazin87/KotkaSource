@@ -379,7 +379,7 @@ void CCreateProjectDialog::addNewEntriesToSourcesTable(const QStringList &a_strP
             QTableWidgetItem * pWidgetItem = new QTableWidgetItem("");
             pWidgetItem->setCheckState(Qt::Unchecked);
             ui->sourcesTableWidget->setItem(iNewRowIndex, 1, pWidgetItem );
-            ui->sourcesTableWidget->setItem(iNewRowIndex, 2, new QTableWidgetItem("No parser") );
+            ui->sourcesTableWidget->setItem(iNewRowIndex, 2, new QTableWidgetItem("") );
         }
     }
 }

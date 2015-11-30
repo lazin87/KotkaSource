@@ -156,3 +156,8 @@ void IProject::fillInSourcesModel(const QList<KotkaSource::SSourceData> &a_rSour
 {
     Q_UNUSED(a_rSourceList)
 }
+
+void IProject::parseSources()
+{
+
+}

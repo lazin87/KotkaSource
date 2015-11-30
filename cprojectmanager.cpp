@@ -44,6 +44,10 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
         pNewProject->setDeadlineCopywriters(a_rProjectData.m_oDateTimeWriterDeadline);
         pNewProject->fillInSourcesModel(a_rSourcesDataList);
 
+        // TYMCZASOWO
+        pNewProject->parseSources();
+        // END TYMCZASOWO
+
         QStandardItem *pStandardItem = (a_rModelIndex.isValid() ) ? m_oModel.itemFromIndex(a_rModelIndex)
                                                                   : m_oModel.invisibleRootItem();
         pStandardItem->appendRow(pNewProject);

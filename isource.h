@@ -20,13 +20,15 @@ public:
     void setReadOnlyFlag(bool a_fIsReadOnly);
     bool readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList);
     bool storeTaskData(KotkaSource::STaskData const & a_crTaskData);
+    void setParentModelName(QString const & a_rParentModelName);
     QString getName() const;
 
 private:
     ISourceParseStrategy * m_pParseStrategy;
     bool m_fIsReadOnly;
-    QFile m_oFile;
+   // QFile m_oFile;
     QString m_strName;
+    QString m_strParentModelName;
 };
 
 #endif // ISOURCE_H
