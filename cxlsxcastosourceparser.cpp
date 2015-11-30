@@ -37,3 +37,18 @@ bool CXlsxCastoSourceParser::fillInSourceDoc(const KotkaSource::STaskData &a_crT
 {
     return false;
 }
+
+void CXlsxCastoSourceParser::setTaskId(KotkaSource::STaskData &a_rTaskData)
+{
+
+}
+
+void CXlsxCastoSourceParser::setTaskDesc(KotkaSource::STaskData &a_rTaskData)
+{
+
+}
+
+void CXlsxCastoSourceParser::setTaskObjects(KotkaSource::STaskData &a_rTaskData)
+{
+
+}

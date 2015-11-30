@@ -79,17 +79,19 @@ struct STaskObjectData
     int m_iMaxLength;
     ETaskObjectType m_eType;
     QString m_strCurrentText;
+    QString m_strTitle;
 };
 
 struct STaskData
 {
+    int m_iId;
     QString m_strName;
     QString m_strDesc;
     QString m_strWriterName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
 
-    QMap<QString, STaskObjectData> m_aTextFieldsMap;
+    QList<STaskObjectData> m_aTextFieldsMap;
 };
 
 struct SContactData
