@@ -47,11 +47,6 @@ void CCreateProjectDialog::getProjectData(KotkaSource::SProjectData &a_rProjectD
     a_rProjectData.m_strClientName = ui->clientComboBox->currentText();
 }
 
-void CCreateProjectDialog::getSourcesModel(CSourcesModel & a_rSorucesModel) const
-{
-
-}
-
 void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
 {
     if(0 != a_pModel )
@@ -368,5 +363,20 @@ void CCreateProjectDialog::addNewEntriesToSourcesTable(const QStringList &a_strP
             ui->sourcesTableWidget->setItem(iNewRowIndex, 1, pWidgetItem );
             ui->sourcesTableWidget->setItem(iNewRowIndex, 2, new QTableWidgetItem("No parser") );
         }
+    }
+}
+
+void CCreateProjectDialog::getSourceList(QList<KotkaSource::SSourceData> &a_rSourcesDataList) const
+{
+    for( int iRow = 0
+       ; ui->sourcesTableWidget->rowCount() > iRow
+       ; ++iRow )
+    {
+        KotkaSource::SSourceData sSourceData;
+        sSourceData.m_strName = ui->sourcesTableWidget->item(iRow, 0)->text();
+        sSourceData.m_fReadOnly = (Qt::Checked == ui->sourcesTableWidget->item(iRow, 1)->checkState() );
+        sSourceData.m_strParserName = ui->sourcesTableWidget->item(iRow, 2)->text();
+
+        a_rSourcesDataList.append(sSourceData);
     }
 }

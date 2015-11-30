@@ -4,7 +4,6 @@
 #include <QDialog>
 
 #include "commonddefs.h"
-#include "csourcesmodel.h"
 
 class QAbstractItemModel;
 class QCompleter;
@@ -26,8 +25,8 @@ public:
     QDateTime getWritersDeadline() const;
 
     void getProjectData(KotkaSource::SProjectData & a_rProjectData) const;
-    void getSourcesModel(CSourcesModel & a_rSorucesModel) const;
     void setAddressDbToCompleter(QAbstractItemModel * a_pModel);
+    void getSourceList(QList<KotkaSource::SSourceData> & a_rSourcesDataList) const;
 
     QString getClientName() const;
 
@@ -64,7 +63,6 @@ private:
     void addNewEntriesToSourcesTable(const QStringList &a_strPathList);
 
     Ui::CCreateProjectDialog *ui;
-    CSourcesModel m_oSourcesModel;
 };
 
 #endif // CCREATEPROJECTDIALOG_H

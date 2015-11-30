@@ -26,7 +26,7 @@ public:
     void setModelForAddressBook(QAbstractTableModel * a_pModel);
 
 signals:
-    void createProject(KotkaSource::SProjectData &, QModelIndex &);
+    void createProject(KotkaSource::SProjectData &, QModelIndex &, QList<KotkaSource::SSourceData> &);
     void createTask(KotkaSource::STaskData &, QModelIndex &);
     void addNewContact(KotkaSource::SContactData const & a_crContactData);
     void editContact(KotkaSource::SContactData const & a_crContactData);

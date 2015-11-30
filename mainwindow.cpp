@@ -112,8 +112,11 @@ void MainWindow::addProjectSlot()
         newProjectDialog.getProjectData(sProjectData);
         // dodac pobieranie wskaznika z modelu ksiazki adresowej
 
+        QList<KotkaSource::SSourceData> sourcesList;
+        newProjectDialog.getSourceList(sourcesList);
 
-        emit createProject(sProjectData, m_oModelIndex);
+
+        emit createProject(sProjectData, m_oModelIndex, sourcesList);
     }
     else
     {
