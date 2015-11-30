@@ -296,7 +296,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="resetSourcesPushButton">
+          <widget class="QPushButton" name="removeSourcesPushButton">
            <property name="maximumSize">
             <size>
              <width>50</width>
@@ -304,7 +304,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Reset</string>
+            <string>Remove</string>
            </property>
           </widget>
          </item>
@@ -389,8 +389,8 @@
    <slot>clientAddSlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>339</x>
-     <y>164</y>
+     <x>479</x>
+     <y>175</y>
     </hint>
     <hint type="destinationlabel">
      <x>120</x>
@@ -405,8 +405,8 @@
    <slot>clientEditSlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>355</x>
-     <y>213</y>
+     <x>479</x>
+     <y>216</y>
     </hint>
     <hint type="destinationlabel">
      <x>335</x>
@@ -437,12 +437,28 @@
    <slot>sourceAddSlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>342</x>
-     <y>332</y>
+     <x>480</x>
+     <y>342</y>
     </hint>
     <hint type="destinationlabel">
      <x>398</x>
      <y>703</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>removeSourcesPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CCreateProjectDialog</receiver>
+   <slot>sourceRemoveSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>452</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>458</x>
+     <y>724</y>
     </hint>
    </hints>
   </connection>
@@ -452,5 +468,6 @@
   <slot>clientEditSlot()</slot>
   <slot>clientNameWasChangedSlot(QString)</slot>
   <slot>sourceAddSlot()</slot>
+  <slot>sourceRemoveSlot()</slot>
  </slots>
 </ui>

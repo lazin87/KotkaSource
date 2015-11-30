@@ -160,6 +160,24 @@ void CCreateProjectDialog::sourceAddSlot()
     }
 }
 
+void CCreateProjectDialog::sourceRemoveSlot()
+{
+    int iNumberOfRemovedRows = 0;
+    QList<QTableWidgetSelectionRange> selectionRanges = ui->sourcesTableWidget->selectedRanges();
+    foreach(QTableWidgetSelectionRange selectionRange, selectionRanges)
+    {
+        int iFirstItem = selectionRange.topRow() - iNumberOfRemovedRows;
+        for( int iRemovedItems = 0//selectionRange.topRow()
+           ; selectionRange.rowCount() > iRemovedItems
+           ; ++iRemovedItems )
+        {
+            ui->sourcesTableWidget->removeRow(iFirstItem);
+        }
+
+        iNumberOfRemovedRows += selectionRange.rowCount();
+    }
+}
+
 void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
 {
     QString strTemp = "";

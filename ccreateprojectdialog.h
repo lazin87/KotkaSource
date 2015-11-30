@@ -36,6 +36,7 @@ public slots:
     void clientEditSlot();
     void clientNameWasChangedSlot(QString const & a_rNewName);
     void sourceAddSlot();
+    void sourceRemoveSlot();
 
 signals:
     void addNewContact(KotkaSource::SContactData const & a_crContactData);
