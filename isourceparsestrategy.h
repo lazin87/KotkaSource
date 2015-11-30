@@ -6,11 +6,11 @@
 
 #include "commonddefs.h"
 
-class ISourceTranslateStrategy
+class ISourceParseStrategy
 {
 public:
-    ISourceTranslateStrategy();
-    ~ISourceTranslateStrategy();
+    ISourceParseStrategy();
+    ~ISourceParseStrategy();
 
     virtual bool getTaskDataList(QList<KotkaSource::STaskData> a_rTaskDataList, QTextStream const & a_crTextStream) = 0;
     virtual bool fillInSourceDoc(KotkaSource::STaskData const & a_crTaskData, QTextStream const & a_crTextStream) = 0;

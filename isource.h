@@ -6,7 +6,7 @@
 
 #include "commonddefs.h"
 
-class ISourceTranslateStrategy;
+class ISourceParseStrategy;
 
 class ISource
 {
@@ -14,8 +14,8 @@ public:
     explicit ISource(QString const & a_rFileName);
     ~ISource();
 
-    void setStrategy(ISourceTranslateStrategy * a_pTranslateStrategy);
-    ISourceTranslateStrategy * strategy() const;
+    void setStrategy(ISourceParseStrategy * a_pParseStrategy);
+    ISourceParseStrategy * strategy() const;
 
     void setReadOnlyFlag(bool a_fIsReadOnly);
     bool readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList);
@@ -23,7 +23,7 @@ public:
     QString getName() const;
 
 private:
-    ISourceTranslateStrategy * m_pTranslateStrategy;
+    ISourceParseStrategy * m_pParseStrategy;
     bool m_fIsReadOnly;
     QFile m_oFile;
     QString m_strName;
