@@ -47,7 +47,7 @@ bool ISource::readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList)
     if( (0 != m_pParseStrategy) && oFile.exists() )
     {
         qDebug() << "ISource::readTaskData: if1";
-        fResult = oFile.open(QIODevice::ReadOnly | QIODevice::Text);
+        fResult = oFile.open(QIODevice::ReadOnly);
         if(fResult)
         {
             qDebug() << "ISource::readTaskData: if2";

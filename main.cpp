@@ -5,11 +5,26 @@
 // headers to test
 #include "cprojectmanager.h"
 #include "cclientsandwritersdbmodel.h"
-
+#include "xlsxdocument.h"
+#include <QDebug>
 // end headers to test
 QString GetRandomString();
 
 void fillInAddressBook(CClientsAndWritersDbModel & a_rAddressBook);
+void testXlsxParser()
+{
+    qDebug() << "CXlsxCastoSourceParser::getTaskDataList";
+    QXlsx::Document oDoc("C:/Users/Rafal/Downloads/test.xlsx");
+
+    QString strCell = "A1";
+    qDebug() << strCell << " " << oDoc.read(strCell);
+
+    strCell = "D8";
+    qDebug() << strCell << " " << oDoc.read(strCell);
+
+    strCell = "B5";
+    qDebug() << strCell << " " << oDoc.read(strCell);
+}
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +49,7 @@ int main(int argc, char *argv[])
     QObject::connect( &w, SIGNAL(addNewContact(KotkaSource::SContactData const &) )
                     , &oAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
                     );
+
     // end just to test
 
 
