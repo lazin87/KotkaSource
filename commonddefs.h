@@ -84,6 +84,7 @@ struct STaskObjectData
 struct STaskData
 {
     QString m_strName;
+    QString m_strDesc;
     QString m_strWriterName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;

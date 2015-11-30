@@ -16,13 +16,16 @@ CXlsxCastoSourceParser::~CXlsxCastoSourceParser()
 
 bool CXlsxCastoSourceParser::getTaskDataList(QList<KotkaSource::STaskData> a_rTaskDataList, QIODevice *a_pDevice)
 {
+    // get ID/Name
+    // get description
+    // get fields name to fill in
     qDebug() << "CXlsxCastoSourceParser::getTaskDataList";
     QXlsx::Document oDoc(a_pDevice);
 
     QString strCell = "A1";
     qDebug() << strCell << " " << oDoc.read(strCell);
 
-    strCell = "D8";
+    strCell = "C5";
     qDebug() << strCell << " " << oDoc.read(strCell);
 
     strCell = "B5";
