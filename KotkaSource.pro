@@ -12,6 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = KotkaSource
 TEMPLATE = app
 
+include(3RD/xlsx/qtxlsx.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -28,7 +29,8 @@ SOURCES += main.cpp\
     csourcesmodel.cpp \
     isource.cpp \
     csourcepropertis.cpp \
-    isourceparsestrategy.cpp
+    isourceparsestrategy.cpp \
+    cxlsxcastosourceparser.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -45,7 +47,8 @@ HEADERS  += mainwindow.h \
     csourcesmodel.h \
     isource.h \
     csourcepropertis.h \
-    isourceparsestrategy.h
+    isourceparsestrategy.h \
+    cxlsxcastosourceparser.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \
