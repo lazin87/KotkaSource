@@ -20,6 +20,7 @@ public:
     {
         cTITLE_ROW = 1,
         cREQ_COLUMN = 1,
+        cNAME_COLUMN = 3,
         cFIRST_DATA_ROW = 2,
         cMAX_DATA_ROW = 65000
     };
@@ -28,11 +29,12 @@ public:
     ~CXlsxCastoSourceParser();
 
     // ISourceParseStrategy interface
-    virtual bool getTaskDataList(QList<KotkaSource::STaskData> a_rTaskDataList, QIODevice * a_pDevice);
+    virtual bool getTaskDataList(QList<KotkaSource::STaskData> &a_rTaskDataList, QIODevice * a_pDevice);
     virtual bool fillInSourceDoc(const KotkaSource::STaskData &a_crTaskData, const QTextStream &a_crTextStream);
 
 private:
     void setTaskId(KotkaSource::STaskData & a_rTaskData, int a_iRow);
+    void setTaskName(KotkaSource::STaskData & a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc);
     void setTaskDesc(KotkaSource::STaskData & a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc);
     void setTaskObjects(KotkaSource::STaskData & a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc);
     bool isRowEmpty(int a_iRow, QXlsx::Document &a_rXlsxDoc);

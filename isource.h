@@ -18,7 +18,7 @@ public:
     ISourceParseStrategy * strategy() const;
 
     void setReadOnlyFlag(bool a_fIsReadOnly);
-    bool readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList);
+    bool readTaskData(QList<KotkaSource::STaskData> &a_rOutTaskList);
     bool storeTaskData(KotkaSource::STaskData const & a_crTaskData);
     void setParentModelName(QString const & a_rParentModelName);
     QString getName() const;

@@ -12,7 +12,7 @@ public:
     ISourceParseStrategy();
     ~ISourceParseStrategy();
 
-    virtual bool getTaskDataList(QList<KotkaSource::STaskData> a_rTaskDataList, QIODevice * device) = 0;
+    virtual bool getTaskDataList(QList<KotkaSource::STaskData> & a_rTaskDataList, QIODevice * device) = 0;
     virtual bool fillInSourceDoc(KotkaSource::STaskData const & a_crTaskData, QTextStream const & a_crTextStream) = 0;
 };
 

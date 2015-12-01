@@ -34,7 +34,7 @@ void ISource::setReadOnlyFlag(bool a_fIsReadOnly)
     m_fIsReadOnly = a_fIsReadOnly;
 }
 
-bool ISource::readTaskData(QList<KotkaSource::STaskData> a_rOutTaskList)
+bool ISource::readTaskData(QList<KotkaSource::STaskData> & a_rOutTaskList)
 {
     qDebug() << "ISource::readTaskData";
 

@@ -1,5 +1,7 @@
 #include "cprojectbase.h"
 
+#include "ctask.h"
+
 CProjectBase::CProjectBase(QString a_strName)
     : IProject(a_strName)
     , m_sData()
@@ -89,6 +91,16 @@ void CProjectBase::parseSources()
     qDebug("CProjectBase::parseSources()" );
     QList<KotkaSource::STaskData> oTaskDataList;
     m_oSourceModel.getTaskListFromSources(oTaskDataList);
+
+    foreach(KotkaSource::STaskData taskData, oTaskDataList)
+    {
+        qDebug("CProjectBase::parseSources(): create task: %d, name: %s", taskData.m_iId, taskData.m_strName.toLatin1().data() );
+        IProject * pNewTask = new CTask(taskData);
+        if(0 != pNewTask)
+        {
+            appendRow(pNewTask);
+        }
+    }
 }
 
 QVariant CProjectBase::data(int a_iRole) const

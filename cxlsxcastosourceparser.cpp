@@ -16,7 +16,7 @@ CXlsxCastoSourceParser::~CXlsxCastoSourceParser()
 
 
 
-bool CXlsxCastoSourceParser::getTaskDataList(QList<KotkaSource::STaskData> a_rTaskDataList, QIODevice *a_pDevice)
+bool CXlsxCastoSourceParser::getTaskDataList(QList<KotkaSource::STaskData> & a_rTaskDataList, QIODevice *a_pDevice)
 {
     qDebug() << "CXlsxCastoSourceParser::getTaskDataList";
 
@@ -29,9 +29,11 @@ bool CXlsxCastoSourceParser::getTaskDataList(QList<KotkaSource::STaskData> a_rTa
         KotkaSource::STaskData taskData;
 
         setTaskId(taskData, iRow);
+        setTaskName(taskData, iRow, oDoc);
         setTaskDesc(taskData, iRow, oDoc);
         setTaskObjects(taskData, iRow, oDoc);
-
+        qDebug() << "CXlsxCastoSourceParser::getTaskDataList: append task: iRow: " << iRow
+                 << " name: " << taskData.m_strName;
         a_rTaskDataList.append(taskData);
     }
 
@@ -46,6 +48,11 @@ bool CXlsxCastoSourceParser::fillInSourceDoc(const KotkaSource::STaskData &a_crT
 void CXlsxCastoSourceParser::setTaskId(KotkaSource::STaskData &a_rTaskData, int a_iRow)
 {
     a_rTaskData.m_iId = a_iRow;
+}
+
+void CXlsxCastoSourceParser::setTaskName(KotkaSource::STaskData &a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc)
+{
+    a_rTaskData.m_strName = a_rXlsxDoc.read(a_iRow, cNAME_COLUMN).toString();
 }
 
 void CXlsxCastoSourceParser::setTaskDesc(KotkaSource::STaskData &a_rTaskData, int a_iRow, QXlsx::Document & a_rXlsxDoc)
