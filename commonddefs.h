@@ -91,7 +91,7 @@ struct STaskData
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
 
-    QList<STaskObjectData> m_aTextFieldsMap;
+    QList<STaskObjectData> m_aTextFieldsList;
 };
 
 struct SContactData

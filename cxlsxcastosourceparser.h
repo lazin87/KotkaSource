@@ -16,6 +16,14 @@
 class CXlsxCastoSourceParser : public ISourceParseStrategy
 {
 public:
+    enum
+    {
+        cTITLE_ROW = 1,
+        cREQ_COLUMN = 1,
+        cFIRST_DATA_ROW = 2,
+        cMAX_DATA_ROW = 65000
+    };
+
     CXlsxCastoSourceParser();
     ~CXlsxCastoSourceParser();
 
@@ -24,12 +32,13 @@ public:
     virtual bool fillInSourceDoc(const KotkaSource::STaskData &a_crTaskData, const QTextStream &a_crTextStream);
 
 private:
-    void setTaskId(KotkaSource::STaskData & a_rTaskData);
-    void setTaskDesc(KotkaSource::STaskData & a_rTaskData);
-    void setTaskObjects(KotkaSource::STaskData & a_rTaskData);
+    void setTaskId(KotkaSource::STaskData & a_rTaskData, int a_iRow);
+    void setTaskDesc(KotkaSource::STaskData & a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc);
+    void setTaskObjects(KotkaSource::STaskData & a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc);
+    bool isRowEmpty(int a_iRow, QXlsx::Document &a_rXlsxDoc);
 
-    QVector<const int> m_aiCOLUMNS_DESC;
-    QVector<const int> m_aiCOLUMNS_DATA;
+    const QVector<int> m_aiCOLUMNS_DESC;
+    const QVector<int> m_aiCOLUMNS_DATA;
 };
 
 #endif // CXLSXCASTOSOURCEPARSER_H
