@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QLabel>
 #include <QItemSelection>
 #include <QItemSelectionModel>
 
@@ -28,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent) :
            );
 
     createProjectTreeContextMenu();
+
+    m_pServerConnectionStatus = new QLabel("Not Connected");
+    ui->statusBar->addWidget(m_pServerConnectionStatus);
 }
 
 MainWindow::~MainWindow()

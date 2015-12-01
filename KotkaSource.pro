@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     isource.cpp \
     csourcepropertis.cpp \
     isourceparsestrategy.cpp \
-    cxlsxcastosourceparser.cpp
+    cxlsxcastosourceparser.cpp \
+    cremotedatastorage.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -46,7 +47,8 @@ HEADERS  += mainwindow.h \
     isource.h \
     csourcepropertis.h \
     isourceparsestrategy.h \
-    cxlsxcastosourceparser.h
+    cxlsxcastosourceparser.h \
+    cremotedatastorage.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \

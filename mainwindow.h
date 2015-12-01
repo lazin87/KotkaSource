@@ -9,6 +9,7 @@
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QItemSelection;
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -50,6 +51,8 @@ private:
     QAction * m_pAddProjectAction;
     QAction * m_pAddSubprojectAction;
     QAction * m_pAddTaskAction;
+
+    QLabel * m_pServerConnectionStatus;
 
 };
 
