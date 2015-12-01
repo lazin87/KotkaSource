@@ -89,17 +89,34 @@ void CProjectBase::fillInSourcesModel(const QList<KotkaSource::SSourceData> &a_r
 void CProjectBase::parseSources()
 {
     qDebug("CProjectBase::parseSources()" );
-    QList<KotkaSource::STaskData> oTaskDataList;
-    m_oSourceModel.getTaskListFromSources(oTaskDataList);
+    QList<CSourcesModel::T_SourceTaskDataPair> sourceAndTasksDataPairList;
 
-    foreach(KotkaSource::STaskData taskData, oTaskDataList)
+    m_oSourceModel.getTaskListFromSources(sourceAndTasksDataPairList);
+
+    foreach(CSourcesModel::T_SourceTaskDataPair sourceAndTasksDataPair, sourceAndTasksDataPairList)
     {
+        IProject * pNewSubProject = new CProjectBase(sourceAndTasksDataPair.first);
+        if(0 != pNewSubProject)
+        {
+            foreach(KotkaSource::STaskData taskData, sourceAndTasksDataPair.second)
+            {
+                IProject * pNewTask = new CTask(taskData);
+                if(0 != pNewTask)
+                {
+                    pNewSubProject->appendRow(pNewTask);
+                }
+            }
+
+            appendRow(pNewSubProject);
+        }
+        /*
         qDebug("CProjectBase::parseSources(): create task: %d, name: %s", taskData.m_iId, taskData.m_strName.toLatin1().data() );
         IProject * pNewTask = new CTask(taskData);
         if(0 != pNewTask)
         {
             appendRow(pNewTask);
         }
+        */
     }
 }
 

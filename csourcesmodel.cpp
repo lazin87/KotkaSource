@@ -52,7 +52,7 @@ QVariant CSourcesModel::data(const QModelIndex &index, int role) const
     }
 }
 
-void CSourcesModel::getTaskListFromSources(QList<KotkaSource::STaskData> &a_rListOfTaskData)
+void CSourcesModel::getTaskListFromSources(QList<T_SourceTaskDataPair> &a_rListOfTaskDataPairs)
 {
     qDebug() << "CSourcesModel::getTaskListFromSources";
     foreach(ISource * pSource, m_aPtrsSourcesList)
@@ -61,7 +61,10 @@ void CSourcesModel::getTaskListFromSources(QList<KotkaSource::STaskData> &a_rLis
         if(0 != pSource)
         {
             qDebug() << "CSourcesModel::getTaskListFromSources: if";
-            pSource->readTaskData(a_rListOfTaskData);
+            QList<KotkaSource::STaskData> taskDataList;
+            pSource->readTaskData(taskDataList);
+            T_SourceTaskDataPair sourceAndTasksPair{pSource->getName(), taskDataList};
+            a_rListOfTaskDataPairs.append(sourceAndTasksPair);
         }
     }
 }

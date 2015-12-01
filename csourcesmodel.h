@@ -3,6 +3,8 @@
 
 #include <QAbstractTableModel>
 #include <QList>
+#include <QPair>
+
 #include "isource.h"
 #include "cxlsxcastosourceparser.h"
 
@@ -10,6 +12,8 @@ class CSourcesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
+    using T_SourceTaskDataPair = QPair<QString, QList<KotkaSource::STaskData> >;
+
     explicit CSourcesModel(QString const & a_strModelName = "", QObject * a_pParent = 0);
     ~CSourcesModel();
 
@@ -19,7 +23,7 @@ public:
     virtual int columnCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
 
-    void getTaskListFromSources(QList<KotkaSource::STaskData> & a_rListOfTaskData);
+    void getTaskListFromSources(QList<T_SourceTaskDataPair> & a_rListOfTaskDataPairs);
 
 public slots:
     void addNewSource(QString const & a_strName, bool a_fReadOnly, QString a_strParserName);
