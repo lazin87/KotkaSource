@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 QMAKE_CXXFLAGS += -std=c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     isource.cpp \
     csourcepropertis.cpp \
     isourceparsestrategy.cpp \
-    cxlsxcastosourceparser.cpp
+    cxlsxcastosourceparser.cpp \
+    clocaldatastorage.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -46,7 +47,8 @@ HEADERS  += mainwindow.h \
     isource.h \
     csourcepropertis.h \
     isourceparsestrategy.h \
-    cxlsxcastosourceparser.h
+    cxlsxcastosourceparser.h \
+    clocaldatastorage.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \

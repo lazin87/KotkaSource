@@ -7,6 +7,8 @@
 #include "cclientsandwritersdbmodel.h"
 #include "xlsxdocument.h"
 #include <QDebug>
+
+#include "clocaldatastorage.h"
 // end headers to test
 QString GetRandomString();
 
@@ -50,6 +52,7 @@ int main(int argc, char *argv[])
                     , &oAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
                     );
 
+    CLocalDataStorage oLocalDataStorage;
     // end just to test
 
 
