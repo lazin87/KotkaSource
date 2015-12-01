@@ -62,9 +62,13 @@ void CSourcesModel::getTaskListFromSources(QList<T_SourceTaskDataPair> &a_rListO
         {
             qDebug() << "CSourcesModel::getTaskListFromSources: if";
             QList<KotkaSource::STaskData> taskDataList;
-            pSource->readTaskData(taskDataList);
-            T_SourceTaskDataPair sourceAndTasksPair{pSource->getName(), taskDataList};
-            a_rListOfTaskDataPairs.append(sourceAndTasksPair);
+            bool fTaskListWereCollected = pSource->readTaskData(taskDataList);
+
+            if(fTaskListWereCollected)
+            {
+                T_SourceTaskDataPair sourceAndTasksPair{pSource->getName(), taskDataList};
+                a_rListOfTaskDataPairs.append(sourceAndTasksPair);
+            }
         }
     }
 }
