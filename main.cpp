@@ -7,6 +7,7 @@
 #include "cclientsandwritersdbmodel.h"
 #include "xlsxdocument.h"
 #include <QDebug>
+#include "cremotedatastorage.h"
 // end headers to test
 QString GetRandomString();
 
@@ -50,6 +51,9 @@ int main(int argc, char *argv[])
                     , &oAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
                     );
 
+
+    CRemoteDataStorage remoteDataStorage;
+    remoteDataStorage.testMethod();
     // end just to test
 
 
