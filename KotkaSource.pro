@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 QMAKE_CXXFLAGS += -std=c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     csourcepropertis.cpp \
     isourceparsestrategy.cpp \
     cxlsxcastosourceparser.cpp \
-    cremotedatastorage.cpp
+    cremotedatastorage.cpp \
+    chttpbrowsersync.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -48,7 +49,8 @@ HEADERS  += mainwindow.h \
     csourcepropertis.h \
     isourceparsestrategy.h \
     cxlsxcastosourceparser.h \
-    cremotedatastorage.h
+    cremotedatastorage.h \
+    chttpbrowsersync.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \
