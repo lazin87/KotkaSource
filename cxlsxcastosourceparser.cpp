@@ -3,10 +3,18 @@
 #include "QDebug"
 
 CXlsxCastoSourceParser::CXlsxCastoSourceParser()
-    : m_aiCOLUMNS_DESC{3, 1, 6, 7, 8, 9}
-    , m_aiCOLUMNS_DATA{4, 5}
+    : m_aiCOLUMNS_DESC()//{3, 1, 6, 7, 8, 9}
+    , m_aiCOLUMNS_DATA()//{4, 5}
 {
+    m_aiCOLUMNS_DESC.append(3);
+    m_aiCOLUMNS_DESC.append(1);
+    m_aiCOLUMNS_DESC.append(6);
+    m_aiCOLUMNS_DESC.append(7);
+    m_aiCOLUMNS_DESC.append(8);
+    m_aiCOLUMNS_DESC.append(9);
 
+    m_aiCOLUMNS_DATA.append(4);
+    m_aiCOLUMNS_DATA.append(5);
 }
 
 CXlsxCastoSourceParser::~CXlsxCastoSourceParser()

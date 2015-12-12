@@ -39,8 +39,8 @@ private:
     void setTaskObjects(KotkaSource::STaskData & a_rTaskData, int a_iRow, QXlsx::Document &a_rXlsxDoc);
     bool isRowEmpty(int a_iRow, QXlsx::Document &a_rXlsxDoc);
 
-    const QVector<int> m_aiCOLUMNS_DESC;
-    const QVector<int> m_aiCOLUMNS_DATA;
+    /*const */QVector<int> m_aiCOLUMNS_DESC;
+    /*const */QVector<int> m_aiCOLUMNS_DATA;
 };
 
 #endif // CXLSXCASTOSOURCEPARSER_H
