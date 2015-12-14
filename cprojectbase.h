@@ -16,9 +16,11 @@ public:
     virtual void setData(const QVariant &a_value, int a_iRole);
 
     virtual QString getName() const;
+    virtual QString getParentName() const;
     virtual QDateTime deadlineDelivery() const;
     virtual QDateTime deadlineCopywriters() const;
     virtual void setName(QString const & a_rName);
+    virtual void setParentName(QString const & a_rParentName);
     virtual void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery);
     virtual void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 

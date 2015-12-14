@@ -67,6 +67,7 @@ enum ETaskObjectType
 struct SProjectData
 {
     QString m_strName;
+    QString m_strParentName;
     QDateTime m_oDateTimeDelivery;
     QDateTime m_oDateTimeWriterDeadline;
     QString m_strClientName;
@@ -86,6 +87,7 @@ struct STaskData
 {
     int m_iId;
     QString m_strName;
+    QString m_strParentName;
     QString m_strDesc;
     QString m_strWriterName;
     QDateTime m_oDateTimeDelivery;

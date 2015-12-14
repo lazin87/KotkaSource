@@ -19,9 +19,11 @@ public:
     // IProject interface
     virtual bool isLeaf() const;
     virtual QString getName() const;
+    virtual QString getParentName() const;
     virtual QDateTime deadlineDelivery() const;
     virtual QDateTime deadlineCopywriters() const;
     virtual void setName(QString const & a_rName);
+    virtual void setParentName(QString const & a_rParentName);
     virtual void setDeadlineDelivery(const QDateTime &a_rDeadlineDelivery);
     virtual void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 

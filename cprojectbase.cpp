@@ -8,6 +8,7 @@ CProjectBase::CProjectBase(QString a_strName)
     , m_oSourceModel(a_strName)
 {
     m_sData.m_strName = a_strName;
+    m_sData.m_strParentName = "";
 }
 
 CProjectBase::~CProjectBase()
@@ -17,6 +18,11 @@ CProjectBase::~CProjectBase()
 QString CProjectBase::getName() const
 {
     return m_sData.m_strName;
+}
+
+QString CProjectBase::getParentName() const
+{
+    return m_sData.m_strParentName;
 }
 
 QDateTime CProjectBase::deadlineDelivery() const
@@ -71,6 +77,11 @@ QDateTime CProjectBase::deadlineCopywriters() const
 void CProjectBase::setName(const QString &a_rName)
 {
     m_sData.m_strName = a_rName;
+}
+
+void CProjectBase::setParentName(const QString &a_rParentName)
+{
+    m_sData.m_strParentName = a_rParentName;
 }
 
 void CProjectBase::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
