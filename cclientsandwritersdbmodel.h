@@ -23,6 +23,8 @@ public:
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
     virtual bool removeRows(int row, int count, const QModelIndex &parent);
 
+signals:
+    void contactWasCreated(KotkaSource::SContactData const &);
 public slots:
     void append(QString a_strName);
     void addNewContactSlot(KotkaSource::SContactData const & a_rContactData);

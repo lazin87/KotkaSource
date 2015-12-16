@@ -5,6 +5,7 @@
 #include <QDebug>
 
 #include "cprojectmanager.h"
+#include "cclientsandwritersdbmodel.h"
 
 CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
     : QObject(a_pParent)
@@ -51,6 +52,13 @@ void CRemoteDataStorage::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
                       );
 }
 
+void CRemoteDataStorage::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rContactBook)
+{
+    QObject::connect( &a_rContactBook, SIGNAL(contactWasCreated(KotkaSource::SContactData) )
+                    , this, SLOT(storeContact(KotkaSource::SContactData) )
+                    );
+}
+
 void CRemoteDataStorage::storeTask(const KotkaSource::STaskData &a_crTaskData)
 {
     QJsonObject oJsonStoreMainObj;
@@ -86,6 +94,42 @@ void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProje
     sendNewDataToServer(oJsonStoreMainObj);
 }
 
+void CRemoteDataStorage::storeTaskObject(const KotkaSource::STaskObjectData &a_crTaskObjectData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectTaskObjectData;
+
+    oJsonObjectTaskObjectData["name"] = a_crTaskObjectData.m_strTitle;
+    oJsonObjectTaskObjectData["parent"] = a_crTaskObjectData.m_strParentTaskName;
+    oJsonObjectTaskObjectData["currentText"] = a_crTaskObjectData.m_strCurrentText;
+    oJsonObjectTaskObjectData["typeName"] = getTaskObjectTypeName(a_crTaskObjectData.m_eType);
+    oJsonObjectTaskObjectData["minLength"] = a_crTaskObjectData.m_iMinLength;
+    oJsonObjectTaskObjectData["maxLength"] = a_crTaskObjectData.m_iMaxLength;
+
+    oJsonStoreMainObj["type"] = "taskObject";
+    oJsonStoreMainObj["data"] = oJsonObjectTaskObjectData;
+
+    sendNewDataToServer(oJsonStoreMainObj);
+}
+
+void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crContactData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectContactData;
+
+    oJsonObjectContactData["name"] = a_crContactData.m_strName;
+    oJsonObjectContactData["email"] = a_crContactData.m_strEmail;
+    oJsonObjectContactData["phone"] = a_crContactData.m_strPhone;
+    oJsonObjectContactData["address"] = a_crContactData.m_strAddress;
+    oJsonObjectContactData["isWriter"] = a_crContactData.m_fIsWriter;
+    oJsonObjectContactData["isClient"] = a_crContactData.m_fIsClient;
+
+    oJsonStoreMainObj["type"] = "contact";
+    oJsonStoreMainObj["data"] = oJsonObjectContactData;
+
+    sendNewDataToServer(oJsonStoreMainObj);
+}
+
 void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
 {
     QJsonDocument oJsonDoc;
@@ -96,5 +140,10 @@ void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/addRecord.php");
     m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
     m_oHttpBrowser.startProcessRequest(strOutputFileName);
+}
+
+QString CRemoteDataStorage::getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const
+{
+    return QString( ( (KotkaSource::eTOT_Text == a_eTaskObjectType) ? "Text" : "File") );
 }
 

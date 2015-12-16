@@ -170,6 +170,8 @@ void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactDat
     beginInsertRows(QModelIndex(), rowCount(QModelIndex() ), rowCount(QModelIndex() ));
     m_aClientsAndWritesList.append(CPerson(a_rContactData) );
     endInsertRows();
+
+    emit contactWasCreated(a_rContactData);
 }
 
 void CClientsAndWritersDbModel::remove(int a_iIndex)

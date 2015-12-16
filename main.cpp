@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 
     CRemoteDataStorage remoteDataStorage;
     remoteDataStorage.connectSignalsAndSlots(oProjectMngr);
+    remoteDataStorage.connectSignalsAndSlots(oAddressBook);
     // end just to test
 
 

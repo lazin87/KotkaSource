@@ -81,6 +81,7 @@ struct STaskObjectData
     ETaskObjectType m_eType;
     QString m_strCurrentText;
     QString m_strTitle;
+    QString m_strParentTaskName;
 };
 
 struct STaskData
