@@ -23,11 +23,23 @@ public slots:
     void storeTask(KotkaSource::STaskData const & a_crTaskData);
     void storeProject(KotkaSource::SProjectData const & a_crProjectData);
     void storeTaskObject(KotkaSource::STaskObjectData const & a_crTaskObjectData);
-
     void storeContact(KotkaSource::SContactData const & a_crContactData);
+
+    void updateTask(KotkaSource::STaskData const & a_crTaskData);
+    void updateProject(KotkaSource::SProjectData const & a_crProjectData);
+    void updateTaskObject(KotkaSource::STaskObjectData const & a_crTaskObjectData);
+    void updateContact(KotkaSource::SContactData const & a_crContactData);
+
+    void removeTask(QString const & a_crName);
+    void removeProject(QString const & a_crName);
+    void removeTaskObject(QString const & a_crName);
+    void removeContact(QString const & a_crName);
 
 private:
     void sendNewDataToServer(QJsonObject const & a_crJsonObject);
+    void sendRemoveDataReqToServer(QJsonObject const & a_crJsonObject);
+    void sendUpdateDataReqToServer(QJsonObject const & a_crJsonObject);
+
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
 
     CHttpBrowserSync m_oHttpBrowser;

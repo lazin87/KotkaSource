@@ -130,6 +130,117 @@ void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crConta
     sendNewDataToServer(oJsonStoreMainObj);
 }
 
+void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectTaskData;
+
+    oJsonObjectTaskData["name"] = a_crTaskData.m_strName;
+    oJsonObjectTaskData["parent"] = a_crTaskData.m_strParentName;
+    oJsonObjectTaskData["desc"] = a_crTaskData.m_strDesc;
+    oJsonObjectTaskData["writer"] = a_crTaskData.m_strWriterName;
+    oJsonObjectTaskData["delivery"] = a_crTaskData.m_oDateTimeDelivery.toString(Qt::ISODate);
+    oJsonObjectTaskData["wDeadline"] = a_crTaskData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
+
+    oJsonStoreMainObj["type"] = "task";
+    oJsonStoreMainObj["data"] = oJsonObjectTaskData;
+
+    sendUpdateDataReqToServer(oJsonObjectTaskData);
+}
+
+void CRemoteDataStorage::updateProject(const KotkaSource::SProjectData &a_crProjectData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectProjectData;
+
+    oJsonObjectProjectData["name"] = a_crProjectData.m_strName;
+    oJsonObjectProjectData["parent"] = a_crProjectData.m_strParentName;
+    oJsonObjectProjectData["delivery"] = a_crProjectData.m_oDateTimeDelivery.toString(Qt::ISODate);
+    oJsonObjectProjectData["wDeadline"] = a_crProjectData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
+    oJsonObjectProjectData["client"] = a_crProjectData.m_strClientName;
+
+    oJsonStoreMainObj["type"] = "project";
+    oJsonStoreMainObj["data"] = oJsonObjectProjectData;
+
+    sendUpdateDataReqToServer(oJsonStoreMainObj);
+}
+
+void CRemoteDataStorage::updateTaskObject(const KotkaSource::STaskObjectData &a_crTaskObjectData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectTaskObjectData;
+
+    oJsonObjectTaskObjectData["name"] = a_crTaskObjectData.m_strTitle;
+    oJsonObjectTaskObjectData["parent"] = a_crTaskObjectData.m_strParentTaskName;
+    oJsonObjectTaskObjectData["currentText"] = a_crTaskObjectData.m_strCurrentText;
+    oJsonObjectTaskObjectData["typeName"] = getTaskObjectTypeName(a_crTaskObjectData.m_eType);
+    oJsonObjectTaskObjectData["minLength"] = a_crTaskObjectData.m_iMinLength;
+    oJsonObjectTaskObjectData["maxLength"] = a_crTaskObjectData.m_iMaxLength;
+
+    oJsonStoreMainObj["type"] = "taskObject";
+    oJsonStoreMainObj["data"] = oJsonObjectTaskObjectData;
+
+    sendUpdateDataReqToServer(oJsonStoreMainObj);
+}
+
+void CRemoteDataStorage::updateContact(const KotkaSource::SContactData &a_crContactData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectContactData;
+
+    oJsonObjectContactData["name"] = a_crContactData.m_strName;
+    oJsonObjectContactData["email"] = a_crContactData.m_strEmail;
+    oJsonObjectContactData["phone"] = a_crContactData.m_strPhone;
+    oJsonObjectContactData["address"] = a_crContactData.m_strAddress;
+    oJsonObjectContactData["isWriter"] = a_crContactData.m_fIsWriter;
+    oJsonObjectContactData["isClient"] = a_crContactData.m_fIsClient;
+
+    oJsonStoreMainObj["type"] = "contact";
+    oJsonStoreMainObj["data"] = oJsonObjectContactData;
+
+    sendUpdateDataReqToServer(oJsonStoreMainObj);
+}
+
+void CRemoteDataStorage::removeTask(const QString &a_crName)
+{
+    QJsonObject oJsonMainObj;
+
+    oJsonMainObj["type"] = "task";
+    oJsonMainObj["data"] = a_crName;
+
+    sendRemoveDataReqToServer(oJsonMainObj);
+}
+
+void CRemoteDataStorage::removeProject(const QString &a_crName)
+{
+    QJsonObject oJsonMainObj;
+
+    oJsonMainObj["type"] = "project";
+    oJsonMainObj["data"] = a_crName;
+
+    sendRemoveDataReqToServer(oJsonMainObj);
+}
+
+void CRemoteDataStorage::removeTaskObject(const QString &a_crName)
+{
+    QJsonObject oJsonMainObj;
+
+    oJsonMainObj["type"] = "taskObject";
+    oJsonMainObj["data"] = a_crName;
+
+    sendRemoveDataReqToServer(oJsonMainObj);
+}
+
+void CRemoteDataStorage::removeContact(const QString &a_crName)
+{
+    QJsonObject oJsonMainObj;
+
+    oJsonMainObj["type"] = "contact";
+    oJsonMainObj["data"] = a_crName;
+
+    sendRemoveDataReqToServer(oJsonMainObj);
+}
+
 void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
 {
     QJsonDocument oJsonDoc;
@@ -138,6 +249,30 @@ void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
 
     m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/addRecord.php");
+    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
+    m_oHttpBrowser.startProcessRequest(strOutputFileName);
+}
+
+void CRemoteDataStorage::sendRemoveDataReqToServer(const QJsonObject &a_crJsonObject)
+{
+    QJsonDocument oJsonDoc;
+    QString strOutputFileName = "jsonRemoveOut.txt";
+    oJsonDoc.setObject(a_crJsonObject);
+
+    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
+    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/removeRecord.php");
+    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
+    m_oHttpBrowser.startProcessRequest(strOutputFileName);
+}
+
+void CRemoteDataStorage::sendUpdateDataReqToServer(const QJsonObject &a_crJsonObject)
+{
+    QJsonDocument oJsonDoc;
+    QString strOutputFileName = "jsonRemoveOut.txt";
+    oJsonDoc.setObject(a_crJsonObject);
+
+    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
+    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/updateRecord.php");
     m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
     m_oHttpBrowser.startProcessRequest(strOutputFileName);
 }
