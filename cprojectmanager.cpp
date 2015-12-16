@@ -69,6 +69,9 @@ void CProjectManager::createTaskSlot(KotkaSource::STaskData &a_rTaskData, QModel
     {
         QStandardItem *pStandardItem = m_oModel.itemFromIndex(a_rModelIndex);
         pStandardItem->appendRow(pNewTask);
+        pNewTask->setParentName("TO BE DONE");
+
+        emit taskWasCreated(a_rTaskData);
     }
     else
     {

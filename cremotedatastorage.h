@@ -18,6 +18,7 @@ public:
     void connectSignalsAndSlots(CProjectManager & a_rProjectMngr);
 
 public slots:
+    void storeTask(KotkaSource::STaskData const & a_crTaskData);
     void storeProject(KotkaSource::SProjectData const & a_crProjectData);
 
 private:

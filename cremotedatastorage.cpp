@@ -44,7 +44,29 @@ void CRemoteDataStorage::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
 {
     QObject::connect( &a_rProjectMngr, SIGNAL(projectWasCreated(KotkaSource::SProjectData) )
                     , this, SLOT(storeProject(KotkaSource::SProjectData) )
-                    );
+                      );
+
+    QObject::connect( &a_rProjectMngr, SIGNAL(taskWasCreated(KotkaSource::STaskData) )
+                    , this, SLOT(storeTask(KotkaSource::STaskData) )
+                      );
+}
+
+void CRemoteDataStorage::storeTask(const KotkaSource::STaskData &a_crTaskData)
+{
+    QJsonObject oJsonStoreMainObj;
+    QJsonObject oJsonObjectTaskData;
+
+    oJsonObjectTaskData["name"] = a_crTaskData.m_strName;
+    oJsonObjectTaskData["parent"] = a_crTaskData.m_strParentName;
+    oJsonObjectTaskData["desc"] = a_crTaskData.m_strDesc;
+    oJsonObjectTaskData["writer"] = a_crTaskData.m_strWriterName;
+    oJsonObjectTaskData["delivery"] = a_crTaskData.m_oDateTimeDelivery.toString(Qt::ISODate);
+    oJsonObjectTaskData["wDeadline"] = a_crTaskData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
+
+    oJsonStoreMainObj["type"] = "task";
+    oJsonStoreMainObj["data"] = oJsonObjectTaskData;
+
+    sendNewDataToServer(oJsonObjectTaskData);
 }
 
 void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProjectData)
