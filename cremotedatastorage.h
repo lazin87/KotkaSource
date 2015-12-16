@@ -2,6 +2,7 @@
 #define CREMOTEDATASTORAGE_H
 
 #include <QObject>
+#include <QMultiMap>
 #include "chttpbrowsersync.h"
 #include "commonddefs.h"
 
@@ -35,10 +36,19 @@ public slots:
     void removeTaskObject(QString const & a_crName);
     void removeContact(QString const & a_crName);
 
+    void loadProjectsData(QList<KotkaSource::SProjectData> & a_rProject);
+
 private:
     void sendNewDataToServer(QJsonObject const & a_crJsonObject);
     void sendRemoveDataReqToServer(QJsonObject const & a_crJsonObject);
     void sendUpdateDataReqToServer(QJsonObject const & a_crJsonObject);
+
+    void sendGetProjectsDataReq(QString & a_strOutFileName);
+    void sendGetTasksDataReq(QString & a_strOutFileName);
+    void sendGetTaskObjectsDataReq(QString & a_strOutFileName);
+    void sendGetContactsDataReq(QString & a_strOutFileName);
+
+    void addLoginCredentials(QJsonDocument & a_rJsonDoc);
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
 

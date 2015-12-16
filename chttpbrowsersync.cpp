@@ -91,14 +91,14 @@ bool CHttpBrowserSync::submitHttpRequest(QString & a_strOutFileName)
     qDebug() << "Submit http req url: " << m_oUrl.toString();
 
     bool fResult = checkHttpReqParams();
-    QString strFileName = "";
+    //QString strFileName = "";
 
     if(fResult)
     {
         QFileInfo fileInfo(m_oUrl.path() );
-        //QString strFileName = fileInfo.fileName();
+        //QString strFileName = fileInfo.fileName(); // to jest starsze
 
-        fResult = prepareDataOutput(strFileName);
+        fResult = prepareDataOutput(a_strOutFileName);
     }
     else
     {
@@ -107,7 +107,7 @@ bool CHttpBrowserSync::submitHttpRequest(QString & a_strOutFileName)
 
     if(fResult)
     {
-        a_strOutFileName = strFileName;
+        // a_strOutFileName = strFileName;
         startHttpRequest(m_eHttpReq);
         fResult = waitEndOfProccessing(iWAIT_TIMEOUTMS);
     }

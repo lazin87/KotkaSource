@@ -241,6 +241,11 @@ void CRemoteDataStorage::removeContact(const QString &a_crName)
     sendRemoveDataReqToServer(oJsonMainObj);
 }
 
+void CRemoteDataStorage::loadProjectsData(QList<KotkaSource::SProjectData> &a_rProject)
+{
+
+}
+
 void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
 {
     QJsonDocument oJsonDoc;
@@ -268,13 +273,34 @@ void CRemoteDataStorage::sendRemoveDataReqToServer(const QJsonObject &a_crJsonOb
 void CRemoteDataStorage::sendUpdateDataReqToServer(const QJsonObject &a_crJsonObject)
 {
     QJsonDocument oJsonDoc;
-    QString strOutputFileName = "jsonRemoveOut.txt";
+    QString strOutputFileName = "jsonUpdateOut.txt";
     oJsonDoc.setObject(a_crJsonObject);
 
     m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/updateRecord.php");
     m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
     m_oHttpBrowser.startProcessRequest(strOutputFileName);
+}
+
+void CRemoteDataStorage::sendGetProjectsDataReq(QString & a_strOutFileName)
+{
+    QJsonDocument oJsonDoc;
+    addLoginCredentials(oJsonDoc);
+
+    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
+    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getProjects.php");
+    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
+    m_oHttpBrowser.startProcessRequest(a_strOutFileName);
+}
+
+void CRemoteDataStorage::addLoginCredentials(QJsonDocument &a_rJsonDoc)
+{
+    QJsonObject oJsonObjCredential;
+
+    oJsonObjCredential["login"] = "login";
+    oJsonObjCredential["pwd"] = "pwd";
+
+    a_rJsonDoc.setObject(oJsonObjCredential);
 }
 
 QString CRemoteDataStorage::getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const
