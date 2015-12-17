@@ -21,7 +21,9 @@ public:
     bool createProject(QString a_strName);
     bool createSubproject(IProject & a_rProject, QString a_strName);
     bool createTask(IProject & a_rProject, QString a_strName);
-    void loadProjectsModel(QList<KotkaSource::SProjectData> const & a_crProjectDataList);
+    void loadProjectsModel( const QList<KotkaSource::SProjectData> & a_crProjectDataList
+                          , const QList<KotkaSource::STaskData> & a_crTasksDataList
+                          , const QList<KotkaSource::SSourceData> & a_crSourcesData );
 
 signals:
     void projectModelWasChanged(QAbstractItemModel *);
@@ -41,9 +43,12 @@ private:
     void buildProjectsHierarchy( const QList<KotkaSource::SProjectData> &a_crProjectDataList
                                , QMap<QString, QStandardItem *> & mapOfProjectbyName );
 
-    void addTasksToProjectHierarchy( const QList<KotkaSource::STaskData> & a_crTasksDataList
-                                   , const QList<KotkaSource::STaskObjectData> & a_crTaskObjectsData
-                                   , QMap<QString, QStandardItem *> & mapOfProjectbyName );
+    void addTasksToProjectHierarchy(const QList<KotkaSource::STaskData> & a_crTasksDataList
+                                   /*, const QList<KotkaSource::STaskObjectData> & a_crTaskObjectsData */ // should be added eariler to STaskData
+                                   , QMap<QString, QStandardItem *> & a_rMapOfProjectbyName );
+
+    void addSourcesToProjectHierarchy( const QList<KotkaSource::SSourceData> & a_crSourcesData
+                                     , QMap<QString, QStandardItem *> & a_rMapOfProjectbyName );
 
     QStandardItemModel m_oModel;
 };

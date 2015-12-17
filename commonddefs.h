@@ -111,6 +111,7 @@ struct SContactData
 struct SSourceData
 {
     QString m_strName;
+    QString m_strParent;
     QString m_strParserName;
     bool m_fReadOnly;
 };
