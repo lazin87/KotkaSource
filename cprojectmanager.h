@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QStandardItemModel>
+#include<QMap>
 
 #include "commonddefs.h"
 
@@ -20,7 +21,7 @@ public:
     bool createProject(QString a_strName);
     bool createSubproject(IProject & a_rProject, QString a_strName);
     bool createTask(IProject & a_rProject, QString a_strName);
-    void loadProjectHierarchy(QList<KotkaSource::SProjectData> const & a_crProjectDataList);
+    void loadProjectsModel(QList<KotkaSource::SProjectData> const & a_crProjectDataList);
 
 signals:
     void projectModelWasChanged(QAbstractItemModel *);
@@ -36,6 +37,14 @@ private slots:
 
 private:
     void prepareDirs();
+
+    void buildProjectsHierarchy( const QList<KotkaSource::SProjectData> &a_crProjectDataList
+                               , QMap<QString, QStandardItem *> & mapOfProjectbyName );
+
+    void addTasksToProjectHierarchy( const QList<KotkaSource::STaskData> & a_crTasksDataList
+                                   , const QList<KotkaSource::STaskObjectData> & a_crTaskObjectsData
+                                   , QMap<QString, QStandardItem *> & mapOfProjectbyName );
+
     QStandardItemModel m_oModel;
 };
 
