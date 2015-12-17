@@ -3,6 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
+#include <QFile>
 
 #include "cprojectmanager.h"
 #include "cclientsandwritersdbmodel.h"
@@ -243,7 +244,17 @@ void CRemoteDataStorage::removeContact(const QString &a_crName)
 
 void CRemoteDataStorage::loadProjectsData(QList<KotkaSource::SProjectData> &a_rProject)
 {
+    a_rProject.clear();
 
+    QString strProjectsDataFile = "projetsData.json";
+    sendGetProjectsDataReq(strProjectsDataFile);
+
+    QFile dataFile(strProjectsDataFile);
+    if(dataFile.open(QIODevice::ReadOnly) )
+    {
+        QByteArray storedData = dataFile.readAll();
+        QJsonDocument jsonData(QJsonDocument::fromJson(storedData) );
+    }
 }
 
 void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
