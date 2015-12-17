@@ -96,15 +96,28 @@ void CProjectManager::loadProjectHierarchy(const QList<KotkaSource::SProjectData
 {
     m_oModel.clear();
 
-    QMultiMap<QString, IProject *> mapOfProjectByParent;
+    QMultiMap<QString, QStandardItem */*IProject * */> mapOfProjectByParent;
+    QMap<QString, QStandardItem *> mapOfProjectbyName;
     foreach(KotkaSource::SProjectData const & sProjectData, a_crProjectDataList)
     {
-        mapOfProjectByParent.insert(sProjectData.m_strParentName, new CProjectBase(sProjectData) );
+        QStandardItem * pStdItem = new CProjectBase(sProjectData);
+        mapOfProjectByParent.insert(sProjectData.m_strParentName, pStdItem);
+        mapOfProjectbyName.insert(sProjectData.m_strName, pStdItem);
     }
 
-    QStandardItem *pStdItem = m_oModel.invisibleRootItem();
-    QList<IProject *> projectList = mapOfProjectByParent.values("");
-    pStdItem->appendRow(projectList[0]);
+    auto multiMapIter = mapOfProjectByParent.begin();
+    while( multiMapIter != mapOfProjectByParent.end() )
+    {
+        if( "" != multiMapIter.key() )
+        {
+            mapOfProjectbyName[multiMapIter.key() ]->appendRows(mapOfProjectByParent.values("") );
+        }
+
+        ++multiMapIter;
+    }
+
+    QStandardItem *pRootItem = m_oModel.invisibleRootItem();
+    pRootItem->appendRows(mapOfProjectByParent.values(""));
 }
 
 void CProjectManager::updateModelSlot()
