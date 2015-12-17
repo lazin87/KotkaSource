@@ -11,6 +11,14 @@ CProjectBase::CProjectBase(QString a_strName)
     m_sData.m_strParentName = "";
 }
 
+CProjectBase::CProjectBase(const KotkaSource::SProjectData &a_crProjectData)
+    : IProject(a_crProjectData.m_strName)
+    , m_sData()
+    , m_oSourceModel(a_crProjectData.m_strName)
+{
+
+}
+
 CProjectBase::~CProjectBase()
 {
 }

@@ -5,6 +5,7 @@
 #include "ctask.h"
 
 #include<QDebug>
+#include<QMultiMap>
 
 CProjectManager::CProjectManager(QObject * a_pParent)
     : QObject(a_pParent)
@@ -89,6 +90,21 @@ bool CProjectManager::createTask(IProject &a_rProject, QString a_strName)
 {
     // to do
     return false;
+}
+
+void CProjectManager::loadProjectHierarchy(const QList<KotkaSource::SProjectData> &a_crProjectDataList)
+{
+    m_oModel.clear();
+
+    QMultiMap<QString, IProject *> mapOfProjectByParent;
+    foreach(KotkaSource::SProjectData const & sProjectData, a_crProjectDataList)
+    {
+        mapOfProjectByParent.insert(sProjectData.m_strParentName, new CProjectBase(sProjectData) );
+    }
+
+    QStandardItem *pStdItem = m_oModel.invisibleRootItem();
+    QList<IProject *> projectList = mapOfProjectByParent.values("");
+    pStdItem->appendRow(projectList[0]);
 }
 
 void CProjectManager::updateModelSlot()

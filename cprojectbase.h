@@ -10,6 +10,7 @@ class CProjectBase : public IProject
 {
 public:
     CProjectBase(QString a_strName);
+    CProjectBase(KotkaSource::SProjectData const & a_crProjectData);
     ~CProjectBase();
 
     virtual QVariant data(int a_iRole) const;

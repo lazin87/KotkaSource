@@ -20,6 +20,7 @@ public:
     bool createProject(QString a_strName);
     bool createSubproject(IProject & a_rProject, QString a_strName);
     bool createTask(IProject & a_rProject, QString a_strName);
+    void loadProjectHierarchy(QList<KotkaSource::SProjectData> const & a_crProjectDataList);
 
 signals:
     void projectModelWasChanged(QAbstractItemModel *);
