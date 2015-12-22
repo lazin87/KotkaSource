@@ -33,6 +33,7 @@ private:
 
     Ui::CCreateTaskDialog *ui;
 
+    QString m_strParentName;
     KotkaSource::SProjectData const * m_pParentProjectData;
 };
 

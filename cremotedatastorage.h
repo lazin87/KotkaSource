@@ -39,7 +39,7 @@ public slots:
     void loadProjectsData(QList<KotkaSource::SProjectData> & a_rProject);
 
 private:
-    void sendNewDataToServer(QJsonObject const & a_crJsonObject);
+    void sendNewDataToServer(QJsonObject &a_rJsonObject);
     void sendRemoveDataReqToServer(QJsonObject const & a_crJsonObject);
     void sendUpdateDataReqToServer(QJsonObject const & a_crJsonObject);
 
@@ -48,7 +48,7 @@ private:
     void sendGetTaskObjectsDataReq(QString & a_strOutFileName);
     void sendGetContactsDataReq(QString & a_strOutFileName);
 
-    void addLoginCredentials(QJsonDocument & a_rJsonDoc);
+    void addLoginCredentials(QJsonObject &a_rJsonObj);
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
 

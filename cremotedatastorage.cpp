@@ -75,7 +75,7 @@ void CRemoteDataStorage::storeTask(const KotkaSource::STaskData &a_crTaskData)
     oJsonStoreMainObj["type"] = "task";
     oJsonStoreMainObj["data"] = oJsonObjectTaskData;
 
-    sendNewDataToServer(oJsonObjectTaskData);
+    sendNewDataToServer(oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProjectData)
@@ -257,11 +257,12 @@ void CRemoteDataStorage::loadProjectsData(QList<KotkaSource::SProjectData> &a_rP
     }
 }
 
-void CRemoteDataStorage::sendNewDataToServer(const QJsonObject &a_crJsonObject)
+void CRemoteDataStorage::sendNewDataToServer(QJsonObject &a_rJsonObject)
 {
     QJsonDocument oJsonDoc;
     QString strOutputFileName = "jsonStoreOut.txt";
-    oJsonDoc.setObject(a_crJsonObject);
+    addLoginCredentials(a_rJsonObject);
+    oJsonDoc.setObject(a_rJsonObject);
 
     m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/addRecord.php");
@@ -296,7 +297,9 @@ void CRemoteDataStorage::sendUpdateDataReqToServer(const QJsonObject &a_crJsonOb
 void CRemoteDataStorage::sendGetProjectsDataReq(QString & a_strOutFileName)
 {
     QJsonDocument oJsonDoc;
-    addLoginCredentials(oJsonDoc);
+    QJsonObject oJsonObj;
+    addLoginCredentials(oJsonObj);
+    oJsonDoc.setObject(oJsonObj);
 
     m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getProjects.php");
@@ -304,14 +307,10 @@ void CRemoteDataStorage::sendGetProjectsDataReq(QString & a_strOutFileName)
     m_oHttpBrowser.startProcessRequest(a_strOutFileName);
 }
 
-void CRemoteDataStorage::addLoginCredentials(QJsonDocument &a_rJsonDoc)
+void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)
 {
-    QJsonObject oJsonObjCredential;
-
-    oJsonObjCredential["login"] = "login";
-    oJsonObjCredential["pwd"] = "pwd";
-
-    a_rJsonDoc.setObject(oJsonObjCredential);
+    a_rJsonObj["login"] = "Misiek";
+    a_rJsonObj["pwd"] = "qwert";
 }
 
 QString CRemoteDataStorage::getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const

@@ -7,6 +7,7 @@ CCreateTaskDialog::CCreateTaskDialog(const KotkaSource::SProjectData *a_pParentP
                                     , QWidget *parent):
     QDialog(parent),
     ui(new Ui::CCreateTaskDialog),
+    m_strParentName(a_pParentProjectData->m_strName),
     m_pParentProjectData(a_pParentProjectData)
 {
     ui->setupUi(this);
@@ -30,6 +31,7 @@ CCreateTaskDialog::~CCreateTaskDialog()
 
 void CCreateTaskDialog::getData(KotkaSource::STaskData &a_rTaskData) const
 {
+    a_rTaskData.m_strParentName = m_strParentName;
     a_rTaskData.m_strName = ui->nameLineEdit->text();
     a_rTaskData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
     a_rTaskData.m_oDateTimeWriterDeadline = ui->writerDeadlineDateTimeEdit->dateTime();
