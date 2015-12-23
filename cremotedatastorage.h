@@ -20,6 +20,8 @@ public:
     void connectSignalsAndSlots(CProjectManager & a_rProjectMngr);
     void connectSignalsAndSlots(CClientsAndWritersDbModel & a_rContactBook);
 
+    static const QString s_strLocalDataFileName;
+
 public slots:
     void storeTask(KotkaSource::STaskData const & a_crTaskData);
     void storeProject(KotkaSource::SProjectData const & a_crProjectData);
@@ -37,6 +39,7 @@ public slots:
     void removeContact(QString const & a_crName);
 
     void loadProjectsData(QList<KotkaSource::SProjectData> & a_rProject);
+    bool downloadAllDataFromServer();
 
 private:
     void sendNewDataToServer(QJsonObject &a_rJsonObject);
@@ -47,12 +50,14 @@ private:
     void sendGetTasksDataReq(QString & a_strOutFileName);
     void sendGetTaskObjectsDataReq(QString & a_strOutFileName);
     void sendGetContactsDataReq(QString & a_strOutFileName);
+    void sendGetAllDataReq(QString & a_strOutFileName);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
 
     CHttpBrowserSync m_oHttpBrowser;
+    QString m_strAllDataLocalFileName;
 };
 
 #endif // CREMOTEDATASTORAGE_H

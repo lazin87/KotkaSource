@@ -8,9 +8,12 @@
 #include "cprojectmanager.h"
 #include "cclientsandwritersdbmodel.h"
 
+const QString CRemoteDataStorage::s_strLocalDataFileName = "localData.json";
+
 CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
     : QObject(a_pParent)
     , m_oHttpBrowser(this)
+    , m_strAllDataLocalFileName(s_strLocalDataFileName)
 {
 
 }
@@ -257,6 +260,13 @@ void CRemoteDataStorage::loadProjectsData(QList<KotkaSource::SProjectData> &a_rP
     }
 }
 
+bool CRemoteDataStorage::downloadAllDataFromServer()
+{
+    bool fResult = false;
+
+    return fResult;
+}
+
 void CRemoteDataStorage::sendNewDataToServer(QJsonObject &a_rJsonObject)
 {
     QJsonDocument oJsonDoc;
@@ -303,6 +313,19 @@ void CRemoteDataStorage::sendGetProjectsDataReq(QString & a_strOutFileName)
 
     m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getProjects.php");
+    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
+    m_oHttpBrowser.startProcessRequest(a_strOutFileName);
+}
+
+void CRemoteDataStorage::sendGetAllDataReq(QString &a_strOutFileName)
+{
+    QJsonDocument oJsonDoc;
+    QJsonObject oJsonObj;
+    addLoginCredentials(oJsonObj);
+    oJsonDoc.setObject(oJsonObj);
+
+    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
+    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getAllData.php");
     m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
     m_oHttpBrowser.startProcessRequest(a_strOutFileName);
 }
