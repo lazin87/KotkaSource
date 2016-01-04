@@ -264,6 +264,17 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
 {
     bool fResult = false;
 
+    QString strAllDataFileName = "allData.json";
+    sendGetAllDataReq(strAllDataFileName);
+
+    QJsonDocument oJsonDoc;
+    fResult = importJsonDataFromFile(strAllDataFileName, oJsonDoc);
+
+    if(fResult)
+    {
+
+    }
+
     return fResult;
 }
 
@@ -328,6 +339,27 @@ void CRemoteDataStorage::sendGetAllDataReq(QString &a_strOutFileName)
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getAllData.php");
     m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
     m_oHttpBrowser.startProcessRequest(a_strOutFileName);
+}
+
+bool CRemoteDataStorage::importJsonDataFromFile(const QString &a_strFileName, QJsonDocument &a_rJsonDoc)
+{
+    bool fResult = false;
+
+    QFile dataFile(a_strFileName);
+    if(dataFile.open(QIODevice::ReadOnly) )
+    {
+        QByteArray storedData = dataFile.readAll();
+        dataFile.close();
+        a_rJsonDoc = QJsonDocument::fromJson(storedData);
+
+        fResult = true;
+    }
+    else
+    {
+        qWarning() << "CRemoteDataStorage::importJsonDataFromFile: can not open data file: " << a_strFileName;
+    }
+
+    return fResult;
 }
 
 void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)

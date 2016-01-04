@@ -52,6 +52,8 @@ private:
     void sendGetContactsDataReq(QString & a_strOutFileName);
     void sendGetAllDataReq(QString & a_strOutFileName);
 
+    bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
+
     void addLoginCredentials(QJsonObject &a_rJsonObj);
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
