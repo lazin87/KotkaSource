@@ -22,6 +22,9 @@ public:
 
     static const QString s_strLocalDataFileName;
 
+signals:
+    void loadFullContactListSignal(QList<KotkaSource::SContactData> const &, bool);
+
 public slots:
     void storeTask(KotkaSource::STaskData const & a_crTaskData);
     void storeProject(KotkaSource::SProjectData const & a_crProjectData);
@@ -53,6 +56,7 @@ private:
     void sendGetAllDataReq(QString & a_strOutFileName);
 
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
+    void importFullContactsList(QJsonArray & a_rJsonArray);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
 

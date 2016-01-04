@@ -362,6 +362,11 @@ bool CRemoteDataStorage::importJsonDataFromFile(const QString &a_strFileName, QJ
     return fResult;
 }
 
+void CRemoteDataStorage::importFullContactsList(QJsonArray &a_rJsonArray)
+{
+// this method should emit signal: loadFullContactListSignal();
+}
+
 void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)
 {
     a_rJsonObj["login"] = "Misiek";

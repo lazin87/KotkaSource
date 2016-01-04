@@ -166,12 +166,40 @@ void CClientsAndWritersDbModel::append(QString a_strName)
 
 void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactData &a_rContactData)
 {
-    qDebug() << "CClientsAndWritersDbModel::append()";
+    qDebug() << "CClientsAndWritersDbModel::addNewContactSlot()";
     beginInsertRows(QModelIndex(), rowCount(QModelIndex() ), rowCount(QModelIndex() ));
     m_aClientsAndWritesList.append(CPerson(a_rContactData) );
     endInsertRows();
 
-    emit contactWasCreated(a_rContactData);
+  //  emit contactWasCreated(a_rContactData);
+}
+
+void CClientsAndWritersDbModel::addNewContactSlot(const QList<KotkaSource::SContactData> &a_rContactDataList, bool a_fOverwrite)
+{
+    if(a_fOverwrite && (!m_aClientsAndWritesList.isEmpty() ) )
+    {
+        int iFirstRow = 0;
+        int iLastRow = iFirstRow + m_aClientsAndWritesList.count() - 1;
+        beginRemoveRows(QModelIndex(), iFirstRow, iLastRow);
+        m_aClientsAndWritesList.clear();
+        endRemoveRows();
+    }
+
+    if(!a_rContactDataList.isEmpty() )
+    {
+        int iFirstRow = rowCount(QModelIndex() );
+        int iLastRow = iFirstRow + a_rContactDataList.count() - 1;
+        beginInsertRows(QModelIndex(), iFirstRow, iLastRow);
+        foreach(KotkaSource::SContactData const & rContactData, a_rContactDataList)
+        {
+            m_aClientsAndWritesList.append(CPerson(rContactData) );
+        }
+        endInsertRows();
+    }
+    else
+    {
+        qWarning() << "CClientsAndWritersDbModel::addNewContactSlot list is empty";
+    }
 }
 
 void CClientsAndWritersDbModel::remove(int a_iIndex)
