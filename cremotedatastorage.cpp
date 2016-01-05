@@ -421,10 +421,10 @@ void CRemoteDataStorage::importFullPrjHierarchy(QJsonObject &a_rDataJsonObj)
     QList<KotkaSource::STaskData> oTaskData;
     QList<KotkaSource::SSourceData> oSourcesData;
 
-  //  importFullProjecsData(a_rDataJsonObj, oPrjData);
-  //  importFullTasksData(a_rDataJsonObj, oTaskData);
+    importFullProjecsData(a_rDataJsonObj, oPrjData);
+    importFullTasksData(a_rDataJsonObj, oTaskData);
 
-  //  emit loadFullPrjsHierarchySignal(oPrjData, oTaskData, oSourcesData);
+    emit loadFullPrjsHierarchySignal(oPrjData, oTaskData, oSourcesData);
 }
 
 void CRemoteDataStorage::importFullProjecsData(QJsonObject &a_rDataJsonObj, QList<KotkaSource::SProjectData> &a_rProjectDataList)

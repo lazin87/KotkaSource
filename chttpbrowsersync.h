@@ -23,7 +23,7 @@ class CHttpBrowserSync : public QObject
     Q_OBJECT
 
 public:
-    const int iWAIT_TIMEOUTMS = 1000;
+    const int iWAIT_TIMEOUTMS = 30000;
     enum EHttpRequestType
     {
         eHttpReqINVALID,
