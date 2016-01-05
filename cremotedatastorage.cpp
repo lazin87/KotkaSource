@@ -2,6 +2,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QDebug>
 #include <QFile>
 
@@ -60,6 +61,10 @@ void CRemoteDataStorage::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rCo
 {
     QObject::connect( &a_rContactBook, SIGNAL(contactWasCreated(KotkaSource::SContactData) )
                     , this, SLOT(storeContact(KotkaSource::SContactData) )
+                    );
+
+    QObject::connect( this, SIGNAL(loadFullContactListSignal(QList<KotkaSource::SContactData>,bool) )
+                    , &a_rContactBook, SLOT(addNewContactSlot(QList<KotkaSource::SContactData>,bool) )
                     );
 }
 
@@ -272,7 +277,10 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
 
     if(fResult)
     {
+        QJsonObject jsonMainObj = oJsonDoc.object();
+        QJsonObject jsonDataObj = jsonMainObj["data"].toObject();
 
+        importFullContactsList(jsonDataObj);
     }
 
     return fResult;
@@ -362,9 +370,27 @@ bool CRemoteDataStorage::importJsonDataFromFile(const QString &a_strFileName, QJ
     return fResult;
 }
 
-void CRemoteDataStorage::importFullContactsList(QJsonArray &a_rJsonArray)
+void CRemoteDataStorage::importFullContactsList(QJsonObject &a_rDataJsonObj)
 {
-// this method should emit signal: loadFullContactListSignal();
+    QList<KotkaSource::SContactData> aContactDataList;
+    QJsonArray jsonContactArray = a_rDataJsonObj["contacts"].toArray();
+
+    for(int iIndex = 0; jsonContactArray.size() > iIndex; ++iIndex)
+    {
+        QJsonObject jsonContact = jsonContactArray[iIndex].toObject();
+        KotkaSource::SContactData oContactData;
+
+        oContactData.m_strName = jsonContact["name"].toString();
+        oContactData.m_strEmail = jsonContact["email"].toString();
+        oContactData.m_strPhone = jsonContact["phone"].toString();
+        oContactData.m_strAddress = jsonContact["address"].toString();
+        oContactData.m_fIsClient = jsonContact["isClient"].toString() == "1";
+        oContactData.m_fIsWriter = jsonContact["isWriter"].toString() == "1";
+
+        aContactDataList.append(oContactData);
+    }
+
+    emit loadFullContactListSignal(aContactDataList, true);
 }
 
 void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)

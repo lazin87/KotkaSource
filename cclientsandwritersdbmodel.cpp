@@ -171,7 +171,7 @@ void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactDat
     m_aClientsAndWritesList.append(CPerson(a_rContactData) );
     endInsertRows();
 
-  //  emit contactWasCreated(a_rContactData);
+    emit contactWasCreated(a_rContactData);
 }
 
 void CClientsAndWritersDbModel::addNewContactSlot(const QList<KotkaSource::SContactData> &a_rContactDataList, bool a_fOverwrite)

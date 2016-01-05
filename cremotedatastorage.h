@@ -56,7 +56,7 @@ private:
     void sendGetAllDataReq(QString & a_strOutFileName);
 
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
-    void importFullContactsList(QJsonArray & a_rJsonArray);
+    void importFullContactsList(QJsonObject &a_rDataJsonObj);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
 
