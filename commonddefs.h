@@ -60,7 +60,8 @@ enum EObjectType
 
 enum ETaskObjectType
 {
-    eTOT_Text,
+    eTOT_Invalid = -1,
+    eTOT_Text = 0,
     eTOT_File
 };
 

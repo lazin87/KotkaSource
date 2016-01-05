@@ -21,9 +21,6 @@ public:
     bool createProject(QString a_strName);
     bool createSubproject(IProject & a_rProject, QString a_strName);
     bool createTask(IProject & a_rProject, QString a_strName);
-    void loadProjectsModel( const QList<KotkaSource::SProjectData> & a_crProjectDataList
-                          , const QList<KotkaSource::STaskData> & a_crTasksDataList
-                          , const QList<KotkaSource::SSourceData> & a_crSourcesData );
 
 signals:
     void projectModelWasChanged(QAbstractItemModel *);
@@ -33,6 +30,9 @@ signals:
 public slots:
     void createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex, QList<KotkaSource::SSourceData> &a_rSourcesDataList);
     void createTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIndex &a_rModelIndex);
+    void loadProjectsModel( const QList<KotkaSource::SProjectData> & a_crProjectDataList
+                          , const QList<KotkaSource::STaskData> & a_crTasksDataList
+                          , const QList<KotkaSource::SSourceData> & a_crSourcesData );
 
 private slots:
     void updateModelSlot();

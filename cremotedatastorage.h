@@ -24,6 +24,10 @@ public:
 
 signals:
     void loadFullContactListSignal(QList<KotkaSource::SContactData> const &, bool);
+    void loadFullPrjsHierarchySignal( QList<KotkaSource::SProjectData> const &
+                                    , QList<KotkaSource::STaskData> const &
+                                    , QList<KotkaSource::SSourceData> const &
+                                    );
 
 public slots:
     void storeTask(KotkaSource::STaskData const & a_crTaskData);
@@ -57,10 +61,15 @@ private:
 
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
     void importFullContactsList(QJsonObject &a_rDataJsonObj);
+    void importFullPrjHierarchy(QJsonObject & a_rDataJsonObj);
+    void importFullProjecsData(QJsonObject & a_rDataJsonObj, QList<KotkaSource::SProjectData> & a_rProjectDataList);
+    void importFullTasksData(QJsonObject & a_rDataJsonObj, QList<KotkaSource::STaskData> & a_rTaskDataList);
+    void importFullTaskObjectsData(QJsonObject & a_rDataJsonObj, QMultiMap<QString, KotkaSource::STaskObjectData> & a_rTaskObjMap);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
+    KotkaSource::ETaskObjectType toTaskObjectType(QString a_strTypeName);
 
     CHttpBrowserSync m_oHttpBrowser;
     QString m_strAllDataLocalFileName;

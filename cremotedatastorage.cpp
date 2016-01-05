@@ -55,6 +55,14 @@ void CRemoteDataStorage::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
     QObject::connect( &a_rProjectMngr, SIGNAL(taskWasCreated(KotkaSource::STaskData) )
                     , this, SLOT(storeTask(KotkaSource::STaskData) )
                       );
+
+    QObject::connect( this, SIGNAL(loadFullPrjsHierarchySignal( QList<KotkaSource::SProjectData>
+                                                              , QList<KotkaSource::STaskData>
+                                                              , QList<KotkaSource::SSourceData>) )
+                    , &a_rProjectMngr, SLOT(loadProjectsModel( QList<KotkaSource::SProjectData>
+                                                             , QList<KotkaSource::STaskData>
+                                                             , QList<KotkaSource::SSourceData>) )
+                    );
 }
 
 void CRemoteDataStorage::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rContactBook)
@@ -281,6 +289,7 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
         QJsonObject jsonDataObj = jsonMainObj["data"].toObject();
 
         importFullContactsList(jsonDataObj);
+        importFullPrjHierarchy(jsonDataObj);
     }
 
     return fResult;
@@ -393,6 +402,82 @@ void CRemoteDataStorage::importFullContactsList(QJsonObject &a_rDataJsonObj)
     emit loadFullContactListSignal(aContactDataList, true);
 }
 
+void CRemoteDataStorage::importFullPrjHierarchy(QJsonObject &a_rDataJsonObj)
+{
+    QList<KotkaSource::SProjectData> oPrjData;
+    QList<KotkaSource::STaskData> oTaskData;
+    QList<KotkaSource::SSourceData> oSourcesData;
+
+    importFullProjecsData(a_rDataJsonObj, oPrjData);
+    importFullTasksData(a_rDataJsonObj, oTaskData);
+
+    emit loadFullPrjsHierarchySignal(oPrjData, oTaskData, oSourcesData);
+}
+
+void CRemoteDataStorage::importFullProjecsData(QJsonObject &a_rDataJsonObj, QList<KotkaSource::SProjectData> &a_rProjectDataList)
+{
+    QJsonArray jsonPrjArray = a_rDataJsonObj["projects"].toArray();
+
+    for(int i = 0; jsonPrjArray.size() > i; ++i)
+    {
+        QJsonObject jsonPrjObj = jsonPrjArray[i].toObject();
+        KotkaSource::SProjectData oPrjData;
+
+        oPrjData.m_strName = jsonPrjObj["name"].toString();
+        oPrjData.m_oDateTimeDelivery = QDateTime::fromString(jsonPrjObj["delivery"].toString() , Qt::ISODate);
+        oPrjData.m_oDateTimeWriterDeadline = QDateTime::fromString(jsonPrjObj["wDeadline"].toString() , Qt::ISODate);
+        oPrjData.m_strParentName = jsonPrjObj["parent"].toString();
+        oPrjData.m_strClientName = jsonPrjObj["client"].toString();
+        oPrjData.m_pClient = 0;
+
+        a_rProjectDataList.append(oPrjData);
+    }
+}
+
+void CRemoteDataStorage::importFullTasksData(QJsonObject &a_rDataJsonObj, QList<KotkaSource::STaskData> &a_rTaskDataList)
+{
+    QMultiMap<QString, KotkaSource::STaskObjectData> oTaskObjMap;
+    importFullTaskObjectsData(a_rDataJsonObj, oTaskObjMap);
+
+    QJsonArray jsonTasksArray = a_rDataJsonObj["projects"].toArray();
+
+    for(int i = 0; jsonTasksArray.size() > i; ++i)
+    {
+        KotkaSource::STaskData taskData;
+        QJsonObject jsonTaskObj = jsonTasksArray[i].toObject();
+
+        taskData.m_strName = jsonTaskObj["name"].toString();
+        taskData.m_strDesc = jsonTaskObj["desc"].toString();
+        taskData.m_strWriterName = jsonTaskObj["writer"].toString();
+        taskData.m_oDateTimeDelivery = QDateTime::fromString(jsonTaskObj["delivery"].toString() , Qt::ISODate);
+        taskData.m_oDateTimeWriterDeadline =  QDateTime::fromString(jsonTaskObj["wDeadline"].toString() , Qt::ISODate);
+        taskData.m_strParentName = jsonTaskObj["parent"].toString();
+        taskData.m_aTextFieldsList = oTaskObjMap.values(taskData.m_strName);
+
+        a_rTaskDataList.append(taskData);
+    }
+}
+
+void CRemoteDataStorage::importFullTaskObjectsData(QJsonObject &a_rDataJsonObj, QMultiMap<QString, KotkaSource::STaskObjectData> &a_rTaskObjMap)
+{
+    QJsonArray jsonTaskObjsArray = a_rDataJsonObj["taskObjects"].toArray();
+
+    for(int i = 0; jsonTaskObjsArray.size() > i; ++i)
+    {
+        KotkaSource::STaskObjectData oTaskObj;
+        QJsonObject jsonTaskObj = jsonTaskObjsArray[i].toObject();
+
+        oTaskObj.m_strTitle = jsonTaskObj["name"].toString();
+        oTaskObj.m_strCurrentText = jsonTaskObj["currentText"].toString();
+        oTaskObj.m_iMinLength = jsonTaskObj["minLength"].toString().toInt();
+        oTaskObj.m_iMaxLength = jsonTaskObj["maxLength"].toString().toInt();
+        oTaskObj.m_eType = toTaskObjectType(jsonTaskObj["typeName"].toString() );
+        oTaskObj.m_strParentTaskName = jsonTaskObj["parent"].toString();
+
+        a_rTaskObjMap.insert(oTaskObj.m_strParentTaskName, oTaskObj);
+    }
+}
+
 void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)
 {
     a_rJsonObj["login"] = "Misiek";
@@ -402,5 +487,21 @@ void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)
 QString CRemoteDataStorage::getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const
 {
     return QString( ( (KotkaSource::eTOT_Text == a_eTaskObjectType) ? "Text" : "File") );
+}
+
+KotkaSource::ETaskObjectType CRemoteDataStorage::toTaskObjectType(QString a_strTypeName)
+{
+    KotkaSource::ETaskObjectType eType = KotkaSource::eTOT_Invalid;
+
+    if(a_strTypeName == "Text")
+    {
+        eType = KotkaSource::eTOT_Text;
+    }
+    else if(a_strTypeName == "File")
+    {
+        eType = KotkaSource::eTOT_File;
+    }
+
+    return eType;
 }
 
