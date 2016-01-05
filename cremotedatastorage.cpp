@@ -277,11 +277,14 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
 {
     bool fResult = false;
 
-    QString strAllDataFileName = "allData.json";
-    sendGetAllDataReq(strAllDataFileName);
-
     QJsonDocument oJsonDoc;
-    fResult = importJsonDataFromFile(strAllDataFileName, oJsonDoc);
+    QString strAllDataFileName = "allData.json";
+    fResult = sendGetAllDataReq(strAllDataFileName);
+
+    if(fResult)
+    {
+        fResult = importJsonDataFromFile(strAllDataFileName, oJsonDoc);
+    }
 
     if(fResult)
     {
@@ -345,7 +348,7 @@ void CRemoteDataStorage::sendGetProjectsDataReq(QString & a_strOutFileName)
     m_oHttpBrowser.startProcessRequest(a_strOutFileName);
 }
 
-void CRemoteDataStorage::sendGetAllDataReq(QString &a_strOutFileName)
+bool CRemoteDataStorage::sendGetAllDataReq(QString &a_strOutFileName)
 {
     QJsonDocument oJsonDoc;
     QJsonObject oJsonObj;
@@ -355,7 +358,10 @@ void CRemoteDataStorage::sendGetAllDataReq(QString &a_strOutFileName)
     m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
     m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getAllData.php");
     m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
-    m_oHttpBrowser.startProcessRequest(a_strOutFileName);
+    bool fResult = m_oHttpBrowser.startProcessRequest(a_strOutFileName);
+    qDebug() << "CRemoteDataStorage::sendGetAllDataReq: result: " << fResult;
+
+    return fResult;
 }
 
 bool CRemoteDataStorage::importJsonDataFromFile(const QString &a_strFileName, QJsonDocument &a_rJsonDoc)
@@ -399,7 +405,14 @@ void CRemoteDataStorage::importFullContactsList(QJsonObject &a_rDataJsonObj)
         aContactDataList.append(oContactData);
     }
 
-    emit loadFullContactListSignal(aContactDataList, true);
+    if(!aContactDataList.isEmpty() )
+    {
+        emit loadFullContactListSignal(aContactDataList, true);
+    }
+    else
+    {
+        qWarning() << "CRemoteDataStorage::importFullContactsList: list empty";
+    }
 }
 
 void CRemoteDataStorage::importFullPrjHierarchy(QJsonObject &a_rDataJsonObj)
@@ -408,10 +421,10 @@ void CRemoteDataStorage::importFullPrjHierarchy(QJsonObject &a_rDataJsonObj)
     QList<KotkaSource::STaskData> oTaskData;
     QList<KotkaSource::SSourceData> oSourcesData;
 
-    importFullProjecsData(a_rDataJsonObj, oPrjData);
-    importFullTasksData(a_rDataJsonObj, oTaskData);
+  //  importFullProjecsData(a_rDataJsonObj, oPrjData);
+  //  importFullTasksData(a_rDataJsonObj, oTaskData);
 
-    emit loadFullPrjsHierarchySignal(oPrjData, oTaskData, oSourcesData);
+  //  emit loadFullPrjsHierarchySignal(oPrjData, oTaskData, oSourcesData);
 }
 
 void CRemoteDataStorage::importFullProjecsData(QJsonObject &a_rDataJsonObj, QList<KotkaSource::SProjectData> &a_rProjectDataList)

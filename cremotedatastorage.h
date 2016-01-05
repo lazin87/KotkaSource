@@ -57,7 +57,7 @@ private:
     void sendGetTasksDataReq(QString & a_strOutFileName);
     void sendGetTaskObjectsDataReq(QString & a_strOutFileName);
     void sendGetContactsDataReq(QString & a_strOutFileName);
-    void sendGetAllDataReq(QString & a_strOutFileName);
+    bool sendGetAllDataReq(QString & a_strOutFileName);
 
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
     void importFullContactsList(QJsonObject &a_rDataJsonObj);

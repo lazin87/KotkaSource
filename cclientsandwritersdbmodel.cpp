@@ -178,6 +178,7 @@ void CClientsAndWritersDbModel::addNewContactSlot(const QList<KotkaSource::SCont
 {
     if(a_fOverwrite && (!m_aClientsAndWritesList.isEmpty() ) )
     {
+         qWarning() << "CClientsAndWritersDbModel::addNewContactSlot try to clean model";
         int iFirstRow = 0;
         int iLastRow = iFirstRow + m_aClientsAndWritesList.count() - 1;
         beginRemoveRows(QModelIndex(), iFirstRow, iLastRow);

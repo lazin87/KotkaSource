@@ -28,7 +28,7 @@ signals:
 public slots:
     void append(QString a_strName);
     void addNewContactSlot(KotkaSource::SContactData const & a_rContactData);
-    void addNewContactSlot(QList<KotkaSource::SContactData> const & a_rContactDataList, bool a_fOverwrite = false);
+    void addNewContactSlot(QList<KotkaSource::SContactData> const & a_rContactDataList, bool a_fOverwrite);
     void remove(int a_iIndex);
 
 private:
