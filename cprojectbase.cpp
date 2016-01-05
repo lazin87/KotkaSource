@@ -13,7 +13,7 @@ CProjectBase::CProjectBase(QString a_strName)
 
 CProjectBase::CProjectBase(const KotkaSource::SProjectData &a_crProjectData)
     : IProject(a_crProjectData.m_strName)
-    , m_sData()
+    , m_sData(a_crProjectData)
     , m_oSourceModel(a_crProjectData.m_strName)
 {
 
