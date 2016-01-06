@@ -113,7 +113,7 @@ void MainWindow::addProjectSlot()
         pProjectData = &sParentProjectData;
     }
     CCreateProjectDialog newProjectDialog(this, pProjectData);
-    newProjectDialog.setAddressDbToCompleter(ui->addressBookTableView->model() );
+    newProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
 
     connect( &newProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )
            , this, SIGNAL(addNewContact(KotkaSource::SContactData) )

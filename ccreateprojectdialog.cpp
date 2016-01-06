@@ -11,7 +11,8 @@
 CCreateProjectDialog::CCreateProjectDialog(QWidget *parent, const KotkaSource::SProjectData *a_pParentPrjData) :
     QDialog(parent),
     ui(new Ui::CCreateProjectDialog),
-    m_pParentProjectData(a_pParentPrjData)
+    m_pParentProjectData(a_pParentPrjData),
+    m_pContactDbModel(0)
 {
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
@@ -49,13 +50,14 @@ void CCreateProjectDialog::getProjectData(KotkaSource::SProjectData &a_rProjectD
     a_rProjectData.m_strParentName = (0 == m_pParentProjectData) ? "" : m_pParentProjectData->m_strName;
 }
 
-void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
+void CCreateProjectDialog::setAddressDbModel(QAbstractItemModel *a_pModel)
 {
     if(0 != a_pModel )
     {
+        m_pContactDbModel = a_pModel;
 
         QCompleter * completer = new QCompleter(this);
-        completer->setModel(a_pModel);
+        completer->setModel(m_pContactDbModel);
         ui->clientComboBox->setCompleter(completer);
     }
     else
@@ -84,7 +86,7 @@ void CCreateProjectDialog::clientAddSlot()
                 ui->clientComboBox->currentText().simplified();
 
     CCreateContactDialog oCreateContactDialog(this, strClientName);
-    oCreateContactDialog.setAddressBookModel(ui->clientComboBox->completer()->model() );
+    oCreateContactDialog.setAddressBookModel(m_pContactDbModel );
 
     if(QDialog::Accepted == oCreateContactDialog.exec() )
     {
@@ -99,16 +101,15 @@ void CCreateProjectDialog::clientAddSlot()
 
 void CCreateProjectDialog::clientEditSlot()
 {
-    if(false == ui->clientComboBox->currentText().isEmpty() )
+    if(false == ui->clientComboBox->currentText().isEmpty() && (0 != m_pContactDbModel) )
     {
         QModelIndex oClientIndex = findClientIndex(ui->clientComboBox->currentText() );
 
         if(oClientIndex.isValid() )
         {
-            QVariant rawData =
-                    ui->clientComboBox->completer()->model()->data( oClientIndex,
-                                                                    KotkaSource::ReadContactDataRole
-                                                                    );
+            QVariant rawData = m_pContactDbModel->data( oClientIndex,
+                                                        KotkaSource::ReadContactDataRole
+                                                        );
             KotkaSource::SContactData clientContactData = rawData.value<KotkaSource::SContactData>();
             CCreateContactDialog oEditContactDialog(this, clientContactData);
 
@@ -118,10 +119,9 @@ void CCreateProjectDialog::clientEditSlot()
                 oEditContactDialog.getContactData(sContactData);
 
                 fillInClientInformation(sContactData);
-                ui->clientComboBox->completer()->model()->setData(
-                            oClientIndex
-                            , QVariant::fromValue(sContactData)
-                            , KotkaSource::SetContactDataRole );
+                m_pContactDbModel->setData( oClientIndex
+                                            , QVariant::fromValue(sContactData)
+                                            , KotkaSource::SetContactDataRole );
             }
         }
     }
@@ -178,11 +178,11 @@ void CCreateProjectDialog::sourceRemoveSlot()
 void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
 {
     QString strTemp = "";
-    if(a_rModelIndex.isValid() )
+    if(a_rModelIndex.isValid() && (0 != m_pContactDbModel) )
     {
-        QVariant rawVal = ui->clientComboBox->completer()->completionModel()->data( a_rModelIndex
-                                                                                  , KotkaSource::ObjectEmailRole
-                                                                                  );
+        QVariant rawVal = m_pContactDbModel->data( a_rModelIndex
+                                                   , KotkaSource::ObjectEmailRole
+                                                   );
         strTemp = rawVal.toString();
     }
     ui->emailDispLabel->setText(strTemp);
@@ -191,11 +191,11 @@ void CCreateProjectDialog::setEmail(const QModelIndex &a_rModelIndex)
 void CCreateProjectDialog::setPhone(const QModelIndex &a_rModelIndex)
 {
     QString strTemp = "";
-    if(a_rModelIndex.isValid() )
+    if(a_rModelIndex.isValid() && (0 != m_pContactDbModel) )
     {
-        QVariant rawVal = ui->clientComboBox->completer()->completionModel()->data( a_rModelIndex
-                                                                                  , KotkaSource::ObjectPhoneRole
-                                                                                  );
+        QVariant rawVal = m_pContactDbModel->data( a_rModelIndex
+                                                   , KotkaSource::ObjectPhoneRole
+                                                   );
         strTemp = rawVal.toString();
     }
     ui->phoneDispLabel->setText(strTemp);
@@ -204,11 +204,11 @@ void CCreateProjectDialog::setPhone(const QModelIndex &a_rModelIndex)
 void CCreateProjectDialog::setAddress(const QModelIndex &a_rModelIndex)
 {
     QString strTemp = "";
-    if(a_rModelIndex.isValid() )
+    if(a_rModelIndex.isValid() && (0 != m_pContactDbModel) )
     {
-        QVariant rawVal = ui->clientComboBox->completer()->completionModel()->data( a_rModelIndex
-                                                                                  , KotkaSource::ObjectAddressRole
-                                                                                  );
+        QVariant rawVal = m_pContactDbModel->data( a_rModelIndex
+                                                   , KotkaSource::ObjectAddressRole
+                                                   );
         strTemp = rawVal.toString();
     }
     ui->addressDispLabel->setText(strTemp);
@@ -333,22 +333,38 @@ bool CCreateProjectDialog::validateClient() const
 
 QModelIndex CCreateProjectDialog::findClientIndex(const QString &a_rStrName) const
 {
-    QModelIndex oStartIndex = ui->clientComboBox->completer()->model()->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
-    QModelIndexList oModelIndexList = ui->clientComboBox->completer()->model()->match( oStartIndex
-                                                                  , Qt::DisplayRole
-                                                                  , ui->clientComboBox->currentText()
-                                                                  , 1
-                                                                  , Qt::MatchFixedString
-                                                                  );
-    return  (oModelIndexList.isEmpty() ) ? QModelIndex() : oModelIndexList[0];
+    if(0 != m_pContactDbModel)
+    {
+        QModelIndex oStartIndex = m_pContactDbModel->index(0, CPersonPropertis::toInt(CPersonPropertis::eName) );
+        QModelIndexList oModelIndexList = m_pContactDbModel->match( oStartIndex
+                                                                    , Qt::DisplayRole
+                                                                    , a_rStrName
+                                                                    , 1
+                                                                    , Qt::MatchFixedString
+                                                                    );
+        return  (oModelIndexList.isEmpty() ) ? QModelIndex() : oModelIndexList[0];
+    }
+    else
+    {
+        qWarning() << "CCreateProjectDialog::findClientIndex: no Db was set";
+        return QModelIndex();
+    }
 }
 
 bool CCreateProjectDialog::checkIfClient(const QModelIndex &a_rIndex) const
 {
-    QVariant rawVal = ui->clientComboBox->completer()->model()->data( a_rIndex
-                                                                    , KotkaSource::ContactIsClientRole
-                                                                    );
-    return rawVal.toBool();
+    if(0 != m_pContactDbModel)
+    {
+        QVariant rawVal = m_pContactDbModel->data( a_rIndex
+                                                   , KotkaSource::ContactIsClientRole
+                                                   );
+        return rawVal.toBool();
+    }
+    else
+    {
+        qWarning() << "CCreateProjectDialog::checkIfClient: no Db was set";
+        return false;
+    }
 }
 
 void CCreateProjectDialog::setupSourcesTable()

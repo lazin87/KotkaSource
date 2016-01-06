@@ -25,7 +25,7 @@ public:
     QDateTime getWritersDeadline() const;
 
     void getProjectData(KotkaSource::SProjectData & a_rProjectData) const;
-    void setAddressDbToCompleter(QAbstractItemModel * a_pModel);
+    void setAddressDbModel(QAbstractItemModel * a_pModel);
     void getSourceList(QList<KotkaSource::SSourceData> & a_rSourcesDataList) const;
 
     QString getClientName() const;
@@ -65,6 +65,7 @@ private:
 
     Ui::CCreateProjectDialog *ui;
     KotkaSource::SProjectData const * m_pParentProjectData;
+    QAbstractItemModel * m_pContactDbModel;
 };
 
 #endif // CCREATEPROJECTDIALOG_H
