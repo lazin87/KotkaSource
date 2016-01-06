@@ -8,9 +8,10 @@
 
 #include "ccreatecontactdialog.h"
 
-CCreateProjectDialog::CCreateProjectDialog(QWidget *parent) :
+CCreateProjectDialog::CCreateProjectDialog(QWidget *parent, const KotkaSource::SProjectData *a_pParentPrjData) :
     QDialog(parent),
-    ui(new Ui::CCreateProjectDialog)
+    ui(new Ui::CCreateProjectDialog),
+    m_pParentProjectData(a_pParentPrjData)
 {
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
@@ -45,25 +46,21 @@ void CCreateProjectDialog::getProjectData(KotkaSource::SProjectData &a_rProjectD
     a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
     a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
     a_rProjectData.m_strClientName = ui->clientComboBox->currentText();
+    a_rProjectData.m_strParentName = (0 == m_pParentProjectData) ? "" : m_pParentProjectData->m_strName;
 }
 
 void CCreateProjectDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
 {
     if(0 != a_pModel )
     {
+
         QCompleter * completer = new QCompleter(this);
         completer->setModel(a_pModel);
         ui->clientComboBox->setCompleter(completer);
-
-//        connect( completer, SIGNAL(highlighted(const QModelIndex &) )
-//               , this, SLOT(selectedClientChangedSlot(const QModelIndex &) )
-//               );
     }
     else
     {
-        qWarning() << "CCreateProjectDialog::setAddressDbToCompleter"
-                   << " Model: " << a_pModel
-                   << " Completer: " << ui->clientComboBox->completer();
+        qWarning() << "CCreateProjectDialog::setAddressDbToCompleter: can not set model";
     }
 }
 

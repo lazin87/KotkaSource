@@ -103,7 +103,16 @@ void MainWindow::changeNameSlot()
 void MainWindow::addProjectSlot()
 {
     qDebug() << "MainWindow::addProjectSlot()";
-    CCreateProjectDialog newProjectDialog(this);
+
+    KotkaSource::SProjectData * pProjectData = 0;
+    KotkaSource::SProjectData sParentProjectData;
+    if(m_oModelIndex.isValid() )
+    {
+        QVariant rawProjectData = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadProjectDataRole);
+        sParentProjectData = rawProjectData.value<KotkaSource::SProjectData>();
+        pProjectData = &sParentProjectData;
+    }
+    CCreateProjectDialog newProjectDialog(this, pProjectData);
     newProjectDialog.setAddressDbToCompleter(ui->addressBookTableView->model() );
 
     connect( &newProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )
@@ -173,6 +182,11 @@ void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
         oContextMenu.addAction(m_pAddProjectAction);
         oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
     }
+}
+
+void MainWindow::downloadAllDataSlot()
+{
+    emit downloadAllDataSignal();
 }
 
 void MainWindow::createProjectTreeContextMenu()

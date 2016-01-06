@@ -17,7 +17,7 @@ class CCreateProjectDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CCreateProjectDialog(QWidget *parent = 0);
+    explicit CCreateProjectDialog(QWidget *parent = 0, const KotkaSource::SProjectData * a_pParentPrjData = 0);
     ~CCreateProjectDialog();
 
     QString getName() const;
@@ -64,6 +64,7 @@ private:
     void addNewEntriesToSourcesTable(const QStringList &a_strPathList);
 
     Ui::CCreateProjectDialog *ui;
+    KotkaSource::SProjectData const * m_pParentProjectData;
 };
 
 #endif // CCREATEPROJECTDIALOG_H

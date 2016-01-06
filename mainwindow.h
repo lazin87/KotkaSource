@@ -31,6 +31,7 @@ signals:
     void createTask(KotkaSource::STaskData &, QModelIndex &);
     void addNewContact(KotkaSource::SContactData const & a_crContactData);
     void editContact(KotkaSource::SContactData const & a_crContactData);
+    void downloadAllDataSignal();
 
 private slots:
     void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );
@@ -41,6 +42,8 @@ private slots:
     void addProjectSlot();
     void addTaskSlot();
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
+
+    void downloadAllDataSlot();
 
 private:
     void createProjectTreeContextMenu();

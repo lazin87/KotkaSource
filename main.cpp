@@ -55,7 +55,10 @@ int main(int argc, char *argv[])
     CRemoteDataStorage remoteDataStorage;
     remoteDataStorage.connectSignalsAndSlots(oProjectMngr);
     remoteDataStorage.connectSignalsAndSlots(oAddressBook);
-    remoteDataStorage.downloadAllDataFromServer();
+    QObject::connect( &w, SIGNAL(downloadAllDataSignal() )
+                    , &remoteDataStorage, SLOT(downloadAllDataFromServer() )
+                    );
+    //remoteDataStorage.downloadAllDataFromServer();
     // end just to test
 
 

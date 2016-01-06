@@ -130,9 +130,9 @@
               </widget>
              </item>
              <item row="4" column="0">
-              <widget class="QPushButton" name="resetButton">
+              <widget class="QPushButton" name="downloadButton">
                <property name="text">
-                <string>Reset</string>
+                <string>Download</string>
                </property>
               </widget>
              </item>
@@ -200,5 +200,25 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>downloadButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>downloadAllDataSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>186</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>364</x>
+     <y>726</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>downloadAllDataSlot()</slot>
+ </slots>
 </ui>
