@@ -15,6 +15,7 @@ CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
     : QObject(a_pParent)
     , m_oHttpBrowser(this)
     , m_strAllDataLocalFileName(s_strLocalDataFileName)
+    , m_iCurrentVersion(iINVALID_VERSION)
 {
 
 }
@@ -291,8 +292,13 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
         QJsonObject jsonMainObj = oJsonDoc.object();
         QJsonObject jsonDataObj = jsonMainObj["data"].toObject();
 
-        importFullContactsList(jsonDataObj);
-        importFullPrjHierarchy(jsonDataObj);
+        fResult = readCurrentVersion(jsonMainObj);
+
+        if(fResult)
+        {
+            importFullContactsList(jsonDataObj);
+            importFullPrjHierarchy(jsonDataObj);
+        }
     }
 
     return fResult;
@@ -489,6 +495,21 @@ void CRemoteDataStorage::importFullTaskObjectsData(QJsonObject &a_rDataJsonObj, 
 
         a_rTaskObjMap.insert(oTaskObj.m_strParentTaskName, oTaskObj);
     }
+}
+
+bool CRemoteDataStorage::readCurrentVersion(QJsonObject &a_rJsonMainObj)
+{
+    QString strReadedVersion = a_rJsonMainObj["ver"].toString();
+
+    bool fResult = false;
+    int iTempVer = strReadedVersion.toInt(&fResult);
+
+    m_iCurrentVersion = fResult ? iTempVer : iINVALID_VERSION;
+
+    qDebug() << "CRemoteDataStorage::readCurrentVersion: ver: " << m_iCurrentVersion
+             << " result: " << fResult;
+
+    return fResult;
 }
 
 void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)

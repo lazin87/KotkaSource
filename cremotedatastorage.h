@@ -13,6 +13,8 @@ class CRemoteDataStorage : public QObject
 {
     Q_OBJECT
 public:
+
+    static const int iINVALID_VERSION = -1;
     CRemoteDataStorage(QObject * a_pParent = 0);
     ~CRemoteDataStorage();
 
@@ -65,6 +67,7 @@ private:
     void importFullProjecsData(QJsonObject & a_rDataJsonObj, QList<KotkaSource::SProjectData> & a_rProjectDataList);
     void importFullTasksData(QJsonObject & a_rDataJsonObj, QList<KotkaSource::STaskData> & a_rTaskDataList);
     void importFullTaskObjectsData(QJsonObject & a_rDataJsonObj, QMultiMap<QString, KotkaSource::STaskObjectData> & a_rTaskObjMap);
+    bool readCurrentVersion(QJsonObject & a_rJsonMainObj);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
 
@@ -73,6 +76,7 @@ private:
 
     CHttpBrowserSync m_oHttpBrowser;
     QString m_strAllDataLocalFileName;
+    int m_iCurrentVersion;
 };
 
 #endif // CREMOTEDATASTORAGE_H
