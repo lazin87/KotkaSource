@@ -452,7 +452,7 @@ void CRemoteDataStorage::importFullTasksData(QJsonObject &a_rDataJsonObj, QList<
     QMultiMap<QString, KotkaSource::STaskObjectData> oTaskObjMap;
     importFullTaskObjectsData(a_rDataJsonObj, oTaskObjMap);
 
-    QJsonArray jsonTasksArray = a_rDataJsonObj["projects"].toArray();
+    QJsonArray jsonTasksArray = a_rDataJsonObj["tasks"].toArray();
 
     for(int i = 0; jsonTasksArray.size() > i; ++i)
     {
