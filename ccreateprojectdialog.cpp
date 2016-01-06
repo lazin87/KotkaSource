@@ -55,10 +55,7 @@ void CCreateProjectDialog::setAddressDbModel(QAbstractItemModel *a_pModel)
     if(0 != a_pModel )
     {
         m_pContactDbModel = a_pModel;
-
-        QCompleter * completer = new QCompleter(this);
-        completer->setModel(m_pContactDbModel);
-        ui->clientComboBox->setCompleter(completer);
+        ui->clientComboBox->setModel(m_pContactDbModel);
     }
     else
     {
