@@ -97,9 +97,20 @@ void CProjectManager::loadProjectsModel(const QList<KotkaSource::SProjectData> &
     m_oModel.clear();
 
     QMap<QString, QStandardItem *> mapOfProjectbyName;
-    buildProjectsHierarchy(a_crProjectDataList, mapOfProjectbyName);
-    addTasksToProjectHierarchy(a_crTasksDataList, mapOfProjectbyName);
-    addSourcesToProjectHierarchy(a_crSourcesData, mapOfProjectbyName);
+    if(!a_crProjectDataList.isEmpty() )
+    {
+        buildProjectsHierarchy(a_crProjectDataList, mapOfProjectbyName);
+    }
+
+    if(!a_crTasksDataList.isEmpty() && !mapOfProjectbyName.isEmpty() )
+    {
+        addTasksToProjectHierarchy(a_crTasksDataList, mapOfProjectbyName);
+    }
+
+    if(!a_crSourcesData.isEmpty() && !mapOfProjectbyName.isEmpty() )
+    {
+        addSourcesToProjectHierarchy(a_crSourcesData, mapOfProjectbyName);
+    }
 }
 
 void CProjectManager::updateModelSlot()
@@ -126,15 +137,13 @@ void CProjectManager::buildProjectsHierarchy(const QList<KotkaSource::SProjectDa
         a_rMapOfProjectbyName.insert(sProjectData.m_strName, pStdItem);
     }
 
-    auto multiMapIter = mapOfProjectByParent.begin();
-    while( multiMapIter != mapOfProjectByParent.end() )
+    const QList<QString> parentNames = mapOfProjectByParent.uniqueKeys();
+    foreach(QString const & parentName, parentNames)
     {
-        if( "" != multiMapIter.key() )
+        if("" != parentName)
         {
-            a_rMapOfProjectbyName[multiMapIter.key() ]->appendRows(mapOfProjectByParent.values(multiMapIter.key() ) );
+            a_rMapOfProjectbyName[parentName]->appendRows(mapOfProjectByParent.values(parentName) );
         }
-
-        ++multiMapIter;
     }
 
     QStandardItem *pRootItem = m_oModel.invisibleRootItem();
@@ -144,7 +153,6 @@ void CProjectManager::buildProjectsHierarchy(const QList<KotkaSource::SProjectDa
 void CProjectManager::addTasksToProjectHierarchy(const QList<KotkaSource::STaskData> &a_crTasksDataList, QMap<QString, QStandardItem *> & a_rMapOfProjectbyName)
 {
     QMultiMap<QString, QStandardItem *> multiMapOfTasksByParent;
-    //QMap<QString, QStandardItem *> mapOfTasksByName;
 
     foreach(KotkaSource::STaskData const & taskData, a_crTasksDataList)
     {
@@ -152,15 +160,16 @@ void CProjectManager::addTasksToProjectHierarchy(const QList<KotkaSource::STaskD
         {
             QStandardItem * pStdItem = new CTask(taskData);
             multiMapOfTasksByParent.insert(taskData.m_strParentName, pStdItem);
-            // mapOfTasksByName.insert(taskData.m_strName, pStdItem);
         }
     }
 
-    auto multiMapIter = multiMapOfTasksByParent.begin();
-    while(multiMapIter != multiMapOfTasksByParent.end() )
+    const QList<QString> parentNames = multiMapOfTasksByParent.uniqueKeys();
+    foreach(QString const & parentName, parentNames)
     {
-        a_rMapOfProjectbyName[multiMapIter.key() ]->appendRows(multiMapOfTasksByParent.values(multiMapIter.key() ) );
-        ++multiMapIter;
+        if("" != parentName)
+        {
+            a_rMapOfProjectbyName[parentName]->appendRows(multiMapOfTasksByParent.values(parentName) );
+        }
     }
 }
 
@@ -176,14 +185,13 @@ void CProjectManager::addSourcesToProjectHierarchy(const QList<KotkaSource::SSou
         }
     }
 
-    auto multiMapIter = multiMapOfSourcesByParent.begin();
-    while(multiMapIter != multiMapOfSourcesByParent.end() )
+    const QList<QString> parentNames = multiMapOfSourcesByParent.uniqueKeys();
+    foreach(QString const & parentName, parentNames)
     {
-        CProjectBase * pProject = static_cast<CProjectBase *>(a_rMapOfProjectbyName[multiMapIter.key() ] );
+        CProjectBase * pProject = static_cast<CProjectBase *>(a_rMapOfProjectbyName[parentName] );
         if(0 != pProject)
         {
-            pProject->fillInSourcesModel(multiMapOfSourcesByParent.values(multiMapIter.key() ) );
+            pProject->fillInSourcesModel(multiMapOfSourcesByParent.values(parentName) );
         }
-        ++multiMapIter;
     }
 }
