@@ -71,9 +71,10 @@ private:
     void importFullTasksData(QJsonObject & a_rDataJsonObj, QList<KotkaSource::STaskData> & a_rTaskDataList);
     void importFullTaskObjectsData(QJsonObject & a_rDataJsonObj, QMultiMap<QString, KotkaSource::STaskObjectData> & a_rTaskObjMap);
     bool readCurrentVersion(QJsonObject & a_rJsonMainObj);
+    bool checkServerErrMsg(QJsonObject & a_rJsonMainObj);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
-    void processServerResponse(QString const & a_rFileName);
+    void processServerResponse(EDataTransReqType a_eDataReqType, QString const & a_rFileName);
     QString sendRequestToServer(EDataTransReqType a_eDataReqType, QJsonObject a_JsonReqObj = QJsonObject() );
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;

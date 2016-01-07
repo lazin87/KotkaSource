@@ -106,7 +106,8 @@ void CRemoteDataStorage::storeTask(const KotkaSource::STaskData &a_crTaskData)
     oJsonStoreMainObj["type"] = "task";
     oJsonStoreMainObj["data"] = oJsonObjectTaskData;
 
-    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    processServerResponse(eDTR_newRecord, outFileName);
 
 }
 
@@ -124,7 +125,8 @@ void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProje
     oJsonStoreMainObj["type"] = "project";
     oJsonStoreMainObj["data"] = oJsonObjectProjectData;
 
-    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    processServerResponse(eDTR_newRecord, outFileName);
 }
 
 void CRemoteDataStorage::storeTaskObject(const KotkaSource::STaskObjectData &a_crTaskObjectData)
@@ -142,7 +144,8 @@ void CRemoteDataStorage::storeTaskObject(const KotkaSource::STaskObjectData &a_c
     oJsonStoreMainObj["type"] = "taskObject";
     oJsonStoreMainObj["data"] = oJsonObjectTaskObjectData;
 
-    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    processServerResponse(eDTR_newRecord, outFileName);
 }
 
 void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crContactData)
@@ -160,7 +163,8 @@ void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crConta
     oJsonStoreMainObj["type"] = "contact";
     oJsonStoreMainObj["data"] = oJsonObjectContactData;
 
-    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+    processServerResponse(eDTR_newRecord, outFileName);
 }
 
 void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
@@ -461,15 +465,46 @@ bool CRemoteDataStorage::readCurrentVersion(QJsonObject &a_rJsonMainObj)
     return fResult;
 }
 
+bool CRemoteDataStorage::checkServerErrMsg(QJsonObject &a_rJsonMainObj)
+{
+    QString errMsg = a_rJsonMainObj["error"].toString();
+    bool fResult = errMsg.isEmpty();
+
+    if(fResult)
+    {
+        qDebug() << "CRemoteDataStorage::checkServerErrMsg: no errors";
+    }
+    else
+    {
+        qWarning() << "CRemoteDataStorage::checkServerErrMsg: " << errMsg;
+    }
+
+    return fResult;
+}
+
+
+
 void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)
 {
     a_rJsonObj["login"] = "Misiek";
     a_rJsonObj["pwd"] = "qwert";
 }
 
-void CRemoteDataStorage::processServerResponse(const QString &a_rFileName)
+void CRemoteDataStorage::processServerResponse(CRemoteDataStorage::EDataTransReqType a_eDataReqType, const QString &a_rFileName)
 {
+    if(!a_rFileName.isEmpty() )
+    {
+        QJsonDocument oJsonDoc;
+        bool fResult = importJsonDataFromFile(a_rFileName, oJsonDoc);
+        QJsonObject jsonMainObj = fResult ? oJsonDoc.object() : QJsonObject() ;
+        fResult = fResult ? checkServerErrMsg(jsonMainObj) : fResult;
 
+        fResult = fResult ? readCurrentVersion(jsonMainObj) : fResult;
+    }
+    else
+    {
+        qWarning() << "CRemoteDataStorage::processServerResponse: out file name is empty";
+    }
 }
 
 QString CRemoteDataStorage::sendRequestToServer(EDataTransReqType a_eDataReqType, QJsonObject a_JsonReqObj)
