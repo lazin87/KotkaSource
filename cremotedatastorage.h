@@ -5,6 +5,7 @@
 #include <QMultiMap>
 #include "chttpbrowsersync.h"
 #include "commonddefs.h"
+#include <QJsonObject>
 
 class CProjectManager;
 class CClientsAndWritersDbModel;
@@ -13,6 +14,18 @@ class CRemoteDataStorage : public QObject
 {
     Q_OBJECT
 public:
+    enum EDataTransReqType
+    {
+        eDTR_newRecord = 0,
+        eDTR_updateRecord,
+        eDTR_removeRecord,
+        eDTR_getAllData,
+
+        eDTR_COUNT
+    };
+
+    static const QString aTARGET_URLs[eDTR_COUNT];
+    static const QString aOUT_FILES_NAMES[eDTR_COUNT];
 
     static const int iINVALID_VERSION = -1;
     CRemoteDataStorage(QObject * a_pParent = 0);
@@ -51,16 +64,6 @@ public slots:
     bool downloadAllDataFromServer();
 
 private:
-    void sendNewDataToServer(QJsonObject &a_rJsonObject);
-    void sendRemoveDataReqToServer(QJsonObject const & a_crJsonObject);
-    void sendUpdateDataReqToServer(QJsonObject const & a_crJsonObject);
-
-    void sendGetProjectsDataReq(QString & a_strOutFileName);
-    void sendGetTasksDataReq(QString & a_strOutFileName);
-    void sendGetTaskObjectsDataReq(QString & a_strOutFileName);
-    void sendGetContactsDataReq(QString & a_strOutFileName);
-    bool sendGetAllDataReq(QString & a_strOutFileName);
-
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
     void importFullContactsList(QJsonObject &a_rDataJsonObj);
     void importFullPrjHierarchy(QJsonObject & a_rDataJsonObj);
@@ -70,6 +73,8 @@ private:
     bool readCurrentVersion(QJsonObject & a_rJsonMainObj);
 
     void addLoginCredentials(QJsonObject &a_rJsonObj);
+    void processServerResponse(QString const & a_rFileName);
+    QString sendRequestToServer(EDataTransReqType a_eDataReqType, QJsonObject a_JsonReqObj = QJsonObject() );
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
     KotkaSource::ETaskObjectType toTaskObjectType(QString a_strTypeName);

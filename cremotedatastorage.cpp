@@ -11,6 +11,20 @@
 
 const QString CRemoteDataStorage::s_strLocalDataFileName = "localData.json";
 
+const QString CRemoteDataStorage::aTARGET_URLs[eDTR_COUNT] = {
+    "http://procner-michelin.com/CopyMngr/ctrl/addRecord.php",
+    "http://procner-michelin.com/CopyMngr/ctrl/updateRecord.php",
+    "http://procner-michelin.com/CopyMngr/ctrl/removeRecord.php",
+    "http://procner-michelin.com/CopyMngr/ctrl/getAllData.php"
+};
+
+const QString CRemoteDataStorage::aOUT_FILES_NAMES[eDTR_COUNT] = {
+    "newRecordOut.json",
+    "updateRecordOut.json",
+    "removeRecordOut.json",
+    "getAllDataOut.json"
+};
+
 CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
     : QObject(a_pParent)
     , m_oHttpBrowser(this)
@@ -92,7 +106,8 @@ void CRemoteDataStorage::storeTask(const KotkaSource::STaskData &a_crTaskData)
     oJsonStoreMainObj["type"] = "task";
     oJsonStoreMainObj["data"] = oJsonObjectTaskData;
 
-    sendNewDataToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
+
 }
 
 void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProjectData)
@@ -109,7 +124,7 @@ void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProje
     oJsonStoreMainObj["type"] = "project";
     oJsonStoreMainObj["data"] = oJsonObjectProjectData;
 
-    sendNewDataToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::storeTaskObject(const KotkaSource::STaskObjectData &a_crTaskObjectData)
@@ -127,7 +142,7 @@ void CRemoteDataStorage::storeTaskObject(const KotkaSource::STaskObjectData &a_c
     oJsonStoreMainObj["type"] = "taskObject";
     oJsonStoreMainObj["data"] = oJsonObjectTaskObjectData;
 
-    sendNewDataToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crContactData)
@@ -145,7 +160,7 @@ void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crConta
     oJsonStoreMainObj["type"] = "contact";
     oJsonStoreMainObj["data"] = oJsonObjectContactData;
 
-    sendNewDataToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
@@ -163,7 +178,7 @@ void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
     oJsonStoreMainObj["type"] = "task";
     oJsonStoreMainObj["data"] = oJsonObjectTaskData;
 
-    sendUpdateDataReqToServer(oJsonObjectTaskData);
+    sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::updateProject(const KotkaSource::SProjectData &a_crProjectData)
@@ -180,7 +195,7 @@ void CRemoteDataStorage::updateProject(const KotkaSource::SProjectData &a_crProj
     oJsonStoreMainObj["type"] = "project";
     oJsonStoreMainObj["data"] = oJsonObjectProjectData;
 
-    sendUpdateDataReqToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::updateTaskObject(const KotkaSource::STaskObjectData &a_crTaskObjectData)
@@ -198,7 +213,7 @@ void CRemoteDataStorage::updateTaskObject(const KotkaSource::STaskObjectData &a_
     oJsonStoreMainObj["type"] = "taskObject";
     oJsonStoreMainObj["data"] = oJsonObjectTaskObjectData;
 
-    sendUpdateDataReqToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::updateContact(const KotkaSource::SContactData &a_crContactData)
@@ -216,7 +231,7 @@ void CRemoteDataStorage::updateContact(const KotkaSource::SContactData &a_crCont
     oJsonStoreMainObj["type"] = "contact";
     oJsonStoreMainObj["data"] = oJsonObjectContactData;
 
-    sendUpdateDataReqToServer(oJsonStoreMainObj);
+    sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
 void CRemoteDataStorage::removeTask(const QString &a_crName)
@@ -226,7 +241,7 @@ void CRemoteDataStorage::removeTask(const QString &a_crName)
     oJsonMainObj["type"] = "task";
     oJsonMainObj["data"] = a_crName;
 
-    sendRemoveDataReqToServer(oJsonMainObj);
+    sendRequestToServer(eDTR_removeRecord, oJsonMainObj);
 }
 
 void CRemoteDataStorage::removeProject(const QString &a_crName)
@@ -236,7 +251,7 @@ void CRemoteDataStorage::removeProject(const QString &a_crName)
     oJsonMainObj["type"] = "project";
     oJsonMainObj["data"] = a_crName;
 
-    sendRemoveDataReqToServer(oJsonMainObj);
+    sendRequestToServer(eDTR_removeRecord, oJsonMainObj);
 }
 
 void CRemoteDataStorage::removeTaskObject(const QString &a_crName)
@@ -246,7 +261,7 @@ void CRemoteDataStorage::removeTaskObject(const QString &a_crName)
     oJsonMainObj["type"] = "taskObject";
     oJsonMainObj["data"] = a_crName;
 
-    sendRemoveDataReqToServer(oJsonMainObj);
+    sendRequestToServer(eDTR_removeRecord, oJsonMainObj);
 }
 
 void CRemoteDataStorage::removeContact(const QString &a_crName)
@@ -256,22 +271,22 @@ void CRemoteDataStorage::removeContact(const QString &a_crName)
     oJsonMainObj["type"] = "contact";
     oJsonMainObj["data"] = a_crName;
 
-    sendRemoveDataReqToServer(oJsonMainObj);
+    sendRequestToServer(eDTR_removeRecord, oJsonMainObj);
 }
 
 void CRemoteDataStorage::loadProjectsData(QList<KotkaSource::SProjectData> &a_rProject)
 {
-    a_rProject.clear();
+//    a_rProject.clear();
 
-    QString strProjectsDataFile = "projetsData.json";
-    sendGetProjectsDataReq(strProjectsDataFile);
+//    QString strProjectsDataFile = "projetsData.json";
+//    sendGetProjectsDataReq(strProjectsDataFile);
 
-    QFile dataFile(strProjectsDataFile);
-    if(dataFile.open(QIODevice::ReadOnly) )
-    {
-        QByteArray storedData = dataFile.readAll();
-        QJsonDocument jsonData(QJsonDocument::fromJson(storedData) );
-    }
+//    QFile dataFile(strProjectsDataFile);
+//    if(dataFile.open(QIODevice::ReadOnly) )
+//    {
+//        QByteArray storedData = dataFile.readAll();
+//        QJsonDocument jsonData(QJsonDocument::fromJson(storedData) );
+//    }
 }
 
 bool CRemoteDataStorage::downloadAllDataFromServer()
@@ -279,8 +294,8 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
     bool fResult = false;
 
     QJsonDocument oJsonDoc;
-    QString strAllDataFileName = "allData.json";
-    fResult = sendGetAllDataReq(strAllDataFileName);
+    QString strAllDataFileName = sendRequestToServer(eDTR_getAllData);
+    fResult = !strAllDataFileName.isEmpty();//sendGetAllDataReq(strAllDataFileName);
 
     if(fResult)
     {
@@ -300,72 +315,6 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
             importFullPrjHierarchy(jsonDataObj);
         }
     }
-
-    return fResult;
-}
-
-void CRemoteDataStorage::sendNewDataToServer(QJsonObject &a_rJsonObject)
-{
-    QJsonDocument oJsonDoc;
-    QString strOutputFileName = "jsonStoreOut.txt";
-    addLoginCredentials(a_rJsonObject);
-    oJsonDoc.setObject(a_rJsonObject);
-
-    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
-    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/addRecord.php");
-    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
-    m_oHttpBrowser.startProcessRequest(strOutputFileName);
-}
-
-void CRemoteDataStorage::sendRemoveDataReqToServer(const QJsonObject &a_crJsonObject)
-{
-    QJsonDocument oJsonDoc;
-    QString strOutputFileName = "jsonRemoveOut.txt";
-    oJsonDoc.setObject(a_crJsonObject);
-
-    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
-    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/removeRecord.php");
-    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
-    m_oHttpBrowser.startProcessRequest(strOutputFileName);
-}
-
-void CRemoteDataStorage::sendUpdateDataReqToServer(const QJsonObject &a_crJsonObject)
-{
-    QJsonDocument oJsonDoc;
-    QString strOutputFileName = "jsonUpdateOut.txt";
-    oJsonDoc.setObject(a_crJsonObject);
-
-    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
-    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/updateRecord.php");
-    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
-    m_oHttpBrowser.startProcessRequest(strOutputFileName);
-}
-
-void CRemoteDataStorage::sendGetProjectsDataReq(QString & a_strOutFileName)
-{
-    QJsonDocument oJsonDoc;
-    QJsonObject oJsonObj;
-    addLoginCredentials(oJsonObj);
-    oJsonDoc.setObject(oJsonObj);
-
-    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
-    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getProjects.php");
-    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
-    m_oHttpBrowser.startProcessRequest(a_strOutFileName);
-}
-
-bool CRemoteDataStorage::sendGetAllDataReq(QString &a_strOutFileName)
-{
-    QJsonDocument oJsonDoc;
-    QJsonObject oJsonObj;
-    addLoginCredentials(oJsonObj);
-    oJsonDoc.setObject(oJsonObj);
-
-    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
-    m_oHttpBrowser.setUrl("http://procner-michelin.com/CopyMngr/ctrl/getAllData.php");
-    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
-    bool fResult = m_oHttpBrowser.startProcessRequest(a_strOutFileName);
-    qDebug() << "CRemoteDataStorage::sendGetAllDataReq: result: " << fResult;
 
     return fResult;
 }
@@ -516,6 +465,30 @@ void CRemoteDataStorage::addLoginCredentials(QJsonObject &a_rJsonObj)
 {
     a_rJsonObj["login"] = "Misiek";
     a_rJsonObj["pwd"] = "qwert";
+}
+
+void CRemoteDataStorage::processServerResponse(const QString &a_rFileName)
+{
+
+}
+
+QString CRemoteDataStorage::sendRequestToServer(EDataTransReqType a_eDataReqType, QJsonObject a_JsonReqObj)
+{
+    QString strOutFileName = aOUT_FILES_NAMES[a_eDataReqType];
+
+    QJsonDocument oJsonDoc;
+    addLoginCredentials(a_JsonReqObj);
+
+    oJsonDoc.setObject(a_JsonReqObj);
+
+    m_oHttpBrowser.setEHttpReq(CHttpBrowserSync::eHttpReqJson);
+    m_oHttpBrowser.setUrl(aTARGET_URLs[a_eDataReqType] );
+    m_oHttpBrowser.setDataToSend(oJsonDoc.toJson() );
+    bool fResult = m_oHttpBrowser.startProcessRequest(strOutFileName);
+
+    strOutFileName = fResult ? strOutFileName : "";
+
+    return strOutFileName;
 }
 
 QString CRemoteDataStorage::getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const
