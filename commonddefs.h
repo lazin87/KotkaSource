@@ -130,6 +130,12 @@ struct SSourceData
 
 }
 
+template<typename T>
+T noChange() {return NULL;}
+
+template<>
+QString noChange<QString>(){return "##"; }
+
 Q_DECLARE_METATYPE(KotkaSource::SProjectData)
 Q_DECLARE_METATYPE(KotkaSource::STaskData)
 Q_DECLARE_METATYPE(KotkaSource::STaskObjectData)

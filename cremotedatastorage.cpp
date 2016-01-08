@@ -187,7 +187,7 @@ void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
     QJsonObject oJsonStoreMainObj;
     QJsonObject oJsonObjectTaskData;
 
-    oJsonObjectTaskData["name"] = a_crTaskData.m_strName;
+    oJsonObjectTaskData["name"] = noChange<QString>;//a_crTaskData.m_strName;
     oJsonObjectTaskData["parent"] = a_crTaskData.m_strParentName;
     oJsonObjectTaskData["desc"] = a_crTaskData.m_strDesc;
     oJsonObjectTaskData["writer"] = a_crTaskData.m_strWriterName;
