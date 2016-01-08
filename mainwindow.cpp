@@ -189,6 +189,11 @@ void MainWindow::downloadAllDataSlot()
     emit downloadAllDataSignal();
 }
 
+void MainWindow::checkForUpdatesSlot()
+{
+    emit checkForUpdatesSignal();
+}
+
 void MainWindow::createProjectTreeContextMenu()
 {
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);

@@ -20,6 +20,7 @@ public:
         eDTR_updateRecord,
         eDTR_removeRecord,
         eDTR_getAllData,
+        eDTR_checkUpdates,
 
         eDTR_COUNT
     };
@@ -62,6 +63,8 @@ public slots:
 
     void loadProjectsData(QList<KotkaSource::SProjectData> & a_rProject);
     bool downloadAllDataFromServer();
+
+    bool checkForUpdates();
 
 private:
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);

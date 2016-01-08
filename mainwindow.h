@@ -32,6 +32,7 @@ signals:
     void addNewContact(KotkaSource::SContactData const & a_crContactData);
     void editContact(KotkaSource::SContactData const & a_crContactData);
     void downloadAllDataSignal();
+    void checkForUpdatesSignal();
 
 private slots:
     void selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/ );
@@ -44,6 +45,7 @@ private slots:
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
 
     void downloadAllDataSlot();
+    void checkForUpdatesSlot();
 
 private:
     void createProjectTreeContextMenu();

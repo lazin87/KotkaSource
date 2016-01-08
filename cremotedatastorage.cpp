@@ -15,14 +15,16 @@ const QString CRemoteDataStorage::aTARGET_URLs[eDTR_COUNT] = {
     "http://procner-michelin.com/CopyMngr/ctrl/addRecord.php",
     "http://procner-michelin.com/CopyMngr/ctrl/updateRecord.php",
     "http://procner-michelin.com/CopyMngr/ctrl/removeRecord.php",
-    "http://procner-michelin.com/CopyMngr/ctrl/getAllData.php"
+    "http://procner-michelin.com/CopyMngr/ctrl/getAllData.php",
+    "http://procner-michelin.com/CopyMngr/ctrl/checkUpdates.php"
 };
 
 const QString CRemoteDataStorage::aOUT_FILES_NAMES[eDTR_COUNT] = {
     "newRecordOut.json",
     "updateRecordOut.json",
     "removeRecordOut.json",
-    "getAllDataOut.json"
+    "getAllDataOut.json",
+    "lastUpdates.json"
 };
 
 CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
@@ -318,6 +320,28 @@ bool CRemoteDataStorage::downloadAllDataFromServer()
             importFullContactsList(jsonDataObj);
             importFullPrjHierarchy(jsonDataObj);
         }
+    }
+
+    return fResult;
+}
+
+bool CRemoteDataStorage::checkForUpdates()
+{
+    qDebug() << "Check for updates";
+    bool fResult = false;
+
+    if(iINVALID_VERSION != m_iCurrentVersion)
+    {
+        QJsonObject oJsonMainObject;
+
+        oJsonMainObject["curVer"] = m_iCurrentVersion;
+
+        QString strOutFileName = sendRequestToServer(eDTR_checkUpdates, oJsonMainObject);
+        processServerResponse(eDTR_checkUpdates, strOutFileName);
+    }
+    else
+    {
+        qWarning() << "CRemoteDataStorage::checkForUpdates(): Invalid version. Download db first";
     }
 
     return fResult;

@@ -58,6 +58,9 @@ int main(int argc, char *argv[])
     QObject::connect( &w, SIGNAL(downloadAllDataSignal() )
                     , &remoteDataStorage, SLOT(downloadAllDataFromServer() )
                     );
+    QObject::connect( &w, SIGNAL(checkForUpdatesSignal() )
+                    , &remoteDataStorage, SLOT(checkForUpdates() )
+                    );
     //remoteDataStorage.downloadAllDataFromServer();
     // end just to test
 
