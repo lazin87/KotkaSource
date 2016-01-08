@@ -65,6 +65,17 @@ enum ETaskObjectType
     eTOT_File
 };
 
+enum ERecordType
+{
+    eRT_Invalid = -1,
+    eRT_Project = 0,
+    eRT_Task,
+    eRT_TaskObj,
+    eRT_Contact,
+
+    eRT_COUNT
+};
+
 struct SProjectData
 {
     QString m_strName;
@@ -120,6 +131,8 @@ struct SSourceData
 }
 
 Q_DECLARE_METATYPE(KotkaSource::SProjectData)
+Q_DECLARE_METATYPE(KotkaSource::STaskData)
+Q_DECLARE_METATYPE(KotkaSource::STaskObjectData)
 Q_DECLARE_METATYPE(KotkaSource::SContactData)
 Q_DECLARE_METATYPE(KotkaSource::SSourceData)
 

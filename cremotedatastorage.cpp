@@ -27,6 +27,19 @@ const QString CRemoteDataStorage::aOUT_FILES_NAMES[eDTR_COUNT] = {
     "lastUpdates.json"
 };
 
+const QString CRemoteDataStorage::aRECORD_TYPE_NAMES[KotkaSource::eRT_COUNT] = {
+    "project",
+    "task",
+    "taskObject",
+    "contact"
+};
+
+const QString CRemoteDataStorage::aOPERATION_TYPE_NAMES[eOpT_COUNT] = {
+    "add",
+    "mod",
+    "rem"
+};
+
 CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
     : QObject(a_pParent)
     , m_oHttpBrowser(this)
@@ -105,7 +118,7 @@ void CRemoteDataStorage::storeTask(const KotkaSource::STaskData &a_crTaskData)
     oJsonObjectTaskData["delivery"] = a_crTaskData.m_oDateTimeDelivery.toString(Qt::ISODate);
     oJsonObjectTaskData["wDeadline"] = a_crTaskData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
 
-    oJsonStoreMainObj["type"] = "task";
+    oJsonStoreMainObj["type"] = aRECORD_TYPE_NAMES[KotkaSource::eRT_Task];
     oJsonStoreMainObj["data"] = oJsonObjectTaskData;
 
     QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
@@ -124,7 +137,7 @@ void CRemoteDataStorage::storeProject(const KotkaSource::SProjectData &a_crProje
     oJsonObjectProjectData["wDeadline"] = a_crProjectData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
     oJsonObjectProjectData["client"] = a_crProjectData.m_strClientName;
 
-    oJsonStoreMainObj["type"] = "project";
+    oJsonStoreMainObj["type"] = aRECORD_TYPE_NAMES[KotkaSource::eRT_Project];
     oJsonStoreMainObj["data"] = oJsonObjectProjectData;
 
     QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
@@ -143,7 +156,7 @@ void CRemoteDataStorage::storeTaskObject(const KotkaSource::STaskObjectData &a_c
     oJsonObjectTaskObjectData["minLength"] = a_crTaskObjectData.m_iMinLength;
     oJsonObjectTaskObjectData["maxLength"] = a_crTaskObjectData.m_iMaxLength;
 
-    oJsonStoreMainObj["type"] = "taskObject";
+    oJsonStoreMainObj["type"] = aRECORD_TYPE_NAMES[KotkaSource::eRT_TaskObj];
     oJsonStoreMainObj["data"] = oJsonObjectTaskObjectData;
 
     QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
@@ -162,7 +175,7 @@ void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crConta
     oJsonObjectContactData["isWriter"] = a_crContactData.m_fIsWriter;
     oJsonObjectContactData["isClient"] = a_crContactData.m_fIsClient;
 
-    oJsonStoreMainObj["type"] = "contact";
+    oJsonStoreMainObj["type"] = aRECORD_TYPE_NAMES[KotkaSource::eRT_Contact];
     oJsonStoreMainObj["data"] = oJsonObjectContactData;
 
     QString outFileName = sendRequestToServer(eDTR_newRecord, oJsonStoreMainObj);
@@ -347,6 +360,50 @@ bool CRemoteDataStorage::checkForUpdates()
     return fResult;
 }
 
+bool CRemoteDataStorage::processUpdateServResponse(QJsonObject &a_rMainJsonObj)
+{
+    bool fResult  = false;
+    QJsonArray jsonDataArray = a_rMainJsonObj["data"].toArray();
+    for(int i = 0; jsonDataArray.size(); ++i)
+    {
+        QJsonObject jsonChangeDataObj = jsonDataArray[i].toObject();
+        QJsonObject jsonObjMods = jsonChangeDataObj["mods"].toObject();
+        KotkaSource::ERecordType eRecordType = toRecordType(jsonChangeDataObj["type"].toString() );
+        EOperationType eOperationType = toOperationType(jsonChangeDataObj["action"].toString() );
+        int iVersion = jsonChangeDataObj["id"].toString().toInt();
+
+        switch(eOperationType)
+        {
+        case eOpT_Add:
+        {
+            fResult = addNewRecord(eRecordType, jsonObjMods);
+        }
+        break;
+
+        case eOpT_Mod:
+        {
+            fResult = modRecord(eRecordType, jsonObjMods);
+        }
+        break;
+
+        case eOpT_Rem:
+        {
+            fResult = removeRecord(eRecordType, jsonObjMods);
+        }
+        break;
+
+        default:
+        {
+            fResult = false;
+            qWarning() << "CRemoteDataStorage::processUpdateServResponse: unsupported record type: " << eOperationType;
+        }
+        }
+
+    }
+
+    return fResult;
+}
+
 bool CRemoteDataStorage::importJsonDataFromFile(const QString &a_strFileName, QJsonDocument &a_rJsonDoc)
 {
     bool fResult = false;
@@ -368,6 +425,16 @@ bool CRemoteDataStorage::importJsonDataFromFile(const QString &a_strFileName, QJ
     return fResult;
 }
 
+void CRemoteDataStorage::fillInSContactData(QJsonObject & a_rJsonContact, KotkaSource::SContactData & a_rContactData)
+{
+    a_rContactData.m_strName = a_rJsonContact["name"].toString();
+    a_rContactData.m_strEmail = a_rJsonContact["email"].toString();
+    a_rContactData.m_strPhone = a_rJsonContact["phone"].toString();
+    a_rContactData.m_strAddress = a_rJsonContact["address"].toString();
+    a_rContactData.m_fIsClient = a_rJsonContact["isClient"].toString() == "1";
+    a_rContactData.m_fIsWriter = a_rJsonContact["isWriter"].toString() == "1";
+}
+
 void CRemoteDataStorage::importFullContactsList(QJsonObject &a_rDataJsonObj)
 {
     QList<KotkaSource::SContactData> aContactDataList;
@@ -378,12 +445,7 @@ void CRemoteDataStorage::importFullContactsList(QJsonObject &a_rDataJsonObj)
         QJsonObject jsonContact = jsonContactArray[iIndex].toObject();
         KotkaSource::SContactData oContactData;
 
-        oContactData.m_strName = jsonContact["name"].toString();
-        oContactData.m_strEmail = jsonContact["email"].toString();
-        oContactData.m_strPhone = jsonContact["phone"].toString();
-        oContactData.m_strAddress = jsonContact["address"].toString();
-        oContactData.m_fIsClient = jsonContact["isClient"].toString() == "1";
-        oContactData.m_fIsWriter = jsonContact["isWriter"].toString() == "1";
+        fillInSContactData(jsonContact, oContactData);
 
         aContactDataList.append(oContactData);
     }
@@ -410,6 +472,16 @@ void CRemoteDataStorage::importFullPrjHierarchy(QJsonObject &a_rDataJsonObj)
     emit loadFullPrjsHierarchySignal(oPrjData, oTaskData, oSourcesData);
 }
 
+void CRemoteDataStorage::fillInSProjectData(QJsonObject & a_rJsonPrjObj, KotkaSource::SProjectData & a_rPrjData)
+{
+    a_rPrjData.m_strName = a_rJsonPrjObj["name"].toString();
+    a_rPrjData.m_oDateTimeDelivery = QDateTime::fromString(a_rJsonPrjObj["delivery"].toString() , Qt::ISODate);
+    a_rPrjData.m_oDateTimeWriterDeadline = QDateTime::fromString(a_rJsonPrjObj["wDeadline"].toString() , Qt::ISODate);
+    a_rPrjData.m_strParentName = a_rJsonPrjObj["parent"].toString();
+    a_rPrjData.m_strClientName = a_rJsonPrjObj["client"].toString();
+    a_rPrjData.m_pClient = 0;
+}
+
 void CRemoteDataStorage::importFullProjecsData(QJsonObject &a_rDataJsonObj, QList<KotkaSource::SProjectData> &a_rProjectDataList)
 {
     QJsonArray jsonPrjArray = a_rDataJsonObj["projects"].toArray();
@@ -419,15 +491,20 @@ void CRemoteDataStorage::importFullProjecsData(QJsonObject &a_rDataJsonObj, QLis
         QJsonObject jsonPrjObj = jsonPrjArray[i].toObject();
         KotkaSource::SProjectData oPrjData;
 
-        oPrjData.m_strName = jsonPrjObj["name"].toString();
-        oPrjData.m_oDateTimeDelivery = QDateTime::fromString(jsonPrjObj["delivery"].toString() , Qt::ISODate);
-        oPrjData.m_oDateTimeWriterDeadline = QDateTime::fromString(jsonPrjObj["wDeadline"].toString() , Qt::ISODate);
-        oPrjData.m_strParentName = jsonPrjObj["parent"].toString();
-        oPrjData.m_strClientName = jsonPrjObj["client"].toString();
-        oPrjData.m_pClient = 0;
+        fillInSProjectData(jsonPrjObj, oPrjData);
 
         a_rProjectDataList.append(oPrjData);
     }
+}
+
+void CRemoteDataStorage::fillInSTaskData(QJsonObject & a_rJsonTaskObj, KotkaSource::STaskData & a_rTaskData)
+{
+    a_rTaskData.m_strName = a_rJsonTaskObj["name"].toString();
+    a_rTaskData.m_strDesc = a_rJsonTaskObj["desc"].toString();
+    a_rTaskData.m_strWriterName = a_rJsonTaskObj["writer"].toString();
+    a_rTaskData.m_oDateTimeDelivery = QDateTime::fromString(a_rJsonTaskObj["delivery"].toString() , Qt::ISODate);
+    a_rTaskData.m_oDateTimeWriterDeadline =  QDateTime::fromString(a_rJsonTaskObj["wDeadline"].toString() , Qt::ISODate);
+    a_rTaskData.m_strParentName = a_rJsonTaskObj["parent"].toString();
 }
 
 void CRemoteDataStorage::importFullTasksData(QJsonObject &a_rDataJsonObj, QList<KotkaSource::STaskData> &a_rTaskDataList)
@@ -442,16 +519,21 @@ void CRemoteDataStorage::importFullTasksData(QJsonObject &a_rDataJsonObj, QList<
         KotkaSource::STaskData taskData;
         QJsonObject jsonTaskObj = jsonTasksArray[i].toObject();
 
-        taskData.m_strName = jsonTaskObj["name"].toString();
-        taskData.m_strDesc = jsonTaskObj["desc"].toString();
-        taskData.m_strWriterName = jsonTaskObj["writer"].toString();
-        taskData.m_oDateTimeDelivery = QDateTime::fromString(jsonTaskObj["delivery"].toString() , Qt::ISODate);
-        taskData.m_oDateTimeWriterDeadline =  QDateTime::fromString(jsonTaskObj["wDeadline"].toString() , Qt::ISODate);
-        taskData.m_strParentName = jsonTaskObj["parent"].toString();
+        fillInSTaskData(jsonTaskObj, taskData);
         taskData.m_aTextFieldsList = oTaskObjMap.values(taskData.m_strName);
 
         a_rTaskDataList.append(taskData);
     }
+}
+
+void CRemoteDataStorage::fillInSTaskObjectData(QJsonObject & a_rJsonTaskObj, KotkaSource::STaskObjectData & a_rTaskObj)
+{
+    a_rTaskObj.m_strTitle = a_rJsonTaskObj["name"].toString();
+    a_rTaskObj.m_strCurrentText = a_rJsonTaskObj["currentText"].toString();
+    a_rTaskObj.m_iMinLength = a_rJsonTaskObj["minLength"].toString().toInt();
+    a_rTaskObj.m_iMaxLength = a_rJsonTaskObj["maxLength"].toString().toInt();
+    a_rTaskObj.m_eType = toTaskObjectType(a_rJsonTaskObj["typeName"].toString() );
+    a_rTaskObj.m_strParentTaskName = a_rJsonTaskObj["parent"].toString();
 }
 
 void CRemoteDataStorage::importFullTaskObjectsData(QJsonObject &a_rDataJsonObj, QMultiMap<QString, KotkaSource::STaskObjectData> &a_rTaskObjMap)
@@ -463,12 +545,7 @@ void CRemoteDataStorage::importFullTaskObjectsData(QJsonObject &a_rDataJsonObj, 
         KotkaSource::STaskObjectData oTaskObj;
         QJsonObject jsonTaskObj = jsonTaskObjsArray[i].toObject();
 
-        oTaskObj.m_strTitle = jsonTaskObj["name"].toString();
-        oTaskObj.m_strCurrentText = jsonTaskObj["currentText"].toString();
-        oTaskObj.m_iMinLength = jsonTaskObj["minLength"].toString().toInt();
-        oTaskObj.m_iMaxLength = jsonTaskObj["maxLength"].toString().toInt();
-        oTaskObj.m_eType = toTaskObjectType(jsonTaskObj["typeName"].toString() );
-        oTaskObj.m_strParentTaskName = jsonTaskObj["parent"].toString();
+        fillInSTaskObjectData(jsonTaskObj, oTaskObj);
 
         a_rTaskObjMap.insert(oTaskObj.m_strParentTaskName, oTaskObj);
     }
@@ -555,6 +632,72 @@ QString CRemoteDataStorage::getTaskObjectTypeName(KotkaSource::ETaskObjectType a
     return QString( ( (KotkaSource::eTOT_Text == a_eTaskObjectType) ? "Text" : "File") );
 }
 
+bool CRemoteDataStorage::addNewRecord(KotkaSource::ERecordType a_eRecordType, QJsonObject &a_rJsonDataObj)
+{
+    bool fResult = true;
+    QVariant recordData;
+
+    switch(a_eRecordType)
+    {
+    case KotkaSource::eRT_Project:
+    {
+        KotkaSource::SProjectData newPrjData;
+        fillInSProjectData(a_rJsonDataObj, newPrjData);
+        recordData = QVariant::fromValue(newPrjData);
+    }
+    break;
+
+    case KotkaSource::eRT_Task:
+    {
+        KotkaSource::STaskData oNewTaskData;
+        fillInSTaskData(a_rJsonDataObj, oNewTaskData);
+        recordData = QVariant::fromValue(oNewTaskData);
+    }
+    break;
+
+    case KotkaSource::eRT_TaskObj:
+    {
+        KotkaSource::STaskObjectData oNewTaskObj;
+        fillInSTaskObjectData(a_rJsonDataObj, oNewTaskObj);
+        recordData = QVariant::fromValue(oNewTaskObj);
+    }
+    break;
+
+    case KotkaSource::eRT_Contact:
+    {
+        KotkaSource::SContactData oNewContactData;
+        fillInSContactData(a_rJsonDataObj, oNewContactData);
+        recordData = QVariant::fromValue(oNewContactData);
+    }
+    break;
+
+    default:
+        fResult = false;
+        qWarning() << "CRemoteDataStorage::addNewRecord: unsupported record type" << a_eRecordType;
+    }
+
+    if(fResult)
+    {
+        emit loadNewRecord(a_eRecordType, recordData);
+    }
+
+    return fResult;
+}
+
+bool CRemoteDataStorage::modRecord(KotkaSource::ERecordType a_eRecordType, QJsonObject &a_rJsonDataObj)
+{
+    bool fResult = false;
+
+    return fResult;
+}
+
+bool CRemoteDataStorage::removeRecord(KotkaSource::ERecordType a_eRecordType, QJsonObject &a_rJsonDataObj)
+{
+    bool fResult = false;
+
+    return fResult;
+}
+
 KotkaSource::ETaskObjectType CRemoteDataStorage::toTaskObjectType(QString a_strTypeName)
 {
     KotkaSource::ETaskObjectType eType = KotkaSource::eTOT_Invalid;
@@ -569,5 +712,40 @@ KotkaSource::ETaskObjectType CRemoteDataStorage::toTaskObjectType(QString a_strT
     }
 
     return eType;
+}
+
+KotkaSource::ERecordType CRemoteDataStorage::toRecordType(const QString &a_rName)
+{
+    QString const * pEqualElement = 0;
+    KotkaSource::ERecordType eRecType = KotkaSource::eRT_Invalid;
+    pEqualElement = std::find(aRECORD_TYPE_NAMES, aRECORD_TYPE_NAMES + KotkaSource::eRT_COUNT, a_rName);
+
+    if(pEqualElement == (aRECORD_TYPE_NAMES + KotkaSource::eRT_COUNT) )
+    {
+        qWarning() << "CRemoteDataStorage::toRecordType: invalid record type";
+    }
+    else
+    {
+        eRecType = static_cast<KotkaSource::ERecordType>(pEqualElement - aRECORD_TYPE_NAMES);
+    }
+
+    return eRecType;
+}
+CRemoteDataStorage::EOperationType CRemoteDataStorage::toOperationType(QString const & a_rName)
+{
+    EOperationType eRetOpType = eOpT_Invalid;
+    QString const * pEqualElement = 0;
+
+    pEqualElement = std::find(aOPERATION_TYPE_NAMES, aOPERATION_TYPE_NAMES + eOpT_COUNT, a_rName);
+    if(pEqualElement == (aOPERATION_TYPE_NAMES + eOpT_COUNT) )
+    {
+        qWarning() << "RemoteDataStorage::toOperationType: invalid record type";
+    }
+    else
+    {
+        eRetOpType = static_cast<EOperationType>(pEqualElement - aOPERATION_TYPE_NAMES);
+    }
+
+    return eRetOpType;
 }
 

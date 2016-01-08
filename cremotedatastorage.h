@@ -25,8 +25,20 @@ public:
         eDTR_COUNT
     };
 
+    enum EOperationType
+    {
+        eOpT_Invalid = -1,
+        eOpT_Add = 0,
+        eOpT_Mod,
+        eOpT_Rem,
+
+        eOpT_COUNT
+    };
+
     static const QString aTARGET_URLs[eDTR_COUNT];
     static const QString aOUT_FILES_NAMES[eDTR_COUNT];
+    static const QString aRECORD_TYPE_NAMES[KotkaSource::eRT_COUNT];
+    static const QString aOPERATION_TYPE_NAMES[eOpT_COUNT];
 
     static const int iINVALID_VERSION = -1;
     CRemoteDataStorage(QObject * a_pParent = 0);
@@ -44,6 +56,7 @@ signals:
                                     , QList<KotkaSource::STaskData> const &
                                     , QList<KotkaSource::SSourceData> const &
                                     );
+    void loadNewRecord(KotkaSource::ERecordType eRecordType, QVariant const & rRecordData);
 
 public slots:
     void storeTask(KotkaSource::STaskData const & a_crTaskData);
@@ -65,8 +78,14 @@ public slots:
     bool downloadAllDataFromServer();
 
     bool checkForUpdates();
+    bool processUpdateServResponse(QJsonObject & a_rMainJsonObj);
 
 private:
+    void fillInSProjectData(QJsonObject &a_rJsonPrjObj, KotkaSource::SProjectData &a_rPrjData);
+    void fillInSTaskData(QJsonObject &a_rJsonTaskObj, KotkaSource::STaskData &a_rTaskData);
+    void fillInSTaskObjectData(QJsonObject &a_rJsonTaskObj, KotkaSource::STaskObjectData &a_rTaskObj);
+    void fillInSContactData(QJsonObject &a_rJsonContact, KotkaSource::SContactData &a_rContactData);
+
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
     void importFullContactsList(QJsonObject &a_rDataJsonObj);
     void importFullPrjHierarchy(QJsonObject & a_rDataJsonObj);
@@ -81,7 +100,14 @@ private:
     QString sendRequestToServer(EDataTransReqType a_eDataReqType, QJsonObject a_JsonReqObj = QJsonObject() );
 
     QString getTaskObjectTypeName(KotkaSource::ETaskObjectType a_eTaskObjectType) const;
+
+    bool addNewRecord(KotkaSource::ERecordType a_eRecordType, QJsonObject & a_rJsonDataObj);
+    bool modRecord(KotkaSource::ERecordType a_eRecordType, QJsonObject & a_rJsonDataObj);
+    bool removeRecord(KotkaSource::ERecordType a_eRecordType, QJsonObject & a_rJsonDataObj);
+
     KotkaSource::ETaskObjectType toTaskObjectType(QString a_strTypeName);
+    KotkaSource::ERecordType toRecordType(QString const & a_rName);
+    EOperationType toOperationType(QString const & a_rName);
 
     CHttpBrowserSync m_oHttpBrowser;
     QString m_strAllDataLocalFileName;
