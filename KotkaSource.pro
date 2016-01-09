@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     isourceparsestrategy.cpp \
     cxlsxcastosourceparser.cpp \
     cremotedatastorage.cpp \
-    chttpbrowsersync.cpp
+    chttpbrowsersync.cpp \
+    commontemplates.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -50,7 +51,8 @@ HEADERS  += mainwindow.h \
     isourceparsestrategy.h \
     cxlsxcastosourceparser.h \
     cremotedatastorage.h \
-    chttpbrowsersync.h
+    chttpbrowsersync.h \
+    commontemplates.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \

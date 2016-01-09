@@ -10,6 +10,7 @@
 
 #include "cpersonpropertis.h"
 #include "csourcepropertis.h"
+#include "commontemplates.h"
 
 class CPerson;
 
@@ -130,11 +131,13 @@ struct SSourceData
 
 }
 
-template<typename T>
-T noChange() {return NULL;}
 
-template<>
-QString noChange<QString>(){return "##"; }
+
+//template<typename T>
+//T noChange() {}
+//template<>
+//int noChange<int>() {return 1;}
+
 
 Q_DECLARE_METATYPE(KotkaSource::SProjectData)
 Q_DECLARE_METATYPE(KotkaSource::STaskData)
