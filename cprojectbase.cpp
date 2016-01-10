@@ -139,6 +139,15 @@ void CProjectBase::parseSources()
     }
 }
 
+void CProjectBase::fillInProjectData(const KotkaSource::SProjectData &a_rProjectData)
+{
+    m_sData.m_strName = (a_rProjectData.m_strName == noChange<QString>() ) ? m_sData.m_strName : a_rProjectData.m_strName;
+    m_sData.m_strParentName = (a_rProjectData.m_strParentName == noChange<QString>() ) ? m_sData.m_strParentName : a_rProjectData.m_strParentName;
+    m_sData.m_oDateTimeDelivery = (a_rProjectData.m_oDateTimeDelivery == noChange<QDateTime>() ) ? m_sData.m_oDateTimeDelivery : a_rProjectData.m_oDateTimeDelivery;
+    m_sData.m_oDateTimeWriterDeadline = (a_rProjectData.m_oDateTimeWriterDeadline == noChange<QDateTime>() ) ? m_sData.m_oDateTimeWriterDeadline : a_rProjectData.m_oDateTimeWriterDeadline;
+    m_sData.m_strClientName = (a_rProjectData.m_strClientName == noChange<QString>() ) ? m_sData.m_strClientName : a_rProjectData.m_strClientName;
+}
+
 QVariant CProjectBase::data(int a_iRole) const
 {
     if(KotkaSource::ReadProjectDataRole == a_iRole)
@@ -150,5 +159,13 @@ QVariant CProjectBase::data(int a_iRole) const
 }
 void CProjectBase::setData(const QVariant &a_value, int a_iRole)
 {
-    IProject::setData(a_value, a_iRole);
+    if(KotkaSource::WriteProjectDataRole == a_iRole)
+    {
+        KotkaSource::SProjectData oProjectData = a_value.value<KotkaSource::SProjectData>();
+        fillInProjectData(oProjectData);
+    }
+    else
+    {
+        IProject::setData(a_value, a_iRole);
+    }
 }

@@ -2,6 +2,7 @@
 #define COMMONTEMPLATES_H
 
 #include <QString>
+#include <QDateTime>
 
 template<class T>
 struct item_return{ typedef T type; };
@@ -17,6 +18,11 @@ template<>
 struct item_return<int> {typedef int type; };
 template<>
 int noChange<int>();
+
+template<>
+struct item_return<QDateTime> {typedef QDateTime type; };
+template<>
+QDateTime noChange<QDateTime>();
 
 #endif // COMMONTEMPLATES_H
 

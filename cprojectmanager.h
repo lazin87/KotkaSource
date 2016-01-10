@@ -29,6 +29,7 @@ signals:
 
 public slots:
     void createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex, QList<KotkaSource::SSourceData> &a_rSourcesDataList);
+    void editProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex, QList<KotkaSource::SSourceData> &a_rSourcesDataList);
     void createTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIndex &a_rModelIndex);
     void loadProjectsModel( const QList<KotkaSource::SProjectData> & a_crProjectDataList
                           , const QList<KotkaSource::STaskData> & a_crTasksDataList

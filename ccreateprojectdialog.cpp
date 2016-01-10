@@ -8,17 +8,23 @@
 
 #include "ccreatecontactdialog.h"
 
-CCreateProjectDialog::CCreateProjectDialog(QWidget *parent, const KotkaSource::SProjectData *a_pParentPrjData) :
+CCreateProjectDialog::CCreateProjectDialog(QWidget *parent, const KotkaSource::SProjectData *a_pRootPrjData, bool a_fEdit) :
     QDialog(parent),
     ui(new Ui::CCreateProjectDialog),
-    m_pParentProjectData(a_pParentPrjData),
-    m_pContactDbModel(0)
+    m_pRootProjectData(a_pRootPrjData),
+    m_pContactDbModel(0),
+    m_fHasEditPrj(a_fEdit)
 {
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
     ui->clientErrorLabel->setStyleSheet("QLabel { color : red; }");
 
     setupSourcesTable();
+
+    if(a_fEdit)
+    {
+        initEditOption();
+    }
 }
 
 CCreateProjectDialog::~CCreateProjectDialog()
@@ -43,11 +49,25 @@ QDateTime CCreateProjectDialog::getWritersDeadline() const
 
 void CCreateProjectDialog::getProjectData(KotkaSource::SProjectData &a_rProjectData) const
 {
-    a_rProjectData.m_strName = ui->projectNamelineEdit->text();
-    a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
-    a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
-    a_rProjectData.m_strClientName = ui->clientComboBox->currentText();
-    a_rProjectData.m_strParentName = (0 == m_pParentProjectData) ? "" : m_pParentProjectData->m_strName;
+    if(m_fHasEditPrj)
+    {
+        a_rProjectData.m_strName = noChange<QString>();
+        a_rProjectData.m_oDateTimeDelivery = (ui->deliveryDateTimeEdit->dateTime() == m_pRootProjectData->m_oDateTimeDelivery) ?
+                    noChange<QDateTime>() : ui->deliveryDateTimeEdit->dateTime();
+        a_rProjectData.m_oDateTimeWriterDeadline = (ui->writersDeadlineDateTimeEdit->dateTime() == m_pRootProjectData->m_oDateTimeWriterDeadline) ?
+                    noChange<QDateTime>() : ui->writersDeadlineDateTimeEdit->dateTime();
+        a_rProjectData.m_strClientName = (ui->clientComboBox->currentText() == m_pRootProjectData->m_strClientName) ?
+                    noChange<QString>() : ui->clientComboBox->currentText();
+        a_rProjectData.m_strParentName = noChange<QString>();
+    }
+    else
+    {
+        a_rProjectData.m_strName = ui->projectNamelineEdit->text();
+        a_rProjectData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
+        a_rProjectData.m_oDateTimeWriterDeadline = ui->writersDeadlineDateTimeEdit->dateTime();
+        a_rProjectData.m_strClientName = ui->clientComboBox->currentText();
+        a_rProjectData.m_strParentName = (0 == m_pRootProjectData) ? "" : m_pRootProjectData->m_strName;
+    }
 }
 
 void CCreateProjectDialog::setAddressDbModel(QAbstractItemModel *a_pModel)
@@ -226,6 +246,19 @@ void CCreateProjectDialog::fillInClientInformation(const QModelIndex &a_rModelIn
     setAddress(a_rModelIndex);
 }
 
+void CCreateProjectDialog::fillInPrjInformation(const KotkaSource::SProjectData &a_rProjectData)
+{
+    ui->projectNamelineEdit->setText(a_rProjectData.m_strName);
+    ui->deliveryDateTimeEdit->setDateTime(a_rProjectData.m_oDateTimeDelivery);
+    ui->writersDeadlineDateTimeEdit->setDateTime(a_rProjectData.m_oDateTimeWriterDeadline);
+    ui->clientComboBox->setCurrentText(a_rProjectData.m_strClientName);
+}
+
+void CCreateProjectDialog::lockUneditableFields()
+{
+    ui->projectNamelineEdit->setEnabled(false);
+}
+
 bool CCreateProjectDialog::validateInputData() const
 {
     bool fResult = true;
@@ -391,6 +424,20 @@ void CCreateProjectDialog::addNewEntriesToSourcesTable(const QStringList &a_strP
             ui->sourcesTableWidget->setItem(iNewRowIndex, 1, pWidgetItem );
             ui->sourcesTableWidget->setItem(iNewRowIndex, 2, new QTableWidgetItem("") );
         }
+    }
+}
+
+void CCreateProjectDialog::initEditOption()
+{
+    if(0 != m_pRootProjectData)
+    {
+        lockUneditableFields();
+        fillInPrjInformation(*m_pRootProjectData);
+        this->setWindowTitle("Edit project");
+    }
+    else
+    {
+        qWarning() << "CCreateProjectDialog::initEditOption(): Project was not set!";
     }
 }
 

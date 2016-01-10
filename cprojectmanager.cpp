@@ -61,6 +61,21 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
     }
 }
 
+void CProjectManager::editProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex, QList<KotkaSource::SSourceData> &a_rSourcesDataList)
+{
+    qDebug() << "CProjectManager::editProjectSlot";
+    if(a_rModelIndex.isValid() )
+    {
+        QVariant value = QVariant::fromValue(a_rProjectData );
+        m_oModel.setData(a_rModelIndex, value, KotkaSource::WriteProjectDataRole);
+    }
+    else
+    {
+        qWarning() << "CProjectManager::editProjectSlot: index is invalid";
+    }
+
+}
+
 void CProjectManager::createTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIndex &a_rModelIndex)
 {
     qDebug() << "CProjectManager::createTaskSlot()";

@@ -29,6 +29,8 @@ public:
     virtual void parseSources();
 
 private:
+    void fillInProjectData(KotkaSource::SProjectData const & a_rProjectData);
+
     KotkaSource::SProjectData m_sData;
     CSourcesModel m_oSourceModel;
 };

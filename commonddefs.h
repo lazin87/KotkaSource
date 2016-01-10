@@ -33,6 +33,7 @@ enum
     ObjectAddressRole,
     ObjectTypeRole,
     ReadProjectDataRole,
+    WriteProjectDataRole,
     SetProjectDataRole,
     ContactIsWriterRole,
     ContactIsClientRole,

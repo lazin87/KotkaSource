@@ -10,6 +10,9 @@ class QAbstractItemModel;
 class QItemSelectionModel;
 class QItemSelection;
 class QLabel;
+class CProjectManager;
+class CClientsAndWritersDbModel;
+class CRemoteDataStorage;
 
 namespace Ui {
 class MainWindow;
@@ -26,8 +29,13 @@ public:
     void setModel(QAbstractItemModel * a_pModel);
     void setModelForAddressBook(QAbstractTableModel * a_pModel);
 
+    void connectSignalsAndSlots(CProjectManager & a_rProjectMngr);
+    void connectSignalsAndSlots(CClientsAndWritersDbModel & a_rAddressBook);
+    void connectSignalsAndSlots(CRemoteDataStorage & a_rRemoteDataStorage);
+
 signals:
     void createProject(KotkaSource::SProjectData &, QModelIndex &, QList<KotkaSource::SSourceData> &);
+    void editProjectSignal(KotkaSource::SProjectData &, QModelIndex &, QList<KotkaSource::SSourceData> &);
     void createTask(KotkaSource::STaskData &, QModelIndex &);
     void addNewContact(KotkaSource::SContactData const & a_crContactData);
     void editContact(KotkaSource::SContactData const & a_crContactData);
@@ -41,6 +49,7 @@ private slots:
     void changeNameSlot();
 
     void addProjectSlot();
+    void editProjectSlot();
     void addTaskSlot();
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
 
@@ -57,6 +66,7 @@ private:
     QAction * m_pAddProjectAction;
     QAction * m_pAddSubprojectAction;
     QAction * m_pAddTaskAction;
+    QAction * m_pEditPrjAction;
 
     QLabel * m_pServerConnectionStatus;
 

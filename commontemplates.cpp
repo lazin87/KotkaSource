@@ -8,3 +8,6 @@ QString noChange<QString>(){ return "##"; }
 
 template<>
 int noChange<int>(){ return -12; }
+
+template<>
+QDateTime noChange<QDateTime>(){ return QDateTime(); }

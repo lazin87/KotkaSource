@@ -17,7 +17,10 @@ class CCreateProjectDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CCreateProjectDialog(QWidget *parent = 0, const KotkaSource::SProjectData * a_pParentPrjData = 0);
+    explicit CCreateProjectDialog( QWidget *parent = 0
+                                 , const KotkaSource::SProjectData * a_pRootPrjData = 0
+                                 , bool a_fEdit = false
+                                 );
     ~CCreateProjectDialog();
 
     QString getName() const;
@@ -51,6 +54,8 @@ private:
     void setAddress(const QModelIndex &a_rModelIndex);
     void fillInClientInformation(KotkaSource::SContactData const & a_rContactData);
     void fillInClientInformation(const QModelIndex &a_rModelIndex);
+    void fillInPrjInformation(KotkaSource::SProjectData const & a_rProjectData);
+    void lockUneditableFields();
 
     bool validateInputData() const;
     bool validateProjectName() const;
@@ -63,9 +68,12 @@ private:
     void setupSourcesTable();
     void addNewEntriesToSourcesTable(const QStringList &a_strPathList);
 
+    void initEditOption();
+
     Ui::CCreateProjectDialog *ui;
-    KotkaSource::SProjectData const * m_pParentProjectData;
+    KotkaSource::SProjectData const * m_pRootProjectData;
     QAbstractItemModel * m_pContactDbModel;
+    bool m_fHasEditPrj;
 };
 
 #endif // CCREATEPROJECTDIALOG_H

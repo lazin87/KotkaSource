@@ -9,6 +9,9 @@
 
 #include "ccreateprojectdialog.h"
 #include "ccreatetaskdialog.h"
+#include "cprojectmanager.h"
+#include "cclientsandwritersdbmodel.h"
+#include "cremotedatastorage.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_oModelIndex(),
     m_pAddProjectAction(0),
     m_pAddSubprojectAction(0),
-    m_pAddTaskAction(0)
+    m_pAddTaskAction(0),
+    m_pEditPrjAction(0)
 {
     ui->setupUi(this);
     connect( ui->copyDeadlineDateTimeEdit, SIGNAL(dateTimeChanged(QDateTime const &) )
@@ -60,6 +64,38 @@ void MainWindow::setModel(QAbstractItemModel *a_pModel)
 void MainWindow::setModelForAddressBook(QAbstractTableModel *a_pModel)
 {
     ui->addressBookTableView->setModel(a_pModel);
+}
+
+void MainWindow::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
+{
+    connect( this, SIGNAL(createProject(KotkaSource::SProjectData&,QModelIndex&, QList<KotkaSource::SSourceData> &) )
+           , &a_rProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&, QModelIndex&, QList<KotkaSource::SSourceData> &) )
+           );
+
+    connect( this, SIGNAL(editProjectSignal(KotkaSource::SProjectData&,QModelIndex&, QList<KotkaSource::SSourceData> &) )
+           , &a_rProjectMngr, SLOT(editProjectSlot(KotkaSource::SProjectData&, QModelIndex&, QList<KotkaSource::SSourceData> &) )
+           );
+
+    connect( this, SIGNAL(createTask(KotkaSource::STaskData&,QModelIndex&) )
+           , &a_rProjectMngr, SLOT(createTaskSlot(KotkaSource::STaskData&,QModelIndex&) )
+           );
+}
+
+void MainWindow::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rAddressBook)
+{
+    connect( this, SIGNAL(addNewContact(KotkaSource::SContactData const &) )
+           , &a_rAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
+           );
+}
+
+void MainWindow::connectSignalsAndSlots(CRemoteDataStorage &a_rRemoteDataStorage)
+{
+    connect( this, SIGNAL(downloadAllDataSignal() )
+           , &a_rRemoteDataStorage, SLOT(downloadAllDataFromServer() )
+           );
+    connect( this, SIGNAL(checkForUpdatesSignal() )
+           , &a_rRemoteDataStorage, SLOT(checkForUpdates() )
+           );
 }
 
 void MainWindow::selectionChangedSlot(const QItemSelection &, const QItemSelection &)
@@ -106,7 +142,7 @@ void MainWindow::addProjectSlot()
 {
     qDebug() << "MainWindow::addProjectSlot()";
 
-    KotkaSource::SProjectData * pProjectData = 0;
+    KotkaSource::SProjectData * pProjectData = 0; // usunac wskaznik
     KotkaSource::SProjectData sParentProjectData;
     if(m_oModelIndex.isValid() )
     {
@@ -136,6 +172,36 @@ void MainWindow::addProjectSlot()
     else
     {
 
+    }
+}
+
+void MainWindow::editProjectSlot()
+{
+    qDebug() << "MainWindow::editProjectSlot()";
+
+    KotkaSource::SProjectData sRootProjectData;
+    if(m_oModelIndex.isValid() )
+    {
+        QVariant rawProjectData = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadProjectDataRole);
+        sRootProjectData = rawProjectData.value<KotkaSource::SProjectData>();
+    }
+
+    CCreateProjectDialog editProjectDialog(this, &sRootProjectData, true);
+    editProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
+
+    connect( &editProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )
+           , this, SIGNAL(addNewContact(KotkaSource::SContactData) )
+           );
+
+    if(QDialog::Accepted == editProjectDialog.exec() )
+    {
+        KotkaSource::SProjectData sProjectData;
+        editProjectDialog.getProjectData(sProjectData);
+
+        QList<KotkaSource::SSourceData> sourcesList;
+        editProjectDialog.getSourceList(sourcesList);
+
+        emit editProjectSignal(sProjectData, m_oModelIndex, sourcesList);
     }
 }
 
@@ -175,6 +241,7 @@ void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
             QMenu oContextMenu;
             oContextMenu.addAction(m_pAddSubprojectAction);
             oContextMenu.addAction(m_pAddTaskAction);
+            oContextMenu.addAction(m_pEditPrjAction);
             oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
         }
     }
@@ -216,6 +283,11 @@ void MainWindow::createProjectTreeContextMenu()
     m_pAddTaskAction = new QAction("Add task", ui->treeView);
     connect( m_pAddTaskAction, SIGNAL(triggered() )
            , this, SLOT(addTaskSlot() )
+           );
+
+    m_pEditPrjAction = new QAction("Edit project", ui->treeView);
+    connect( m_pEditPrjAction, SIGNAL(triggered() )
+           , this, SLOT(editProjectSlot() )
            );
 
 
