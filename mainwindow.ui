@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
-    <height>489</height>
+    <width>931</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,6 +39,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QWidget" name="widgetProject" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <widget class="QLabel" name="labelProjectsList">
@@ -46,6 +52,9 @@
               <string>Projects</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBoxProjectsType"/>
            </item>
            <item>
             <widget class="QTreeView" name="treeView">
@@ -59,6 +68,16 @@
               <bool>false</bool>
              </attribute>
             </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelContacts">
+             <property name="text">
+              <string>Contacts</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBoxContactType"/>
            </item>
            <item>
             <widget class="QListView" name="listView"/>
@@ -160,9 +179,51 @@
         </item>
         <item>
          <widget class="QWidget" name="widget_2" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
+            <widget class="QCalendarWidget" name="calendarWidget">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="gridVisible">
+              <bool>false</bool>
+             </property>
+             <property name="horizontalHeaderFormat">
+              <enum>QCalendarWidget::ShortDayNames</enum>
+             </property>
+             <property name="verticalHeaderFormat">
+              <enum>QCalendarWidget::ISOWeekNumbers</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelEventsOnDay">
+             <property name="text">
+              <string>Deadlines in selected day:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QTableView" name="tableView"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Incoming deadlines:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableView" name="tableView_2"/>
            </item>
           </layout>
          </widget>
@@ -192,7 +253,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>730</width>
+     <width>931</width>
      <height>20</height>
     </rect>
    </property>

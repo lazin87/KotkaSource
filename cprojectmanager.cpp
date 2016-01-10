@@ -52,7 +52,6 @@ void CProjectManager::createProjectSlot(KotkaSource::SProjectData &a_rProjectDat
         QStandardItem *pStandardItem = (a_rModelIndex.isValid() ) ? m_oModel.itemFromIndex(a_rModelIndex)
                                                                   : m_oModel.invisibleRootItem();
         pStandardItem->appendRow(pNewProject);
-        pNewProject->setParentName("TO BE DONE");
 
         emit projectWasCreated(a_rProjectData);
     }

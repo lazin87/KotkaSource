@@ -49,6 +49,7 @@ private slots:
 
 private:
     void createProjectTreeContextMenu();
+    void initCalenderWidget();
 
     Ui::MainWindow *ui;
     QModelIndex m_oModelIndex;

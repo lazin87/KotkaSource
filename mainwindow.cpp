@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QItemSelection>
 #include <QItemSelectionModel>
+#include <QDate>
 
 #include "ccreateprojectdialog.h"
 #include "ccreatetaskdialog.h"
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
            );
 
     createProjectTreeContextMenu();
+    initCalenderWidget();
 
     m_pServerConnectionStatus = new QLabel("Not Connected");
     ui->statusBar->addWidget(m_pServerConnectionStatus);
@@ -218,4 +220,17 @@ void MainWindow::createProjectTreeContextMenu()
 
 
 
+}
+
+void MainWindow::initCalenderWidget()
+{
+    QDate oToday = QDate::currentDate();
+    QTextCharFormat oTodayFormat;
+    QFont oTodayFont;
+    oTodayFont.setBold(true);
+    oTodayFormat.setFont(oTodayFont);
+    oTodayFormat.setBackground(QBrush(QColor::fromRgb(240,240,240) ) );
+
+    ui->calendarWidget->setSelectedDate(oToday);
+    ui->calendarWidget->setDateTextFormat(oToday, oTodayFormat);
 }
