@@ -193,7 +193,7 @@ void MainWindow::editProjectSlot()
                                           , &sRootProjectData
                                           , true);
 
-    editProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
+    //editProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
 
     connect( &editProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )
            , this, SIGNAL(addNewContact(KotkaSource::SContactData) )

@@ -15,7 +15,6 @@ CCreateProjectDialog::CCreateProjectDialog( QWidget *parent
                                           ) : QDialog(parent),
                                               ui(new Ui::CCreateProjectDialog),
                                               m_pRootProjectData(a_pRootPrjData),
-                                              m_pContactDbModel(a_pAddressBook),
                                               m_fHasEditPrj(a_fEdit)
 {
     ui->setupUi(this);
@@ -23,6 +22,10 @@ CCreateProjectDialog::CCreateProjectDialog( QWidget *parent
     ui->clientErrorLabel->setStyleSheet("QLabel { color : red; }");
 
     setupSourcesTable();
+    if(0 != a_pAddressBook)
+    {
+        setAddressDbModel(a_pAddressBook);
+    }
 
     if(a_fEdit)
     {
@@ -89,6 +92,15 @@ void CCreateProjectDialog::setAddressDbModel(QAbstractItemModel *a_pModel)
 QString CCreateProjectDialog::getClientName() const
 {
     return ui->clientComboBox->currentText();
+}
+
+int CCreateProjectDialog::exec()
+{
+    qDebug() << "CCreateProjectDialog::exec(): first: " << ui->clientComboBox->currentText();
+    int iResult = QDialog::exec();
+    qDebug() << "CCreateProjectDialog::exec(): second: " << ui->clientComboBox->currentText();
+
+    return iResult;
 }
 
 void CCreateProjectDialog::accept()
@@ -254,7 +266,8 @@ void CCreateProjectDialog::fillInPrjInformation(const KotkaSource::SProjectData 
     ui->projectNamelineEdit->setText(a_rProjectData.m_strName);
     ui->deliveryDateTimeEdit->setDateTime(a_rProjectData.m_oDateTimeDelivery);
     ui->writersDeadlineDateTimeEdit->setDateTime(a_rProjectData.m_oDateTimeWriterDeadline);
-    ui->clientComboBox->setCurrentText(a_rProjectData.m_strClientName);
+    int iIndex = ui->clientComboBox->findText(a_rProjectData.m_strClientName);
+    ui->clientComboBox->setCurrentIndex(iIndex);
 
     qDebug() << "CCreateProjectDialog::fillInPrjInformation: " << a_rProjectData.m_strClientName
              << " combox: " << ui->clientComboBox->currentText();
