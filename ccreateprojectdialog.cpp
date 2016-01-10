@@ -94,15 +94,6 @@ QString CCreateProjectDialog::getClientName() const
     return ui->clientComboBox->currentText();
 }
 
-int CCreateProjectDialog::exec()
-{
-    qDebug() << "CCreateProjectDialog::exec(): first: " << ui->clientComboBox->currentText();
-    int iResult = QDialog::exec();
-    qDebug() << "CCreateProjectDialog::exec(): second: " << ui->clientComboBox->currentText();
-
-    return iResult;
-}
-
 void CCreateProjectDialog::accept()
 {
     if(validateInputData() )

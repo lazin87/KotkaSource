@@ -34,8 +34,6 @@ public:
 
     QString getClientName() const;
 
-    int exec();
-
 public slots:
     virtual void accept();
     void clientAddSlot();
