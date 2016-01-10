@@ -150,8 +150,10 @@ void MainWindow::addProjectSlot()
         sParentProjectData = rawProjectData.value<KotkaSource::SProjectData>();
         pProjectData = &sParentProjectData;
     }
-    CCreateProjectDialog newProjectDialog(this, pProjectData);
-    newProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
+    CCreateProjectDialog newProjectDialog( this
+                                         , ui->addressBookTableView->model()
+                                         , pProjectData);
+    //newProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
 
     connect( &newProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )
            , this, SIGNAL(addNewContact(KotkaSource::SContactData) )
@@ -186,7 +188,11 @@ void MainWindow::editProjectSlot()
         sRootProjectData = rawProjectData.value<KotkaSource::SProjectData>();
     }
 
-    CCreateProjectDialog editProjectDialog(this, &sRootProjectData, true);
+    CCreateProjectDialog editProjectDialog( this
+                                          , ui->addressBookTableView->model()
+                                          , &sRootProjectData
+                                          , true);
+
     editProjectDialog.setAddressDbModel(ui->addressBookTableView->model() );
 
     connect( &editProjectDialog, SIGNAL(addNewContact(KotkaSource::SContactData) )

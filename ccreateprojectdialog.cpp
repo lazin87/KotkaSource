@@ -8,12 +8,15 @@
 
 #include "ccreatecontactdialog.h"
 
-CCreateProjectDialog::CCreateProjectDialog(QWidget *parent, const KotkaSource::SProjectData *a_pRootPrjData, bool a_fEdit) :
-    QDialog(parent),
-    ui(new Ui::CCreateProjectDialog),
-    m_pRootProjectData(a_pRootPrjData),
-    m_pContactDbModel(0),
-    m_fHasEditPrj(a_fEdit)
+CCreateProjectDialog::CCreateProjectDialog( QWidget *parent
+                                          , QAbstractItemModel *a_pAddressBook
+                                          , const KotkaSource::SProjectData *a_pRootPrjData
+                                          , bool a_fEdit
+                                          ) : QDialog(parent),
+                                              ui(new Ui::CCreateProjectDialog),
+                                              m_pRootProjectData(a_pRootPrjData),
+                                              m_pContactDbModel(a_pAddressBook),
+                                              m_fHasEditPrj(a_fEdit)
 {
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
@@ -252,6 +255,9 @@ void CCreateProjectDialog::fillInPrjInformation(const KotkaSource::SProjectData 
     ui->deliveryDateTimeEdit->setDateTime(a_rProjectData.m_oDateTimeDelivery);
     ui->writersDeadlineDateTimeEdit->setDateTime(a_rProjectData.m_oDateTimeWriterDeadline);
     ui->clientComboBox->setCurrentText(a_rProjectData.m_strClientName);
+
+    qDebug() << "CCreateProjectDialog::fillInPrjInformation: " << a_rProjectData.m_strClientName
+             << " combox: " << ui->clientComboBox->currentText();
 }
 
 void CCreateProjectDialog::lockUneditableFields()

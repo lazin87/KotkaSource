@@ -17,7 +17,8 @@ class CCreateProjectDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CCreateProjectDialog( QWidget *parent = 0
+    explicit CCreateProjectDialog( QWidget *parent
+                                 , QAbstractItemModel * a_pAddressBook
                                  , const KotkaSource::SProjectData * a_pRootPrjData = 0
                                  , bool a_fEdit = false
                                  );
