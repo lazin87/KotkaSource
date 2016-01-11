@@ -79,6 +79,10 @@ void MainWindow::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
     connect( this, SIGNAL(createTask(KotkaSource::STaskData&,QModelIndex&) )
            , &a_rProjectMngr, SLOT(createTaskSlot(KotkaSource::STaskData&,QModelIndex&) )
            );
+
+    connect( this, SIGNAL(editTaskSignal(KotkaSource::STaskData&,QModelIndex&) )
+           , &a_rProjectMngr, SLOT(editTaskSlot(KotkaSource::STaskData&,QModelIndex&) )
+           );
 }
 
 void MainWindow::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rAddressBook)
@@ -234,21 +238,26 @@ void MainWindow::addTaskSlot()
 
 void MainWindow::editTaskSlot()
 {
-    qDebug() << "MainWindow::editTaskSlot()";
+    KotkaSource::STaskData sTaskData;
+    qDebug() << "MainWindow::editTaskSlot(): " << m_oModelIndex;
     if(m_oModelIndex.isValid() )
     {
         QVariant rawProjectData = ui->treeView->model()->data(m_oModelIndex.parent(), KotkaSource::ReadProjectDataRole);
         QVariant rawTaskData = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadTaskDataRole);
+        QVariant rawTaskName = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ObjectNameRole);
         KotkaSource::SProjectData sParentProjectData = rawProjectData.value<KotkaSource::SProjectData>();
-        KotkaSource::STaskData sTaskData = rawTaskData.value<KotkaSource::STaskData>();
+        sTaskData = rawTaskData.value<KotkaSource::STaskData>();
+        qDebug() << "MainWindow::editTaskSlot() task name1: " << sTaskData.m_strName;
+        qDebug() << "MainWindow::editTaskSlot() task name2: " << rawTaskName.toString();
         CCreateTaskDialog editTaskDialog(&sParentProjectData, &sTaskData, this);
+
 
         if(QDialog::Accepted == editTaskDialog.exec() )
         {
             KotkaSource::STaskData sTaskData;
             editTaskDialog.getData(sTaskData);
 
-            emit editTaskSignal(sTaskData, m_oModelIndex);
+          //  emit editTaskSignal(sTaskData, m_oModelIndex);
         }
     }
     else

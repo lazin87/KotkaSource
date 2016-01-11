@@ -39,7 +39,8 @@ enum
     ContactIsClientRole,
     ReadContactDataRole,
     SetContactDataRole,
-    ReadTaskDataRole
+    ReadTaskDataRole,
+    WriteTaskDataRole
 };
 
 enum ETaskState

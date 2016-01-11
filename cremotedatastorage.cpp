@@ -42,7 +42,7 @@ const QString CRemoteDataStorage::aOPERATION_TYPE_NAMES[eOpT_COUNT] = {
 
 CRemoteDataStorage::CRemoteDataStorage(QObject *a_pParent)
     : QObject(a_pParent)
-    , m_oHttpBrowser(this)
+    , m_oHttpBrowser()
     , m_strAllDataLocalFileName(s_strLocalDataFileName)
     , m_iCurrentVersion(iINVALID_VERSION)
 {

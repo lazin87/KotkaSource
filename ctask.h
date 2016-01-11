@@ -28,6 +28,8 @@ public:
     virtual void setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters);
 
 private:
+    void fillInTaskData(KotkaSource::STaskData const & a_rTaskData);
+
     KotkaSource::STaskData m_sData;
 };
 

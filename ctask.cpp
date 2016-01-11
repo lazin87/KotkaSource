@@ -1,5 +1,7 @@
 #include "ctask.h"
 
+#include <QDebug>
+
 CTask::CTask(QString a_strName)
     : IProject(a_strName)
     , m_sData()
@@ -48,7 +50,7 @@ QDateTime CTask::deadlineDelivery() const
 
             if(false == oOutDateTime.isValid() )
             {
-                qWarning("CProject::deadlineDelivery(): invalid");
+                qWarning() << "CProject::deadlineDelivery(): invalid";
             }
         }
     }
@@ -75,7 +77,7 @@ QDateTime CTask::deadlineCopywriters() const
 
             if(false == oOutDateTime.isValid() )
             {
-                qWarning("CProject::deadlineDelivery(): invalid");
+                qWarning() << "CProject::deadlineDelivery(): invalid";
             }
         }
     }
@@ -98,6 +100,16 @@ void CTask::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
     m_sData.m_oDateTimeWriterDeadline = a_rDeadlineCopywriters;
 }
 
+void CTask::fillInTaskData(const KotkaSource::STaskData &a_rTaskData)
+{
+    m_sData.m_strName = (a_rTaskData.m_strName == noChange<QString>() ) ? m_sData.m_strName : a_rTaskData.m_strName;
+    m_sData.m_strParentName = (a_rTaskData.m_strParentName == noChange<QString>() ) ? m_sData.m_strParentName : a_rTaskData.m_strParentName;
+    m_sData.m_strDesc = (a_rTaskData.m_strDesc == noChange<QString>() ) ? m_sData.m_strDesc : a_rTaskData.m_strDesc;
+    m_sData.m_strWriterName = (a_rTaskData.m_strWriterName == noChange<QString>() ) ? m_sData.m_strWriterName : a_rTaskData.m_strWriterName;
+    m_sData.m_oDateTimeDelivery = (a_rTaskData.m_oDateTimeDelivery == noChange<QDateTime>() ) ? m_sData.m_oDateTimeDelivery : a_rTaskData.m_oDateTimeDelivery;
+    m_sData.m_oDateTimeWriterDeadline = (a_rTaskData.m_oDateTimeWriterDeadline == noChange<QDateTime>() ) ? m_sData.m_oDateTimeWriterDeadline : a_rTaskData.m_oDateTimeWriterDeadline;
+}
+
 QVariant CTask::data(int a_iRole) const
 {
     if(KotkaSource::ReadTaskDataRole == a_iRole)
@@ -109,5 +121,13 @@ QVariant CTask::data(int a_iRole) const
 }
 void CTask::setData(const QVariant &a_value, int a_iRole)
 {
-    IProject::setData(a_value, a_iRole);
+    if(KotkaSource::WriteTaskDataRole == a_iRole)
+    {
+        KotkaSource::STaskData oTaskData = a_value.value<KotkaSource::STaskData>();
+        fillInTaskData(oTaskData);
+    }
+    else
+    {
+        IProject::setData(a_value, a_iRole);
+    }
 }

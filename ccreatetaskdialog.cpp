@@ -16,6 +16,7 @@ CCreateTaskDialog::CCreateTaskDialog(const KotkaSource::SProjectData *a_pParentP
 
     if(0 != a_pParentProjectData)
     {
+        qDebug() << "CCreateTaskDialog::CCreateTaskDialog ctor1";
         ui->deliveryDateTimeEdit->setDateTime(a_pParentProjectData->m_oDateTimeDelivery);
         ui->writerDeadlineDateTimeEdit->setDateTime(a_pParentProjectData->m_oDateTimeWriterDeadline);
     }
@@ -34,6 +35,7 @@ CCreateTaskDialog::CCreateTaskDialog( const KotkaSource::SProjectData *a_pParent
       m_pParentProjectData(a_pParentProjectData),
       m_pRootTask(a_pTaskRoot)
 {
+    qDebug() << "CCreateTaskDialog::CCreateTaskDialog ctor2";
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
 
@@ -47,10 +49,24 @@ CCreateTaskDialog::~CCreateTaskDialog()
 
 void CCreateTaskDialog::getData(KotkaSource::STaskData &a_rTaskData) const
 {
-    a_rTaskData.m_strParentName = m_strParentName;
-    a_rTaskData.m_strName = ui->nameLineEdit->text();
-    a_rTaskData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
-    a_rTaskData.m_oDateTimeWriterDeadline = ui->writerDeadlineDateTimeEdit->dateTime();
+    if(0 != m_pRootTask)
+    {
+        a_rTaskData.m_strName = noChange<QString>();
+        a_rTaskData.m_strParentName = noChange<QString>();
+        a_rTaskData.m_strDesc = noChange<QString>();
+        a_rTaskData.m_strWriterName = noChange<QString>();
+        a_rTaskData.m_oDateTimeDelivery = (ui->deliveryDateTimeEdit->dateTime() == m_pRootTask->m_oDateTimeDelivery) ?
+                    noChange<QDateTime>() : ui->deliveryDateTimeEdit->dateTime();
+        a_rTaskData.m_oDateTimeWriterDeadline = (ui->writerDeadlineDateTimeEdit->dateTime() == m_pRootTask->m_oDateTimeWriterDeadline) ?
+                    noChange<QDateTime>() : ui->writerDeadlineDateTimeEdit->dateTime();
+    }
+    else
+    {
+        a_rTaskData.m_strParentName = m_strParentName;
+        a_rTaskData.m_strName = ui->nameLineEdit->text();
+        a_rTaskData.m_oDateTimeDelivery = ui->deliveryDateTimeEdit->dateTime();
+        a_rTaskData.m_oDateTimeWriterDeadline = ui->writerDeadlineDateTimeEdit->dateTime();
+    }
 }
 
 void CCreateTaskDialog::setAddressDbToCompleter(QAbstractItemModel *a_pModel)
@@ -142,6 +158,7 @@ void CCreateTaskDialog::lockUneditableFields()
 
 void CCreateTaskDialog::fillInPrjInformation(const KotkaSource::STaskData &a_rTaskData)
 {
+    qDebug() << "fillInTasjInformation: name: " << a_rTaskData.m_strName;
     m_strParentName = a_rTaskData.m_strParentName;
     ui->nameLineEdit->setText(a_rTaskData.m_strName);
     ui->deliveryDateTimeEdit->setDateTime(a_rTaskData.m_oDateTimeDelivery);

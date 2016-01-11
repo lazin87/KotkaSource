@@ -38,32 +38,18 @@ int main(int argc, char *argv[])
     w.setModel(oProjectMngr.getModel() );
     w.connectSignalsAndSlots(oProjectMngr);
 
-//    QObject::connect( &w, SIGNAL(createProject(KotkaSource::SProjectData&,QModelIndex&, QList<KotkaSource::SSourceData> &) )
-//                    , &oProjectMngr, SLOT(createProjectSlot(KotkaSource::SProjectData&, QModelIndex&, QList<KotkaSource::SSourceData> &) )
-//                    );
-//    QObject::connect( &w, SIGNAL(createTask(KotkaSource::STaskData&,QModelIndex&) )
-//                    , &oProjectMngr, SLOT(createTaskSlot(KotkaSource::STaskData&,QModelIndex&) )
-//                    );
 
     CClientsAndWritersDbModel oAddressBook;
-  //  fillInAddressBook(oAddressBook);
     w.setModelForAddressBook(&oAddressBook);
     w.connectSignalsAndSlots(oAddressBook);
-//    QObject::connect( &w, SIGNAL(addNewContact(KotkaSource::SContactData const &) )
-//                    , &oAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )
-//                    );
+
 
 
     CRemoteDataStorage remoteDataStorage;
     remoteDataStorage.connectSignalsAndSlots(oProjectMngr);
     remoteDataStorage.connectSignalsAndSlots(oAddressBook);
     w.connectSignalsAndSlots(remoteDataStorage);
-//    QObject::connect( &w, SIGNAL(downloadAllDataSignal() )
-//                    , &remoteDataStorage, SLOT(downloadAllDataFromServer() )
-//                    );
-//    QObject::connect( &w, SIGNAL(checkForUpdatesSignal() )
-//                    , &remoteDataStorage, SLOT(checkForUpdates() )
-//                    );
+
     //remoteDataStorage.downloadAllDataFromServer();
     // end just to test
 

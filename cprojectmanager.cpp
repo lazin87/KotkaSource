@@ -94,6 +94,20 @@ void CProjectManager::createTaskSlot(KotkaSource::STaskData &a_rTaskData, QModel
     }
 }
 
+void CProjectManager::editTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIndex &a_rModelIndex)
+{
+    qDebug() << "CProjectManager::editTaskSlot";
+    if(a_rModelIndex.isValid() )
+    {
+        QVariant value = QVariant::fromValue(a_rTaskData );
+        m_oModel.setData(a_rModelIndex, value, KotkaSource::WriteTaskDataRole);
+    }
+    else
+    {
+        qWarning() << "CProjectManager::editTaskSlot: index is invalid";
+    }
+}
+
 bool CProjectManager::createSubproject(IProject &a_rProject, QString a_strName)
 {
     // to do
