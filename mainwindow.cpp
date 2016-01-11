@@ -10,7 +10,7 @@
 #include "ccreateprojectdialog.h"
 #include "ccreatetaskdialog.h"
 #include "cprojectmanager.h"
-#include "cclientsandwritersdbmodel.h"
+#include "CContactsDbModel.h"
 #include "cremotedatastorage.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -85,7 +85,7 @@ void MainWindow::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
            );
 }
 
-void MainWindow::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rAddressBook)
+void MainWindow::connectSignalsAndSlots(CContactsDbModel &a_rAddressBook)
 {
     connect( this, SIGNAL(addNewContact(KotkaSource::SContactData const &) )
            , &a_rAddressBook, SLOT(addNewContactSlot(KotkaSource::SContactData const &) )

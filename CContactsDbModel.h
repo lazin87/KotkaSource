@@ -6,12 +6,12 @@
 
 #include "cperson.h"
 
-class CClientsAndWritersDbModel : public QAbstractTableModel
+class CContactsDbModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    CClientsAndWritersDbModel(QObject * a_pParent = 0);
-    ~CClientsAndWritersDbModel();
+    CContactsDbModel(QObject * a_pParent = 0);
+    ~CContactsDbModel();
 
     // QAbstractItemModel interface
     virtual int rowCount(const QModelIndex &parent) const;

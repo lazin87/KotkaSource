@@ -8,7 +8,7 @@
 #include <QJsonObject>
 
 class CProjectManager;
-class CClientsAndWritersDbModel;
+class CContactsDbModel;
 
 class CRemoteDataStorage : public QObject
 {
@@ -46,7 +46,7 @@ public:
 
     void testMethod();
     void connectSignalsAndSlots(CProjectManager & a_rProjectMngr);
-    void connectSignalsAndSlots(CClientsAndWritersDbModel & a_rContactBook);
+    void connectSignalsAndSlots(CContactsDbModel & a_rContactBook);
 
     static const QString s_strLocalDataFileName;
 

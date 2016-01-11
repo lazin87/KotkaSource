@@ -11,7 +11,7 @@ class QItemSelectionModel;
 class QItemSelection;
 class QLabel;
 class CProjectManager;
-class CClientsAndWritersDbModel;
+class CContactsDbModel;
 class CRemoteDataStorage;
 
 namespace Ui {
@@ -30,7 +30,7 @@ public:
     void setModelForAddressBook(QAbstractTableModel * a_pModel);
 
     void connectSignalsAndSlots(CProjectManager & a_rProjectMngr);
-    void connectSignalsAndSlots(CClientsAndWritersDbModel & a_rAddressBook);
+    void connectSignalsAndSlots(CContactsDbModel & a_rAddressBook);
     void connectSignalsAndSlots(CRemoteDataStorage & a_rRemoteDataStorage);
 
 signals:

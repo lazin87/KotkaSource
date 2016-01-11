@@ -4,14 +4,14 @@
 
 // headers to test
 #include "cprojectmanager.h"
-#include "cclientsandwritersdbmodel.h"
+#include "CContactsDbModel.h"
 #include "xlsxdocument.h"
 #include <QDebug>
 #include "cremotedatastorage.h"
 // end headers to test
 QString GetRandomString();
 
-void fillInAddressBook(CClientsAndWritersDbModel & a_rAddressBook);
+void fillInAddressBook(CContactsDbModel & a_rAddressBook);
 void testXlsxParser()
 {
     qDebug() << "CXlsxCastoSourceParser::getTaskDataList";
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     w.connectSignalsAndSlots(oProjectMngr);
 
 
-    CClientsAndWritersDbModel oAddressBook;
+    CContactsDbModel oAddressBook;
     w.setModelForAddressBook(&oAddressBook);
     w.connectSignalsAndSlots(oAddressBook);
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-void fillInAddressBook(CClientsAndWritersDbModel & a_rAddressBook)
+void fillInAddressBook(CContactsDbModel & a_rAddressBook)
 {
     const int iCONTACTS_NBR = 40;
 

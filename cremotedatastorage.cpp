@@ -7,7 +7,7 @@
 #include <QFile>
 
 #include "cprojectmanager.h"
-#include "cclientsandwritersdbmodel.h"
+#include "CContactsDbModel.h"
 
 const QString CRemoteDataStorage::s_strLocalDataFileName = "localData.json";
 
@@ -95,7 +95,7 @@ void CRemoteDataStorage::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
                     );
 }
 
-void CRemoteDataStorage::connectSignalsAndSlots(CClientsAndWritersDbModel &a_rContactBook)
+void CRemoteDataStorage::connectSignalsAndSlots(CContactsDbModel &a_rContactBook)
 {
     QObject::connect( &a_rContactBook, SIGNAL(contactWasCreated(KotkaSource::SContactData) )
                     , this, SLOT(storeContact(KotkaSource::SContactData) )

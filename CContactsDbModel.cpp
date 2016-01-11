@@ -1,30 +1,30 @@
-#include "cclientsandwritersdbmodel.h"
+#include "CContactsDbModel.h"
 
 #include <QDebug>
 
 #include "commonddefs.h"
 
-CClientsAndWritersDbModel::CClientsAndWritersDbModel(QObject *a_pParent)
+CContactsDbModel::CContactsDbModel(QObject *a_pParent)
     : QAbstractTableModel(a_pParent)
 {
 
 }
 
-CClientsAndWritersDbModel::~CClientsAndWritersDbModel()
+CContactsDbModel::~CContactsDbModel()
 {
 
 }
 
 
 
-int CClientsAndWritersDbModel::rowCount(const QModelIndex &parent) const
+int CContactsDbModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
     return m_aClientsAndWritesList.count();
 }
 
-int CClientsAndWritersDbModel::columnCount(const QModelIndex &parent) const
+int CContactsDbModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
@@ -32,7 +32,7 @@ int CClientsAndWritersDbModel::columnCount(const QModelIndex &parent) const
 }
 
 // PRZEMYSLEC TA FUNKCJE!!
-QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole) const
+QVariant CContactsDbModel::data(const QModelIndex &a_Index, int a_iRole) const
 {
     switch(a_iRole)
     {
@@ -95,7 +95,7 @@ QVariant CClientsAndWritersDbModel::data(const QModelIndex &a_Index, int a_iRole
     }
 }
 
-QVariant CClientsAndWritersDbModel::headerData(int a_iSection, Qt::Orientation a_orinetation, int a_iRole) const
+QVariant CContactsDbModel::headerData(int a_iSection, Qt::Orientation a_orinetation, int a_iRole) const
 {
     if(Qt::DisplayRole == a_iRole)
     {
@@ -114,7 +114,7 @@ QVariant CClientsAndWritersDbModel::headerData(int a_iSection, Qt::Orientation a
     return QVariant();
 }
 
-bool CClientsAndWritersDbModel::setData(const QModelIndex &a_iIndex, const QVariant &a_rValue, int a_iRole)
+bool CContactsDbModel::setData(const QModelIndex &a_iIndex, const QVariant &a_rValue, int a_iRole)
 {
     switch(a_iRole)
     {
@@ -144,7 +144,7 @@ bool CClientsAndWritersDbModel::setData(const QModelIndex &a_iIndex, const QVari
     return true;
 }
 
-Qt::ItemFlags CClientsAndWritersDbModel::flags(const QModelIndex &index) const
+Qt::ItemFlags CContactsDbModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags outFlags = Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 
@@ -158,13 +158,13 @@ Qt::ItemFlags CClientsAndWritersDbModel::flags(const QModelIndex &index) const
     return outFlags;
 }
 
-void CClientsAndWritersDbModel::append(QString a_strName)
+void CContactsDbModel::append(QString a_strName)
 {
     qDebug() << "CClientsAndWritersDbModel::append()";
     m_aClientsAndWritesList.append(CPerson(a_strName) );
 }
 
-void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactData &a_rContactData)
+void CContactsDbModel::addNewContactSlot(const KotkaSource::SContactData &a_rContactData)
 {
     qDebug() << "CClientsAndWritersDbModel::addNewContactSlot()";
     beginInsertRows(QModelIndex(), rowCount(QModelIndex() ), rowCount(QModelIndex() ));
@@ -174,7 +174,7 @@ void CClientsAndWritersDbModel::addNewContactSlot(const KotkaSource::SContactDat
     emit contactWasCreated(a_rContactData);
 }
 
-void CClientsAndWritersDbModel::addNewContactSlot(const QList<KotkaSource::SContactData> &a_rContactDataList, bool a_fOverwrite)
+void CContactsDbModel::addNewContactSlot(const QList<KotkaSource::SContactData> &a_rContactDataList, bool a_fOverwrite)
 {
     if(a_fOverwrite && (!m_aClientsAndWritesList.isEmpty() ) )
     {
@@ -203,7 +203,7 @@ void CClientsAndWritersDbModel::addNewContactSlot(const QList<KotkaSource::SCont
     }
 }
 
-void CClientsAndWritersDbModel::remove(int a_iIndex)
+void CContactsDbModel::remove(int a_iIndex)
 {
     if( (!m_aClientsAndWritesList.empty() ) && (0 <= a_iIndex) && (m_aClientsAndWritesList.count() > a_iIndex) )
     {
@@ -216,13 +216,13 @@ void CClientsAndWritersDbModel::remove(int a_iIndex)
 }
 
 
-bool CClientsAndWritersDbModel::insertRows(int row, int count, const QModelIndex &parent)
+bool CContactsDbModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     // TO DO
     return false;
 }
 
-bool CClientsAndWritersDbModel::removeRows(int row, int count, const QModelIndex &parent)
+bool CContactsDbModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     // TO DO
     return false;

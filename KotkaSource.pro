@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     cprojectmanager.cpp \
     ccreateprojectdialog.cpp \
     ccreatetaskdialog.cpp \
-    cclientsandwritersdbmodel.cpp \
     cperson.cpp \
     ccreatecontactdialog.cpp \
     cpersonpropertis.cpp \
@@ -31,7 +30,8 @@ SOURCES += main.cpp\
     cxlsxcastosourceparser.cpp \
     cremotedatastorage.cpp \
     chttpbrowsersync.cpp \
-    commontemplates.cpp
+    commontemplates.cpp \
+    CContactsDbModel.cpp
 
 HEADERS  += mainwindow.h \
     ctask.h \
@@ -41,7 +41,6 @@ HEADERS  += mainwindow.h \
     commonddefs.h \
     ccreateprojectdialog.h \
     ccreatetaskdialog.h \
-    cclientsandwritersdbmodel.h \
     cperson.h \
     ccreatecontactdialog.h \
     cpersonpropertis.h \
@@ -52,7 +51,8 @@ HEADERS  += mainwindow.h \
     cxlsxcastosourceparser.h \
     cremotedatastorage.h \
     chttpbrowsersync.h \
-    commontemplates.h
+    commontemplates.h \
+    CContactsDbModel.h
 
 FORMS    += mainwindow.ui \
     ccreateprojectdialog.ui \
