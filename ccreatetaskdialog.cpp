@@ -8,7 +8,8 @@ CCreateTaskDialog::CCreateTaskDialog(const KotkaSource::SProjectData *a_pParentP
     QDialog(parent),
     ui(new Ui::CCreateTaskDialog),
     m_strParentName(a_pParentProjectData->m_strName),
-    m_pParentProjectData(a_pParentProjectData)
+    m_pParentProjectData(a_pParentProjectData),
+    m_pRootTask(0)
 {
     ui->setupUi(this);
     ui->errorLabel->setStyleSheet("QLabel { color : red; }");
@@ -22,6 +23,21 @@ CCreateTaskDialog::CCreateTaskDialog(const KotkaSource::SProjectData *a_pParentP
     {
         qDebug() << "CCreateTaskDialog::CCreateTaskDialog NULL PTR";
     }
+}
+
+CCreateTaskDialog::CCreateTaskDialog( const KotkaSource::SProjectData *a_pParentProjectData
+                                    , const KotkaSource::STaskData *a_pTaskRoot
+                                    , QWidget *parent)
+    : QDialog(parent),
+      ui(new Ui::CCreateTaskDialog),
+      m_strParentName(a_pParentProjectData->m_strName),
+      m_pParentProjectData(a_pParentProjectData),
+      m_pRootTask(a_pTaskRoot)
+{
+    ui->setupUi(this);
+    ui->errorLabel->setStyleSheet("QLabel { color : red; }");
+
+    initEditOption();
 }
 
 CCreateTaskDialog::~CCreateTaskDialog()
@@ -103,4 +119,31 @@ bool CCreateTaskDialog::validateDeadlinesDates() const
 
 
     return fResult;
+}
+
+void CCreateTaskDialog::initEditOption()
+{
+    if(0 != m_pRootTask)
+    {
+        lockUneditableFields();
+        fillInPrjInformation(*m_pRootTask);
+        this->setWindowTitle("Edit task");
+    }
+    else
+    {
+        qWarning() << "CCreateTaskDialog::initEditOption(): Task was not set!";
+    }
+}
+
+void CCreateTaskDialog::lockUneditableFields()
+{
+    ui->nameLineEdit->setEnabled(false);
+}
+
+void CCreateTaskDialog::fillInPrjInformation(const KotkaSource::STaskData &a_rTaskData)
+{
+    m_strParentName = a_rTaskData.m_strParentName;
+    ui->nameLineEdit->setText(a_rTaskData.m_strName);
+    ui->deliveryDateTimeEdit->setDateTime(a_rTaskData.m_oDateTimeDelivery);
+    ui->writerDeadlineDateTimeEdit->setDateTime(a_rTaskData.m_oDateTimeWriterDeadline);
 }

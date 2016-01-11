@@ -223,7 +223,6 @@ void MainWindow::addTaskSlot()
     {
         KotkaSource::STaskData sTaskData;
         newTaskDialog.getData(sTaskData);
-        qDebug() << "MainWindow::addTaskSlot() emit";
 
         emit createTask(sTaskData, m_oModelIndex);
     }
@@ -233,30 +232,60 @@ void MainWindow::addTaskSlot()
     }
 }
 
+void MainWindow::editTaskSlot()
+{
+    qDebug() << "MainWindow::editTaskSlot()";
+    if(m_oModelIndex.isValid() )
+    {
+        QVariant rawProjectData = ui->treeView->model()->data(m_oModelIndex.parent(), KotkaSource::ReadProjectDataRole);
+        QVariant rawTaskData = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ReadTaskDataRole);
+        KotkaSource::SProjectData sParentProjectData = rawProjectData.value<KotkaSource::SProjectData>();
+        KotkaSource::STaskData sTaskData = rawTaskData.value<KotkaSource::STaskData>();
+        CCreateTaskDialog editTaskDialog(&sParentProjectData, &sTaskData, this);
+
+        if(QDialog::Accepted == editTaskDialog.exec() )
+        {
+            KotkaSource::STaskData sTaskData;
+            editTaskDialog.getData(sTaskData);
+
+            emit editTaskSignal(sTaskData, m_oModelIndex);
+        }
+    }
+    else
+    {
+        qWarning() << "MainWindow::editTaskSlot(): invalid model index";
+    }
+    //oRootTaskIndex.parent()
+}
+
 void MainWindow::onProjTreeContextMenu(const QPoint &a_rcPoint)
 {
     qDebug() << "MainWindow::onProjTreeContextMenu()";
 
     m_oModelIndex = ui->treeView->indexAt(a_rcPoint);
+    QMenu oContextMenu;
+
     if( m_oModelIndex.isValid() )
     {
         bool isProject = ui->treeView->model()->data(m_oModelIndex, KotkaSource::ObjectTypeRole) != "Task";
 
         if(isProject)
         {
-            QMenu oContextMenu;
             oContextMenu.addAction(m_pAddSubprojectAction);
             oContextMenu.addAction(m_pAddTaskAction);
             oContextMenu.addAction(m_pEditPrjAction);
-            oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
+        }
+        else
+        {
+            oContextMenu.addAction(m_pEditTaskAction);
         }
     }
     else
     {
-        QMenu oContextMenu;
         oContextMenu.addAction(m_pAddProjectAction);
-        oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
     }
+
+    oContextMenu.exec(ui->treeView->mapToGlobal(a_rcPoint) );
 }
 
 void MainWindow::downloadAllDataSlot()
@@ -294,6 +323,11 @@ void MainWindow::createProjectTreeContextMenu()
     m_pEditPrjAction = new QAction("Edit project", ui->treeView);
     connect( m_pEditPrjAction, SIGNAL(triggered() )
            , this, SLOT(editProjectSlot() )
+           );
+
+    m_pEditTaskAction = new QAction("Edit task", ui->treeView);
+    connect( m_pEditTaskAction, SIGNAL(triggered() )
+           , this, SLOT(editTaskSlot() )
            );
 
 

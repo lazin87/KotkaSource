@@ -37,6 +37,7 @@ signals:
     void createProject(KotkaSource::SProjectData &, QModelIndex &, QList<KotkaSource::SSourceData> &);
     void editProjectSignal(KotkaSource::SProjectData &, QModelIndex &, QList<KotkaSource::SSourceData> &);
     void createTask(KotkaSource::STaskData &, QModelIndex &);
+    void editTaskSignal(KotkaSource::STaskData &, QModelIndex &);
     void addNewContact(KotkaSource::SContactData const & a_crContactData);
     void editContact(KotkaSource::SContactData const & a_crContactData);
     void downloadAllDataSignal();
@@ -51,6 +52,7 @@ private slots:
     void addProjectSlot();
     void editProjectSlot();
     void addTaskSlot();
+    void editTaskSlot();
     void onProjTreeContextMenu(const QPoint & a_rcPoint);
 
     void downloadAllDataSlot();
@@ -67,6 +69,7 @@ private:
     QAction * m_pAddSubprojectAction;
     QAction * m_pAddTaskAction;
     QAction * m_pEditPrjAction;
+    QAction * m_pEditTaskAction;
 
     QLabel * m_pServerConnectionStatus;
 

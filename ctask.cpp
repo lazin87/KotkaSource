@@ -100,6 +100,11 @@ void CTask::setDeadlineCopywriters(const QDateTime &a_rDeadlineCopywriters)
 
 QVariant CTask::data(int a_iRole) const
 {
+    if(KotkaSource::ReadTaskDataRole == a_iRole)
+    {
+        return QVariant::fromValue(m_sData);
+    }
+
     return IProject::data(a_iRole);
 }
 void CTask::setData(const QVariant &a_value, int a_iRole)

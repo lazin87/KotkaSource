@@ -18,6 +18,10 @@ class CCreateTaskDialog : public QDialog
 public:
     CCreateTaskDialog( KotkaSource::SProjectData const * a_pParentProjectData
                      , QWidget *parent = 0);
+    CCreateTaskDialog( const KotkaSource::SProjectData *a_pParentProjectData
+                     , KotkaSource::STaskData const * a_pTaskRoot
+                     , QWidget *parent);
+
     ~CCreateTaskDialog();
 
     void getData(KotkaSource::STaskData & a_rTaskData) const;
@@ -31,10 +35,15 @@ private:
     bool validateProjectName() const;
     bool validateDeadlinesDates() const;
 
+    void initEditOption();
+    void lockUneditableFields();
+    void fillInPrjInformation(KotkaSource::STaskData const & a_rTaskData);
+
     Ui::CCreateTaskDialog *ui;
 
     QString m_strParentName;
     KotkaSource::SProjectData const * m_pParentProjectData;
+    KotkaSource::STaskData const * m_pRootTask;
 };
 
 #endif // CCREATETASKDIALOG_H
