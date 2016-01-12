@@ -155,20 +155,23 @@ void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crConta
     processServerResponse(eDTR_newRecord, outFileName);
 }
 
-void CRemoteDataStorage::update(const KotkaSource::STaskData &a_crTaskData)
+void CRemoteDataStorage::update(const KotkaSource::STaskData &a_crTaskData, QString const & a_crOldName)
 {
     QJsonObject oJsonStoreMainObj;
 
     fillInJsonData(oJsonStoreMainObj, a_crTaskData);
+    oJsonStoreMainObj["oldName"] = a_crOldName;
 
     sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
-void CRemoteDataStorage::update(const KotkaSource::SProjectData &a_crProjectData)
+void CRemoteDataStorage::update(const KotkaSource::SProjectData &a_crProjectData, QString const & a_crOldName)
 {
     QJsonObject oJsonStoreMainObj;
 
     fillInJsonData(oJsonStoreMainObj, a_crProjectData);
+    oJsonStoreMainObj["oldName"] = a_crOldName;
+
     sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 

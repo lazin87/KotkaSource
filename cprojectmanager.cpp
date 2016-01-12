@@ -66,10 +66,11 @@ void CProjectManager::editProjectSlot(KotkaSource::SProjectData &a_rProjectData,
     qDebug() << "CProjectManager::editProjectSlot";
     if(a_rModelIndex.isValid() )
     {
+        QString oldName = m_oModel.data(a_rModelIndex, KotkaSource::ObjectNameRole).toString();
         QVariant value = QVariant::fromValue(a_rProjectData );
         m_oModel.setData(a_rModelIndex, value, KotkaSource::WriteProjectDataRole);
 
-        emit dataUpdateSignal(a_rProjectData);
+        emit dataUpdateSignal(a_rProjectData, oldName);
     }
     else
     {
@@ -101,10 +102,11 @@ void CProjectManager::editTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIn
     qDebug() << "CProjectManager::editTaskSlot";
     if(a_rModelIndex.isValid() )
     {
+        QString oldName = m_oModel.data(a_rModelIndex, KotkaSource::ObjectNameRole).toString();
         QVariant value = QVariant::fromValue(a_rTaskData );
         m_oModel.setData(a_rModelIndex, value, KotkaSource::WriteTaskDataRole);
 
-        emit dataUpdateSignal(a_rTaskData);
+        emit dataUpdateSignal(a_rTaskData, oldName);
     }
     else
     {
