@@ -64,8 +64,8 @@ public slots:
     void storeTaskObject(KotkaSource::STaskObjectData const & a_crTaskObjectData);
     void storeContact(KotkaSource::SContactData const & a_crContactData);
 
-    void update(KotkaSource::STaskData const & a_crTaskData);
-    void update(KotkaSource::SProjectData const & a_crProjectData);
+    void update(KotkaSource::STaskData const & a_crTaskData, QString const & a_crOldName);
+    void update(KotkaSource::SProjectData const & a_crProjectData, QString const & a_crOldName);
     void update(KotkaSource::STaskObjectData const & a_crTaskObjectData);
     void update(KotkaSource::SContactData const & a_crContactData);
 

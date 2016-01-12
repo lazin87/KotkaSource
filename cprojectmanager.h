@@ -26,8 +26,8 @@ signals:
     void projectModelWasChanged(QAbstractItemModel *);
     void projectWasCreated(KotkaSource::SProjectData const &);
     void taskWasCreated(KotkaSource::STaskData const &);
-    void dataUpdateSignal(KotkaSource::SProjectData const & a_crProjectData);
-    void dataUpdateSignal(KotkaSource::STaskData const & a_crTaskData);
+    void dataUpdateSignal(KotkaSource::SProjectData const & a_crProjectData, QString const & a_crOldName);
+    void dataUpdateSignal(KotkaSource::STaskData const & a_crTaskData, QString const & a_crOldName);
 
 public slots:
     void createProjectSlot(KotkaSource::SProjectData &a_rProjectData, QModelIndex &a_rModelIndex, QList<KotkaSource::SSourceData> &a_rSourcesDataList);
