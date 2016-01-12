@@ -68,6 +68,8 @@ void CProjectManager::editProjectSlot(KotkaSource::SProjectData &a_rProjectData,
     {
         QVariant value = QVariant::fromValue(a_rProjectData );
         m_oModel.setData(a_rModelIndex, value, KotkaSource::WriteProjectDataRole);
+
+        emit dataUpdateSignal(a_rProjectData);
     }
     else
     {
@@ -101,6 +103,8 @@ void CProjectManager::editTaskSlot(KotkaSource::STaskData &a_rTaskData, QModelIn
     {
         QVariant value = QVariant::fromValue(a_rTaskData );
         m_oModel.setData(a_rModelIndex, value, KotkaSource::WriteTaskDataRole);
+
+        emit dataUpdateSignal(a_rTaskData);
     }
     else
     {

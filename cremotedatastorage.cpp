@@ -80,11 +80,19 @@ void CRemoteDataStorage::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
 {
     QObject::connect( &a_rProjectMngr, SIGNAL(projectWasCreated(KotkaSource::SProjectData) )
                     , this, SLOT(storeProject(KotkaSource::SProjectData) )
-                      );
+                    );
+
+    QObject::connect( &a_rProjectMngr, SIGNAL(dataUpdateSignal(KotkaSource::SProjectData) )
+                    , this, SLOT(update(KotkaSource::SProjectData) )
+                    );
 
     QObject::connect( &a_rProjectMngr, SIGNAL(taskWasCreated(KotkaSource::STaskData) )
                     , this, SLOT(storeTask(KotkaSource::STaskData) )
-                      );
+                    );
+
+    QObject::connect( &a_rProjectMngr, SIGNAL(dataUpdateSignal(KotkaSource::STaskData) )
+                    , this, SLOT(update(KotkaSource::STaskData) )
+                    );
 
     QObject::connect( this, SIGNAL(loadFullPrjsHierarchySignal( QList<KotkaSource::SProjectData>
                                                               , QList<KotkaSource::STaskData>
@@ -147,7 +155,7 @@ void CRemoteDataStorage::storeContact(const KotkaSource::SContactData &a_crConta
     processServerResponse(eDTR_newRecord, outFileName);
 }
 
-void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
+void CRemoteDataStorage::update(const KotkaSource::STaskData &a_crTaskData)
 {
     QJsonObject oJsonStoreMainObj;
 
@@ -156,7 +164,7 @@ void CRemoteDataStorage::updateTask(const KotkaSource::STaskData &a_crTaskData)
     sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
-void CRemoteDataStorage::updateProject(const KotkaSource::SProjectData &a_crProjectData)
+void CRemoteDataStorage::update(const KotkaSource::SProjectData &a_crProjectData)
 {
     QJsonObject oJsonStoreMainObj;
 
@@ -164,7 +172,7 @@ void CRemoteDataStorage::updateProject(const KotkaSource::SProjectData &a_crProj
     sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
-void CRemoteDataStorage::updateTaskObject(const KotkaSource::STaskObjectData &a_crTaskObjectData)
+void CRemoteDataStorage::update(const KotkaSource::STaskObjectData &a_crTaskObjectData)
 {
     QJsonObject oJsonStoreMainObj;
 
@@ -172,7 +180,7 @@ void CRemoteDataStorage::updateTaskObject(const KotkaSource::STaskObjectData &a_
     sendRequestToServer(eDTR_updateRecord, oJsonStoreMainObj);
 }
 
-void CRemoteDataStorage::updateContact(const KotkaSource::SContactData &a_crContactData)
+void CRemoteDataStorage::update(const KotkaSource::SContactData &a_crContactData)
 {
     QJsonObject oJsonStoreMainObj;
 
@@ -273,8 +281,6 @@ bool CRemoteDataStorage::checkForUpdates()
     if(iINVALID_VERSION != m_iCurrentVersion)
     {
         QJsonObject oJsonMainObject;
-
-        oJsonMainObject["curVer"] = m_iCurrentVersion;
 
         QString strOutFileName = sendRequestToServer(eDTR_checkUpdates, oJsonMainObject);
         processServerResponse(eDTR_checkUpdates, strOutFileName);
@@ -599,6 +605,7 @@ QString CRemoteDataStorage::sendRequestToServer(EDataTransReqType a_eDataReqType
     QString strOutFileName = aOUT_FILES_NAMES[a_eDataReqType];
 
     QJsonDocument oJsonDoc;
+    a_JsonReqObj["curVer"] = m_iCurrentVersion;
     addLoginCredentials(a_JsonReqObj);
 
     oJsonDoc.setObject(a_JsonReqObj);
