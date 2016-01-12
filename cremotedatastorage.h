@@ -81,10 +81,15 @@ public slots:
     bool processUpdateServResponse(QJsonObject & a_rMainJsonObj);
 
 private:
-    void fillInSProjectData(QJsonObject &a_rJsonPrjObj, KotkaSource::SProjectData &a_rPrjData);
-    void fillInSTaskData(QJsonObject &a_rJsonTaskObj, KotkaSource::STaskData &a_rTaskData);
-    void fillInSTaskObjectData(QJsonObject &a_rJsonTaskObj, KotkaSource::STaskObjectData &a_rTaskObj);
-    void fillInSContactData(QJsonObject &a_rJsonContact, KotkaSource::SContactData &a_rContactData);
+    void fillInDataStruct(QJsonObject &a_rJsonPrjObj, KotkaSource::SProjectData &a_rPrjData);
+    void fillInDataStruct(QJsonObject &a_rJsonTaskObj, KotkaSource::STaskData &a_rTaskData);
+    void fillInDataStruct(QJsonObject &a_rJsonTaskObj, KotkaSource::STaskObjectData &a_rTaskObj);
+    void fillInDataStruct(QJsonObject &a_rJsonContact, KotkaSource::SContactData &a_rContactData);
+
+    void fillInJsonData(QJsonObject & a_rMainJsonObj, KotkaSource::SProjectData const & a_crProjectData);
+    void fillInJsonData(QJsonObject &a_rMainJsonObj, KotkaSource::STaskData const & a_crTaskData);
+    void fillInJsonData(QJsonObject &a_rMainJsonObj, KotkaSource::STaskObjectData const & a_crTaskObjectData);
+    void fillInJsonData(QJsonObject &a_rMainJsonObj, KotkaSource::SContactData const & a_crContactData);
 
     bool importJsonDataFromFile(QString const & a_strFileName, QJsonDocument & a_rJsonDoc);
     void importFullContactsList(QJsonObject &a_rDataJsonObj);
