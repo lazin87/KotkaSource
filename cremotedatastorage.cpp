@@ -82,16 +82,16 @@ void CRemoteDataStorage::connectSignalsAndSlots(CProjectManager &a_rProjectMngr)
                     , this, SLOT(storeProject(KotkaSource::SProjectData) )
                     );
 
-    QObject::connect( &a_rProjectMngr, SIGNAL(dataUpdateSignal(KotkaSource::SProjectData) )
-                    , this, SLOT(update(KotkaSource::SProjectData) )
+    QObject::connect( &a_rProjectMngr, SIGNAL(dataUpdateSignal(KotkaSource::SProjectData, QString) )
+                    , this, SLOT(update(KotkaSource::SProjectData, QString) )
                     );
 
     QObject::connect( &a_rProjectMngr, SIGNAL(taskWasCreated(KotkaSource::STaskData) )
                     , this, SLOT(storeTask(KotkaSource::STaskData) )
                     );
 
-    QObject::connect( &a_rProjectMngr, SIGNAL(dataUpdateSignal(KotkaSource::STaskData) )
-                    , this, SLOT(update(KotkaSource::STaskData) )
+    QObject::connect( &a_rProjectMngr, SIGNAL(dataUpdateSignal(KotkaSource::STaskData, QString) )
+                    , this, SLOT(update(KotkaSource::STaskData, QString) )
                     );
 
     QObject::connect( this, SIGNAL(loadFullPrjsHierarchySignal( QList<KotkaSource::SProjectData>
@@ -375,11 +375,11 @@ void CRemoteDataStorage::fillInJsonData(QJsonObject &a_rMainJsonObj, const Kotka
 {
     QJsonObject oJsonObjectProjectData;
 
-    oJsonObjectProjectData["name"] = a_crProjectData.m_strName;
-    oJsonObjectProjectData["parent"] = a_crProjectData.m_strParentName;
-    oJsonObjectProjectData["delivery"] = a_crProjectData.m_oDateTimeDelivery.toString(Qt::ISODate);
-    oJsonObjectProjectData["wDeadline"] = a_crProjectData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
-    oJsonObjectProjectData["client"] = a_crProjectData.m_strClientName;
+    if(noChange<QString>() != a_crProjectData.m_strName) oJsonObjectProjectData["name"] = a_crProjectData.m_strName;
+    if(noChange<QString>() != a_crProjectData.m_strParentName) oJsonObjectProjectData["parent"] = a_crProjectData.m_strParentName;
+    if(noChange<QDateTime>() != a_crProjectData.m_oDateTimeDelivery) oJsonObjectProjectData["delivery"] = a_crProjectData.m_oDateTimeDelivery.toString(Qt::ISODate);
+    if(noChange<QDateTime>() != a_crProjectData.m_oDateTimeWriterDeadline) oJsonObjectProjectData["wDeadline"] = a_crProjectData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
+    if(noChange<QString>() != a_crProjectData.m_strClientName) oJsonObjectProjectData["client"] = a_crProjectData.m_strClientName;
 
     a_rMainJsonObj["type"] = aRECORD_TYPE_NAMES[KotkaSource::eRT_Project];
     a_rMainJsonObj["data"] = oJsonObjectProjectData;
@@ -389,12 +389,12 @@ void CRemoteDataStorage::fillInJsonData(QJsonObject &a_rMainJsonObj, const Kotka
 {
     QJsonObject oJsonObjectTaskData;
 
-    oJsonObjectTaskData["name"] = a_crTaskData.m_strName;
-    oJsonObjectTaskData["parent"] = a_crTaskData.m_strParentName;
-    oJsonObjectTaskData["desc"] = a_crTaskData.m_strDesc;
-    oJsonObjectTaskData["writer"] = a_crTaskData.m_strWriterName;
-    oJsonObjectTaskData["delivery"] = a_crTaskData.m_oDateTimeDelivery.toString(Qt::ISODate);
-    oJsonObjectTaskData["wDeadline"] = a_crTaskData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
+    if(noChange<QString>() != a_crTaskData.m_strName) oJsonObjectTaskData["name"] = a_crTaskData.m_strName;
+    if(noChange<QString>() != a_crTaskData.m_strParentName) oJsonObjectTaskData["parent"] = a_crTaskData.m_strParentName;
+    if(noChange<QString>() != a_crTaskData.m_strDesc) oJsonObjectTaskData["desc"] = a_crTaskData.m_strDesc;
+    if(noChange<QString>() != a_crTaskData.m_strWriterName) oJsonObjectTaskData["writer"] = a_crTaskData.m_strWriterName;
+    if(noChange<QDateTime>() != a_crTaskData.m_oDateTimeDelivery) oJsonObjectTaskData["delivery"] = a_crTaskData.m_oDateTimeDelivery.toString(Qt::ISODate);
+    if(noChange<QDateTime>() != a_crTaskData.m_oDateTimeWriterDeadline) oJsonObjectTaskData["wDeadline"] = a_crTaskData.m_oDateTimeWriterDeadline.toString(Qt::ISODate);
 
     a_rMainJsonObj["type"] = aRECORD_TYPE_NAMES[KotkaSource::eRT_Task];
     a_rMainJsonObj["data"] = oJsonObjectTaskData;

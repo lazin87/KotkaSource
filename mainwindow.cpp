@@ -257,7 +257,7 @@ void MainWindow::editTaskSlot()
             KotkaSource::STaskData sTaskData;
             editTaskDialog.getData(sTaskData);
 
-          //  emit editTaskSignal(sTaskData, m_oModelIndex);
+            emit editTaskSignal(sTaskData, m_oModelIndex);
         }
     }
     else
